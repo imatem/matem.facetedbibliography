@@ -1,0 +1,299 @@
+<html
+      xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:metal="http://xml.zope.org/namespaces/metal"
+      xmlns:tal="http://xml.zope.org/namespaces/tal"
+      xmlns:i18n="http://xml.zope.org/namespaces/i18n"
+      metal:use-macro="context/main_template/macros/master"
+      
+      >
+
+<head>
+
+<metal:jsslot fill-slot="javascript_head_slot">
+<!--script>
+$(function(){
+    var test = localStorage.input === 'true'? true: false;
+    $('input').prop('checked', test || false);
+});
+
+$('input').on('change', function() {
+    localStorage.input = $(this).is(':checked');
+    console.log($(this).is(':checked'));
+});
+http://jsfiddle.net/CC2hC/1/
+https://github.com/sebringj/jquery.dumbformstate
+<script>
+function hello()
+{ 
+alert("hello");
+}
+</script>
+</script-->
+<!--script src="jquery.dumbformstate-1.0.1.js">
+$('form').dumbFormState({ 
+persistPasswords : false, // default is false, recommended to NOT do this
+persistLocal : false, // default is false, persists in sessionStorage or to localStorage
+skipSelector : null, // takes jQuery selector of items you DO NOT want to persist 
+autoPersist : true, // true by default, false will only persist on form submit
+});
+</script-->
+<script src="++resource++plone.app.jquery.js">
+(function($){
+    var test = localStorage.input === 'true'? true: false;
+    ('input').prop('checked', test || false);
+})(jQuery);
+
+('input').on('change', function($) {
+    localStorage.input = $(this).is(':checked');
+    console.log($(this).is(':checked'));
+})(jQuery);
+</script>
+</metal:jsslot>
+
+<metal:slot fill-slot="css_slot">
+<style media="all" type="text/css"> 
+.h3{
+position:absolute;
+right:0px;
+top:50px;
+}
+.h4{
+position:absolute;
+right:0px;
+top:70px;
+}
+</style>
+</metal:slot>
+
+
+</head>
+<body>
+
+<metal:main fill-slot="main">
+<input type="checkbox" >
+ 
+<div tal:define="global year view/show_years"/>
+<div tal:define="global author view/show_authors"/>
+<div tal:define="global collaborator view/show_collaborators"/>
+<div tal:define="global journal view/show_journals"/>
+<div tal:define="global type view/show_types"/>
+<div tal:define="global publication view/show_pub"/>
+
+<div tal:define="global year_cit view/show_years_cit"/>
+<div tal:define="global author_cit view/show_authors_cit"/>
+<div tal:define="global collaborator_cit view/show_collaborators_cit"/>
+<div tal:define="global journal_cit view/show_journals_cit"/>
+<div tal:define="global type_cit view/show_types_cit"/>
+<div tal:define="global publication_cit view/show_pub_cit"/>
+
+<div tal:define="global year_ref view/show_years_ref"/>
+<div tal:define="global author_ref view/show_authors_ref"/>
+<div tal:define="global collaborator_ref view/show_collaborators_ref"/>
+<div tal:define="global journal_ref view/show_journals_ref"/>
+<div tal:define="global type_ref view/show_types_ref"/>
+<div tal:define="global publication_ref view/show_pub_ref"/>
+
+<div tal:define="global list_input view/show_list_input"/>
+<h3 >
+Indice <i>h</i>: 
+<span tal:content="view/indice_h"> indice h </span>
+</h3>
+
+<h4>
+Indice <i>i10</i>:  
+<span tal:content="view/indice_i10"> indice i10 </span>
+</h4>
+
+<form >
+
+<table border="1">
+<tr tal:repeat="a python:list_input">
+<td >
+Entrada: 
+<span tal:replace="string:$a">this </span>
+</td>
+</tr>
+</table>
+
+<table border="1">
+<caption >Years </caption>
+<tr tal:repeat="x python:year">
+<td >
+<input type="checkbox" name="faceta:list" tal:attributes="value string:$x" onclick="this.form.submit();">
+<span tal:replace="string:$x">this </span>
+</td>
+</tr>
+</table>
+
+<table border="1">
+<tr tal:repeat="x python:author">
+<td >
+<input type="checkbox" name="faceta:list" tal:attributes="value string:$x" onclick="this.form.submit();">
+<span tal:replace="string:$x">this </span>
+</td>
+</tr>
+</table>
+
+<table border="1">
+<tr tal:repeat="x python:collaborator">
+<td >
+<input type="checkbox" name="faceta:list" tal:attributes="value string:$x" onclick="this.form.submit();">
+<span tal:replace="string:$x">this </span>
+</td>
+</tr>
+</table>
+
+<table border="1">
+<tr tal:repeat="x python:type">
+<td >
+<input type="checkbox" name="faceta:list" tal:attributes="value string:$x" onclick="this.form.submit();">
+<span tal:replace="string:$x">this </span>
+</td>
+</tr>
+</table>
+
+<table border="1">
+<tr tal:repeat="x python:journal">
+<td >
+<input type="checkbox" name="faceta:list" tal:attributes="value string:$x" onclick="this.form.submit();">
+<span tal:replace="string:$x">this </span>
+</td>
+</tr>
+</table>
+</form>
+	
+<form >
+<table border="1">
+<tr tal:repeat="x python:publication">
+<td>
+<span tal:replace="string:$x">this </span>
+</td>
+</tr>
+</table>
+</form>
+
+
+
+<form >
+<table border="1">
+<caption>Year: Citations </caption>
+<tr tal:repeat="x python:year_cit">
+<td >
+<input type="checkbox" name="citation:list" tal:attributes="value string:$x" onclick="this.form.submit();">
+<span tal:replace="string:$x">this </span>
+</td>
+</tr>
+</table>
+
+<table border="1">
+<tr tal:repeat="x python:author_cit">
+<td >
+<input type="checkbox" name="citation:list" tal:attributes="value string:$x" onclick="this.form.submit();">
+<span tal:replace="string:$x">this </span>
+</td>
+</tr>
+</table>
+
+<table border="1">
+<tr tal:repeat="x python:collaborator_cit">
+<td >
+<input type="checkbox" name="citation:list" tal:attributes="value string:$x" onclick="this.form.submit();">
+<span tal:replace="string:$x">this </span>
+</td>
+</tr>
+</table>
+
+<table border="1">
+<tr tal:repeat="x python:type_cit">
+<td >
+<input type="checkbox" name="citation:list" tal:attributes="value string:$x" onclick="this.form.submit();">
+<span tal:replace="string:$x">this </span>
+</td>
+</tr>
+</table>
+
+<table border="1">
+<tr tal:repeat="x python:journal_cit">
+<td >
+<input type="checkbox" name="citation:list" tal:attributes="value string:$x" onclick="this.form.submit();">
+<span tal:replace="string:$x">this </span>
+</td>
+</tr>
+</table>
+</form>
+
+<form >
+<table border="1">
+<tr tal:repeat="x python:publication_cit">
+<td>
+<span tal:replace="string:$x">this </span>
+</td>
+</tr>
+</table>
+</form>
+
+
+
+
+
+<form >
+<table border="1">
+<caption>Year: References </caption>
+<tr tal:repeat="x python:year_ref">
+<td >
+<input type="checkbox" name="reference:list" tal:attributes="value string:$x" onclick="this.form.submit();">
+<span tal:replace="string:$x">this </span>
+</td>
+</tr>
+</table>
+
+<table border="1">
+<tr tal:repeat="x python:author_ref">
+<td >
+<input type="checkbox" name="reference:list" tal:attributes="value string:$x" onclick="this.form.submit();">
+<span tal:replace="string:$x">this </span>
+</td>
+</tr>
+</table>
+
+<table border="1">
+<tr tal:repeat="x python:collaborator_ref">
+<td >
+<input type="checkbox" name="reference:list" tal:attributes="value string:$x" onclick="this.form.submit();">
+<span tal:replace="string:$x">this </span>
+</td>
+</tr>
+</table>
+
+<table border="1">
+<tr tal:repeat="x python:type_ref">
+<td >
+<input type="checkbox" name="reference:list" tal:attributes="value string:$x" onclick="this.form.submit();">
+<span tal:replace="string:$x">this </span>
+</td>
+</tr>
+</table>
+
+<table border="1">
+<tr tal:repeat="x python:journal_ref">
+<td >
+<input type="checkbox" name="reference:list" tal:attributes="value string:$x" onclick="this.form.submit();">
+<span tal:replace="string:$x">this </span>
+</td>
+</tr>
+</table>
+</form>
+
+<form >
+<table border="1">
+<tr tal:repeat="x python:publication_ref">
+<td>
+<span tal:replace="string:$x">this </span>
+</td>
+</tr>
+</table>
+</form>
+
+</metal:main>	
+</body>
+</html>

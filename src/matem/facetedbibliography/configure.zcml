@@ -1,0 +1,46 @@
+<configure
+    xmlns="http://namespaces.zope.org/zope"
+    xmlns:browser="http://namespaces.zope.org/browser">
+
+   <include package="Products.CMFCore" file="permissions.zcml" />
+
+  <browser:page
+      name="faceted_bib"
+      for="*"
+      class=".faceted.FacetedView"
+      template="faceted_view.pt"
+      permission="zope.Public"
+      />
+
+
+  <browser:resource
+    name="cycle"
+    file="./javascript/cycle.js"
+   />
+
+  <browser:resource
+    name="json2"
+    file="./javascript/json.js"
+   />
+  <browser:resource
+    name="json_parse"
+    file="./javascript/json_parse.js"
+   />
+  <browser:resource
+    name="jquery.dumbformstate"
+    file="./javascript/jquery.dumbformstate-1.0.1.js"
+   />
+  <browser:resource
+    name="json"
+    file="./javascript/json.js"
+   />
+  <browser:resource
+    name="json_parse_state"
+    file="./javascript/json_parse_state.js"
+   />
+
+  <browser:resource
+    name="prueba"
+    file="./javascript/prueba.js"
+   />
+ </configure>
