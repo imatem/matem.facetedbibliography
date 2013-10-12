@@ -30,6 +30,7 @@ setup(
     install_requires=[
         'setuptools',
         'networkx',
+        'wildcard.foldercontents',
     ],
     extras_require={
         'test': [
