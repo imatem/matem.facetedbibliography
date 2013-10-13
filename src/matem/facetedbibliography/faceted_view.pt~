@@ -43,6 +43,8 @@
                 for (i=0; i<checkboxes.length;i++){
                 sessionStorage.setItem($(checkboxes[i]).val(),$(checkboxes[i]).is(':checked'))
                 }       
+
+                
         });
         $('button').click(function(){
                 sessionStorage.clear();

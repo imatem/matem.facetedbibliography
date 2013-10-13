@@ -76,6 +76,7 @@ class arbol:
                         string = string.replace('{','')
                         string = string.replace('\\','')
                         string = string.replace('~','')
+                        string = string.replace('+','')
                         string = string.replace("'",'')
                         string = string.strip()
                         string = string.title()

@@ -154,7 +154,6 @@ class FacetedView(BrowserView):
 	
     def show_pub(self):
 	return sorted(self.interface_principal.return_list_objs())
-	
     def show_list_input(self):
 	return sorted(self.list_input)
 ##########################################################################
