@@ -1,0 +1,23 @@
+.publications{
+        position:absolute;
+        left:250px; 
+        top:300px;
+
+
+}
+.indice{
+  font-size: 16px;
+  position:relative;
+  right: 10px;
+ 
+}
+
+.collapsibleList li > input + *
+{display: none;}
+.collapsibleList li > input:checked + *
+{display: block;}
+.collapsibleList li > input
+{display: none;}
+.collapsibleList label
+{cursor: pointer;}
+

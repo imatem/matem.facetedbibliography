@@ -13,10 +13,10 @@ class interface(object):
     '''
     classdocs
     '''
-    def __init__(self,lista_objs,filenameAuthors,filenameBib):
+    def __init__(self,lista_objs,filenameAuthors,filenameBib,flag):
         self.tree = arbol.arbol()
         
-        if lista_objs.__len__()> 0:
+        if flag==True:
             self.tree.building_tree(lista_objs,filenameAuthors)
         else:
             self.tree.construir_arbol(filenameAuthors,filenameBib)
@@ -195,22 +195,21 @@ class interface(object):
         for item in self.list_objs:
             obj = self.tree.G.node[item]['data']
             
-            cad1= obj.idp +', '+ obj.type +', ' + obj.title+', '
-        
-            cad2 = obj.journal +', '+  obj.publisher +', '+  obj.year  +', '
-            cad3 = ', '.join(obj.author)
+            cad1= obj.idp +'. '+ obj.type +'. ' + obj.title+'. '
+            cad2 = ', '.join(obj.author)  +'. '      
+            cad3 = obj.journal +'. '+  obj.publisher +'. '+  obj.year  +'. '
             cad4 = ', '.join(obj.citation)
             cad5= ', '.join(obj.reference)
             if cad4.__len__()>0:
-                cadx=' Citedby: '+cad4 
+                cadx=' Citedby: '+cad4  +'. '
             else:
                 cadx = cad4
             if cad5.__len__()>0:
-                cady=' References: '+cad5
+                cady=' References: '+cad5 +'. '
             else:
                 cady = cad5
             
-            string = cad1 +' '+ cad3 +' '+ cad2 +' '+ cadx +' '+ cady
+            string = cad1 +' '+ cad2 +' '+ cad3 +' '+ cadx +' '+ cady
             list_string_obj.add(string)
             
         return list_string_obj

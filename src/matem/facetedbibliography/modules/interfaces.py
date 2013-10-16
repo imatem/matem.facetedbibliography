@@ -17,14 +17,14 @@ class interfaces(object):
         Constructor
         '''
         list_empty = Set([])
-        self.interface_principal = interface.interface(list_empty,"researchers.txt","archivo.bib")
+        self.interface_principal = interface.interface(list_empty,"researchers.txt","archivotodos.bib",False)
         self.interface_principal.ini_listas()
         
         self.list_c = self.interface_principal.list_citation #objetos
         self.list_r = self.interface_principal.list_reference #objetos
         
-        self.interface_citation = interface.interface(self.list_c,"researchers.txt","archivo.bib")
-        self.interface_reference = interface.interface(self.list_r,"researchers.txt","archivo.bib")
+        self.interface_citation = interface.interface(self.list_c,"researchers.txt","archivotodos.bib",True)
+        self.interface_reference = interface.interface(self.list_r,"researchers.txt","archivotodos.bib",True)
         self.interface_citation.ini_listas()
         self.interface_reference.ini_listas()
         

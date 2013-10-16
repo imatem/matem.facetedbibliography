@@ -19,15 +19,15 @@ class FacetedView(BrowserView):
         bib_file = os.path.join(curpath, "archivo.bib")
 
         list_empty = Set([])
-        self.interface_principal = interface.interface(list_empty, self.researchers_file , bib_file)
+        self.interface_principal = interface.interface(list_empty, self.researchers_file , bib_file,False)
         self.interface_principal.ini_listas()
 
         self.list_c = self.interface_principal.list_citation #objetos
         self.list_r = self.interface_principal.list_reference #objetos
 
 
-        self.interface_citation = interface.interface(self.list_c, self.researchers_file, bib_file)
-        self.interface_reference = interface.interface(self.list_r, self.researchers_file, bib_file)
+        self.interface_citation = interface.interface(self.list_c, self.researchers_file, bib_file,True)
+        self.interface_reference = interface.interface(self.list_r, self.researchers_file, bib_file,True)
         self.interface_citation.ini_listas()
         self.interface_reference.ini_listas()
 
@@ -42,7 +42,7 @@ class FacetedView(BrowserView):
 	
     def listas(self, lista_mix):
         for item in lista_mix:
-                print item
+                
                 if not "+" in item:
                         self.list_input.add(item) 
                 elif "+c" in item:
@@ -91,9 +91,9 @@ class FacetedView(BrowserView):
         # make sure we had a proper form submit, not just GET request
 	if  self.submitted_faceta:
 	    list_a = self.request.form.get('faceta','')
-	    print list_a
+	   
 	    self.listas(list_a)
-	    print 'princ ',self.list_input, self.list_input_citation, self.list_input_reference
+	    #print 'princ ',self.list_input, self.list_input_citation, self.list_input_reference
 	    #los cambios en la navfac afectan a las citas y referencias por eso no se actualizan sus check
 	    self.calcula_princ(self.list_input)
 	    self.calcula_citation(self.list_input_citation)
@@ -104,9 +104,9 @@ class FacetedView(BrowserView):
 	if  self.submitted_citation:
 
 	    list_a = self.request.form.get('citation','')
-	    print list_a
+	    
 	    self.listas(list_a)
-            print 'citation ',self.list_input, self.list_input_citation, self.list_input_reference
+            #print 'citation ',self.list_input, self.list_input_citation, self.list_input_reference
 	    #self.calcula_princ(self.list_input)
 	    self.calcula_citation(self.list_input_citation)
 	    self.calcula_reference(self.list_input_reference)
@@ -116,9 +116,9 @@ class FacetedView(BrowserView):
 
 	if  self.submitted_reference:
 	    list_a = self.request.form.get('reference','')
-	    print list_a
+	    
 	    self.listas(list_a)
-            print 'reference',self.list_input, self.list_input_citation, self.list_input_reference
+            #print 'reference',self.list_input, self.list_input_citation, self.list_input_reference
 	    #self.calcula_princ(self.list_input)	  
             #self.calcula_citation(self.list_input_citation)
 	    self.calcula_reference(self.list_input_reference)
@@ -154,6 +154,7 @@ class FacetedView(BrowserView):
 	
     def show_pub(self):
 	return sorted(self.interface_principal.return_list_objs())
+	
     def show_list_input(self):
 	return sorted(self.list_input)
 ##########################################################################

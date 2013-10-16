@@ -9,7 +9,12 @@
 
 <head>
 
+<metal:block fill-slot="top_slot">
+        <tal:insert tal:replace="nothing" tal:define="dummy python:request.set('disable_border', True)" />
+</metal:block>
+
 <metal:jsslot fill-slot="javascript_head_slot">
+
 <script type="text/javascript">
 (function($){
 
@@ -51,17 +56,22 @@
                 }
                 $('form').submit();
         });
-            
-    });
-
+        
+        $('#tabs').tab();    
+    
+   
+   });
+    
 })(jQuery);
 </script>
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+
 </metal:jsslot>
+
 </head>
 <body>
 
 <metal:main fill-slot="main">
-
 <div tal:define="global year view/show_years"/>
 <div tal:define="global author view/show_authors"/>
 <div tal:define="global collaborator view/show_collaborators"/>
@@ -83,23 +93,27 @@
 <div tal:define="global type_ref view/show_types_ref"/>
 <div tal:define="global publication_ref view/show_pub_ref"/>
 
+<!--  ###################################################### -->
+
+
 <div tal:define="global list_input view/show_list_input"/>
-<h3 >
+<legend class='indice' >
 Indice <i>h</i>: 
 <span tal:content="view/indice_h"> indice h </span>
-</h3>
+</legend>
 
-<h4>
+<legend class='indice'>
 Indice <i>i10</i>:  
 <span tal:content="view/indice_i10"> indice i10 </span>
-</h4>
+</legend>
 
 <!--  ###################################################### -->
 
-<form >
-
 <button name="clear">Limpiar entradas</button>
-<table border="1">
+
+<!--  ###################################################### -->
+<!--
+<table border='0' >
 <tr tal:repeat="a python:list_input">
 <td >
 Entrada: 
@@ -107,175 +121,230 @@ Entrada:
 </td>
 </tr>
 </table>
+-->
+<!--##################################################################-->
+<form >
 
-<!--  ############################################################################ -->
-<div class="main">
-        <table border="1">
-        <caption >Years </caption>
-        <tr tal:repeat="x python:year">
-        <td >
-        <input type="checkbox" name="faceta:list" tal:attributes="value string:$x;"  onclick="this.form.submit();">
-        <span tal:replace="string:$x">this </span>
-        </td>
-        </tr>
-        </table>
+<div class="container"> 
+<div id="content" >
 
+    <ul id="tabs" class="nav nav-tabs" data-tabs="tabs">
+        <li class="active"><a href="#main" data-toggle="tab">Publications</a></li>
+        <li><a href="#citation" data-toggle="tab">Citations</a></li>
+        <li><a href="#reference" data-toggle="tab">References</a></li>
+    </ul>
+    
+    <div id="my-tab-content" class="tab-content">
+        <div class="tab-pane active" id="main">
+            <h1>Publications</h1>
+<!--  ########################################################################################## -->
 
-        <table border="1">
-        <tr tal:repeat="x python:author">
-        <td >
-        <input type="checkbox" name="faceta:list" tal:attributes="value string:$x;"   onclick="this.form.submit();">
-        <span tal:replace="string:$x">this </span>
-        </td>
-        </tr>
-        </table>
-
-        <table border="1">
-        <tr tal:repeat="x python:collaborator">
-        <td >
-        <input type="checkbox" name="faceta:list" tal:attributes="value string:$x;"   onclick="this.form.submit();">
-        <span tal:replace="string:$x">this </span>
-        </td>
-        </tr>
-        </table>
-
-        <table border="1">
-        <tr tal:repeat="x python:type">
-        <td >
-        <input type="checkbox" name="faceta:list" tal:attributes="value string:$x;"   onclick="this.form.submit();">
-        <span tal:replace="string:$x">this </span>
-        </td>
-        </tr>
-        </table>
-
-        <table border="1">
-        <tr tal:repeat="x python:journal">
-        <td >
-        <input type="checkbox" name="faceta:list" tal:attributes="value string:$x;"   onclick="this.form.submit();">
-        <span tal:replace="string:$x">this </span>
-        </td>
-        </tr>
-        </table>
-
-        <table border="1">
-        <tr tal:repeat="x python:publication">
-        <td>
-        <span tal:replace="string:$x">this </span>
-        </td>
-        </tr>
-        </table>
+        <div>
+        <h4>Years</h4>
+        <div class='years' style="width: 200px; height: 100px; overflow-y: auto">
+                <ul  data-role="listview">
+                <div clas='years'  tal:repeat="x python:year" tal:omit-tag="">
+                <li>
+                <input type="checkbox" name="faceta:list" tal:attributes="value string:$x;"  onclick="this.form.submit();">
+                <span tal:replace="string:$x">this </span>
+                </li>
+                </div>
+                </ul>
+        </div>
+        </div>
+        
+        <div>
+        <h4>IMATE Authors</h4>
+        <div class='authors' style="width: 200px; height: 75px;overflow-y: auto">
+                <ul  data-role="listview">
+                <div class='authors' tal:repeat="x python:author" tal:omit-tag="">                
+                <li>
+                <input type="checkbox" name="faceta:list" tal:attributes="value string:$x;"   onclick="this.form.submit();">
+                <span tal:replace="string:$x">this </span>
+                </li>
+                </div>
+                </ul>
+        </div>  
+        </div> 
+        
+        <div> 
+        <h4>Collaborators</h4>
+        <div class="collaborators" style="width: 200px; height: 100px;overflow-y: auto">
+                <ul data-role="listview">
+                <div class='collaborators' tal:repeat="x python:collaborator" tal:omit-tag="">
+                <li>
+                <input type="checkbox" name="faceta:list" tal:attributes="value string:$x;"   onclick="this.form.submit();">
+                <span tal:replace="string:$x">this </span>
+                </li>
+                </div>
+                </ul>
+        </div>
+        </div>
+        
+        <div>
+        <h4>Types</h4>
+        <div class='types' style="width: 200px; height: 75px; overflow-y: auto">
+                <ul data-role="listview">
+                <div class='types' tal:repeat="x python:type" tal:omit-tag="">   
+                <li >
+                <input type="checkbox" name="faceta:list" tal:attributes="value string:$x;"   onclick="this.form.submit();">
+                <span tal:replace="string:$x">this </span>
+                </li>
+                </div>
+                </ul>
+        </div>
+        </div>
+        
+        <div>
+        <h4>Journals</h4> 
+        <div class='journals' style="width: 200px; height: 100px;overflow-y: auto">      
+                <ul data-role="listview">
+                <div class='journals' tal:repeat="x python:journal" tal:omit-tag="">
+                <li >
+                <input type="checkbox" name="faceta:list" tal:attributes="value string:$x;"   onclick="this.form.submit();">
+                <span tal:replace="string:$x">this </span>
+                </li>
+                </div>
+                </ul>
+        </div>           
+        </div>               
+            <!--*******-->
+            <div class='publications'>
+            <ul>
+            <div  class='pub' tal:repeat="x python:publication" tal:omit-tag="">
+            <li>
+            <span tal:replace="string:$x">this </span> <br><br>
+            </li>
+            </div>
+            </ul>
+            </div>
+         
+<!--  ########################################################################################## -->
+        </div>
+        <div class="tab-pane" id="citation">
+            <h1>Citations</h1>
+<!--  ######################################################################################### -->
+            <div class="citations">
+                <ul>
+                <div class='years' tal:repeat="x python:year_cit" tal:omit-tag="">
+                <li >
+                <input type="checkbox" name="faceta:list" tal:attributes="value string:$x+c;" class="cit" onclick="this.form.submit();">
+                <span tal:replace="string:$x">this </span>
+                </li>
+                </div>
+                </ul>
+                
+                <ul>
+                <div class='authors' tal:repeat="x python:author_cit" tal:omit-tag="">
+                <li >
+                <input type="checkbox" name="faceta:list" tal:attributes="value string:$x+c;" class="cit" onclick="this.form.submit();">
+                <span tal:replace="string:$x">this </span>
+                </li>
+                </div>
+                </ul>
+                    
+                <ul>
+                <div class='collaborators' tal:repeat="x python:collaborator_cit" tal:omit-tag="">
+                <li >
+                <input type="checkbox" name="faceta:list" tal:attributes="value string:$x+c;" class="cit" onclick="this.form.submit();">
+                <span tal:replace="string:$x">this </span>
+                </li>
+                </div>
+                </ul>
+                
+                <ul>
+                <div class='types' tal:repeat="x python:type_cit" tal:omit-tag="">
+                <li>
+                <input type="checkbox" name="faceta:list" tal:attributes="value string:$x+c;" class="cit" onclick="this.form.submit();">
+                <span tal:replace="string:$x">this </span>
+                </li>
+                </div>
+                </ul>
+                
+                <ul>
+                <div class='journals' tal:repeat="x python:journal_cit" tal:omit-tag="">
+                <li >
+                <input type="checkbox" name="faceta:list" tal:attributes="value string:$x+c;" class="cit" onclick="this.form.submit();">
+                <span tal:replace="string:$x">this </span>
+                </li>
+                </div>
+                </ul>
+                
+                <div class='publications'>
+                <ul>
+                <div class='pub' tal:repeat="x python:publication_cit" tal:omit-tag="">
+                <li>
+                <span tal:replace="string:$x">this </span><br><br>
+                </li>
+                </div>
+                </ul>
+                </div>
+            </div>
+<!--  ######################################################################################### -->
+        </div>
+        <div class="tab-pane" id="reference">
+            <h1>References</h1>
+<!--  ######################################################################################### -->
+            <div class="references">
+                <ul>
+                <div class='years' tal:repeat="x python:year_ref" tal:omit-tag="">
+                <li >
+                <input type="checkbox" name="faceta:list" tal:attributes="value string:$x+r;" class='ref' onclick="this.form.submit();">
+                <span tal:replace="string:$x">this </span>
+                </li>
+                </div>
+                </ul>
+               
+                <ul>
+                <div class='authors' tal:repeat="x python:author_ref" tal:omit-tag="">
+                <li >
+                <input type="checkbox" name="faceta:list" tal:attributes="value string:$x+r;" class='ref' onclick="this.form.submit();">
+                <span tal:replace="string:$x">this </span>
+                </li>
+                </div>
+                </ul>
+                
+                <ul>
+                <div class='collaborators' tal:repeat="x python:collaborator_ref" tal:omit-tag="">
+                <li >
+                <input type="checkbox" name="faceta:list" tal:attributes="value string:$x+r;" class='ref' onclick="this.form.submit();">
+                <span tal:replace="string:$x">this </span>
+                </li>
+                </div>
+                </ul>
+                
+                <ul>
+                <div class='types' tal:repeat="x python:type_ref" tal:omit-tag="">
+                <li >
+                <input type="checkbox" name="faceta:list" tal:attributes="value string:$x+r;" class='ref' onclick="this.form.submit();">
+                <span tal:replace="string:$x">this </span>
+                </li>
+                </div>
+                </ul>
+                
+                <ul>
+                <div class='journals' tal:repeat="x python:journal_ref" tal:omit-tag="">
+                <li >
+                <input type="checkbox" name="faceta:list" tal:attributes="value string:$x+r;" class='ref' onclick="this.form.submit();">
+                <span tal:replace="string:$x">this </span>
+                </li>
+                </div>
+                </ul>
+                
+                <div class='publications'>
+                <ul>
+                <div class='pub' tal:repeat="x python:publication_ref" tal:omit-tag="">
+                <li>
+                <span tal:replace="string:$x">this </span><br><br>
+                </li>
+                </div>
+                </ul>
+                </div>
+            </div>
+<!--  ######################################################################################### -->
+        </div>
+    </div>
 </div>
-<!--  ############################################################################ -->
-<div class="citations">
-        <table border="1">
-        <caption>Year: citations </caption>
-        <tr tal:repeat="x python:year_cit">
-        <td >
-        <input type="checkbox" name="faceta:list" tal:attributes="value string:$x+c;" class="cit" onclick="this.form.submit();">
-        <span tal:replace="string:$x">this </span>
-        </td>
-        </tr>
-        </table>
-
-        <table border="1">
-        <tr tal:repeat="x python:author_cit">
-        <td >
-        <input type="checkbox" name="faceta:list" tal:attributes="value string:$x+c;" class="cit" onclick="this.form.submit();">
-        <span tal:replace="string:$x">this </span>
-        </td>
-        </tr>
-        </table>
-
-        <table border="1">
-        <tr tal:repeat="x python:collaborator_cit">
-        <td >
-        <input type="checkbox" name="faceta:list" tal:attributes="value string:$x+c;" class="cit" onclick="this.form.submit();">
-        <span tal:replace="string:$x">this </span>
-        </td>
-        </tr>
-        </table>
-
-        <table border="1">
-        <tr tal:repeat="x python:type_cit">
-        <td >
-        <input type="checkbox" name="faceta:list" tal:attributes="value string:$x+c;" class="cit" onclick="this.form.submit();">
-        <span tal:replace="string:$x">this </span>
-        </td>
-        </tr>
-        </table>
-
-        <table border="1">
-        <tr tal:repeat="x python:journal_cit">
-        <td >
-        <input type="checkbox" name="faceta:list" tal:attributes="value string:$x+c;" class="cit" onclick="this.form.submit();">
-        <span tal:replace="string:$x">this </span>
-        </td>
-        </tr>
-        </table>
-
-        <table border="1">
-        <tr tal:repeat="x python:publication_cit">
-        <td>
-        <span tal:replace="string:$x">this </span>
-        </td>
-        </tr>
-        </table>
-</div>
-<!--  ############################################################################# -->
-<div class="references">
-        <table border="1">
-        <caption>Year: References </caption>
-        <tr tal:repeat="x python:year_ref">
-        <td >
-        <input type="checkbox" name="faceta:list" tal:attributes="value string:$x+r;" class='ref' onclick="this.form.submit();">
-        <span tal:replace="string:$x">this </span>
-        </td>
-        </tr>
-        </table>
-
-        <table border="1">
-        <tr tal:repeat="x python:author_ref">
-        <td >
-        <input type="checkbox" name="faceta:list" tal:attributes="value string:$x+r;" class='ref' onclick="this.form.submit();">
-        <span tal:replace="string:$x">this </span>
-        </td>
-        </tr>
-        </table>
-
-        <table border="1">
-        <tr tal:repeat="x python:collaborator_ref">
-        <td >
-        <input type="checkbox" name="faceta:list" tal:attributes="value string:$x+r;" class='ref' onclick="this.form.submit();">
-        <span tal:replace="string:$x">this </span>
-        </td>
-        </tr>
-        </table>
-
-        <table border="1">
-        <tr tal:repeat="x python:type_ref">
-        <td >
-        <input type="checkbox" name="faceta:list" tal:attributes="value string:$x+r;" class='ref' onclick="this.form.submit();">
-        <span tal:replace="string:$x">this </span>
-        </td>
-        </tr>
-        </table>
-
-        <table border="1">
-        <tr tal:repeat="x python:journal_ref">
-        <td >
-        <input type="checkbox" name="faceta:list" tal:attributes="value string:$x+r;" class='ref' onclick="this.form.submit();">
-        <span tal:replace="string:$x">this </span>
-        </td>
-        </tr>
-        </table>
-
-        <table border="1">
-        <tr tal:repeat="x python:publication_ref">
-        <td>
-        <span tal:replace="string:$x">this </span>
-        </td>
-        </tr>
-        </table>
 </div>
 </form>
 </metal:main>	
