@@ -15,6 +15,9 @@ class arbol:
     def __init__(self):
         self.G=nx.DiGraph()
         self.G.clear()
+        self.ini_listas()
+        
+    def ini_listas(self):
         self.list_author = Set([])
         self.list_collaborators = Set([])
         self.list_years = Set([])
@@ -28,6 +31,7 @@ class arbol:
 #        self.list_valid_authors = Set([])
         
         self.object_tmp = publication.publication()
+        
     def leer_autores(self, filenameAuthors):
         researchers_file = open (filenameAuthors,"r+")
         for line in researchers_file:
@@ -49,7 +53,7 @@ class arbol:
                     type_pub = re.search('@(.+?){',line).group(1)
                     key_pub = re.search('{(.+?),',line).group(1)
                     type_pub = type_pub.strip()
-                    type_pub = type_pub.upper()
+                    type_pub = type_pub.title()
                     key_pub = key_pub.strip()
                     self.list_types.add(type_pub)
     
@@ -165,6 +169,7 @@ class arbol:
         self.G.add_node("journal",leaf='0')
         self.G.add_node("year",leaf='0')
         self.G.add_node("collaborator",leaf='0')
+        self.G.add_node("empty",leaf='0')
     
     
         self.G.add_edge("type","publication")
@@ -172,6 +177,7 @@ class arbol:
         self.G.add_edge("journal","publication")
         self.G.add_edge("year","publication")
         self.G.add_edge("collaborator","publication")
+        self.G.add_edge("empty","publication")
     
         self.leer(filenameBib)    
     
@@ -223,87 +229,9 @@ class arbol:
                     self.G.add_edge(item.idp, item.type)
                 if item.journal in self.list_journals:
                     self.G.add_edge(item.idp, item.journal)
-    
+        
     '''
-    Construir el arbol mediante una lista de objetos de tipo "publication"
-    '''                   
-    def building_tree(self, list_objects,filenameAuthors):
-        
-        self.__init__()
-
-        self.leer_autores(filenameAuthors)
-        
-        self.G.add_node("publication",leaf='0')
-
-        self.G.add_node("type",leaf='0')
-        self.G.add_node("author",leaf='0')
-        self.G.add_node("journal",leaf='0')
-        self.G.add_node("year",leaf='0')
-        self.G.add_node("collaborator",leaf='0')
     
-        self.G.add_edge("type","publication")
-        self.G.add_edge("author","publication")
-        self.G.add_edge("journal","publication")
-        self.G.add_edge("year","publication")
-        self.G.add_edge("collaborator","publication")
-        
-        for item in list_objects:
-            
-#            print item.year, item.type, item.journal
-            if item.year!='':
-                self.list_years.add(item.year)
-#                print item.year
-            if item.type!='':
-                self.list_types.add(item.type)
-#                print item.type
-            if item.journal!='':
-                self.list_journals.add(item.journal)
-#                print item.journal
-            for i in item.author:
-                if i!='' and i in self.list_author:
-                    self.list_collaborators.add(i)
-#                    print i
-                    
-        for a in self.list_years:
-            if a!='':
-                self.G.add_node(a, leaf='0')
-                self.G.add_edge(a,"year")
-        for b in self.list_types:
-            if b!='':
-                self.G.add_node(b, leaf='0')
-                self.G.add_edge(b,"type")
-        for c in self.list_journals:
-            if c!='':
-                self.G.add_node(c, leaf='0')
-                self.G.add_edge(c,"journal")
-                                    
-        for d in self.list_collaborators:
-            if d in self.list_author:
-                if d!='':
-                    self.G.add_node(d,leaf='0')
-                    self.G.add_edge(d,"author")
-            else:
-                if d!='':
-                    self.G.add_node(d,leaf='0')
-                    self.G.add_edge(d,"collaborator")
-
-                    
-        for item in list_objects:
-            if item.idp!='':
-                self.G.add_node(item.idp, data = item, leaf='1') #creo el objeto
-                
-                for elem in item.author:     
-                    if self.G.has_node(elem):
-                        self.G.add_edge(item.idp, elem)    
-                    
-                if item.year in self.list_years:
-                    self.G.add_edge(item.idp, item.year)
-                if item.type in self.list_types:
-                    self.G.add_edge(item.idp, item.type)
-                if item.journal in self.list_journals:
-                    self.G.add_edge(item.idp, item.journal)
-
-    '''
     Metodo auxiliar recursivo
     Es auxiliar al metodo 'extension'
     '''
@@ -339,33 +267,43 @@ class arbol:
                     list_concepts.add(item)
             return list_concepts
                     
-    
-    
-    def get_objects_list(self, lista_ids_objs):
-        list_pub = Set([])
-        for item in lista_ids_objs:
+    def poda_arbol(self,listIds):
+        list_iter_pub = (n for n,d in self.G.nodes_iter(data=True) if d['leaf']=='1' )
+        list_ids_pub = Set([])
+        empty_pub = publication.publication()
+        
+        for item in list_iter_pub:
+            list_ids_pub.add(item)
+        #Los nodos del arbol que no estan en la lista: remove
+        for item in list_ids_pub:
+            if item not in listIds:
+                self.G.remove_node(item)                
+        
+        #los conceptos que no tienen hijos: remove
+        for item in self.list_author:       
             if self.G.has_node(item):
-                pub = self.G.node[item]['data']
-                list_pub.add(pub)
-        return list_pub
-        
-        
-        
-    def action(self):
-        
-        self.construir_arbol() 
-        
-        print self.G.number_of_nodes()
-        
-        list_a = self.list_objects
-        self.G.clear()
-        print self.G.number_of_nodes()
-        self.building_tree(list_a)
-        
-        print self.G.number_of_nodes()
-        
-        
-#        pos = nx.shell_layout(self.G)
-#        nx.draw(self.G, pos)
-#        plt.show()        
-    
+                if self.extension(item).__len__()<=0:
+                    self.G.remove_node(item)
+        for item in self.list_collaborators:       
+            if self.G.has_node(item):
+                if self.extension(item).__len__()<=0:
+                    self.G.remove_node(item)
+        for item in self.list_years:       
+            if self.G.has_node(item):
+                if self.extension(item).__len__()<=0:
+                    self.G.remove_node(item)
+        for item in self.list_types:       
+            if self.G.has_node(item):
+                if self.extension(item).__len__()<=0:
+                    self.G.remove_node(item)
+        for item in self.list_journals:       
+            if self.G.has_node(item):
+                if self.extension(item).__len__()<=0:
+                    self.G.remove_node(item)
+        self.ini_listas()
+        #creo un nodo vacio pero con el Id
+        for item in listIds:
+            if item not in list_ids_pub:
+                empty_pub.idp = item
+                self.G.add_node(item, data = empty_pub, leaf='1') #creo el objeto
+                self.G.add_edge(item, 'empty')

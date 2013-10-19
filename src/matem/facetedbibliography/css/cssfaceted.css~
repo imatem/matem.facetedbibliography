@@ -1,4 +1,4 @@
-.clear { clear: both; }
+
 .publications{
 clear:both;
 position:absolute; left:250px;  top:300px;

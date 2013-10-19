@@ -16,18 +16,23 @@ class interfaces(object):
         '''
         Constructor
         '''
-        list_empty = Set([])
-        self.interface_principal = interface.interface(list_empty,"researchers.txt","archivotodos.bib",False)
+        self.interface_principal = interface.interface("researchers.txt","archivo0.bib")
+ 
+        
         self.interface_principal.ini_listas()
         
         self.list_c = self.interface_principal.list_citation #objetos
         self.list_r = self.interface_principal.list_reference #objetos
         
-        self.interface_citation = interface.interface(self.list_c,"researchers.txt","archivotodos.bib",True)
-        self.interface_reference = interface.interface(self.list_r,"researchers.txt","archivotodos.bib",True)
+        self.interface_citation = interface.interface("researchers.txt","archivo1.bib")
+        self.interface_reference = interface.interface("researchers.txt","archivo2.bib")
+        self.interface_citation.tree.poda_arbol(self.list_c)
+        self.interface_reference.tree.poda_arbol(self.list_r)
         self.interface_citation.ini_listas()
         self.interface_reference.ini_listas()
         
+        
+    
     def interaction(self):
         list_input = Set([])
         list_input_citation = Set([])
@@ -45,11 +50,14 @@ class interfaces(object):
                 print self.interface_principal.list_year
                 print self.interface_principal.list_journal
                 print self.interface_principal.list_collaborator
+
                 
                 print "\n\n Facetas de las citas \t Num objetos: ", self.interface_citation.list_objs.__len__()
                 print self.interface_citation.list_year
                 print self.interface_citation.list_type
                 print self.interface_citation.list_objs
+                print self.interface_citation.list_empty, "\n"
+
 #                print "\n\n Facetas de las referencias"
 #                print self.interface_reference.list_year
 #                print self.interface_reference.list_type
@@ -66,6 +74,7 @@ class interfaces(object):
                 print self.interface_principal.list_val_journal, "\n"
                 print self.interface_principal.list_collaborator
                 print self.interface_principal.list_val_collaborator, "\n"
+
                 print "\nLista de conceptos citas seleccionados: "
                 print list_input_citation 
                 print "\n\n Facetas de las citas", self.interface_citation.list_objs.__len__()
@@ -74,6 +83,8 @@ class interfaces(object):
                 print self.interface_citation.list_type
                 print self.interface_citation.list_val_type
                 print self.interface_citation.list_objs
+                print self.interface_citation.list_empty, "\n"
+
                 print "\nLista de conceptos citas seleccionados: "
                 print list_input_citation 
 #                print "\n\n Facetas de las referencias"                
@@ -87,6 +98,8 @@ class interfaces(object):
             print "\nLista de conceptos seleccionados: "
             print list_input
 
+           
+
             sys.stdout.flush()
             focus = raw_input('\n>')
             focus_citation = raw_input('\n>')
@@ -99,22 +112,32 @@ class interfaces(object):
                 self.interface_principal.get_list_objects(list_input)
                 "Lista de objetos principal"
                 self.interface_principal.print_list_objs()
-            
-                if self.list_c != self.interface_principal.list_citation:
+                print "actual",self.interface_principal.list_citation, "anterior",self.list_c
+                print "actual",self.interface_reference.list_reference,"anterior", self.list_r
+                
+                if not self.interface_principal.compare(self.list_c, self.interface_principal.list_citation):
+                    print "entra al cambio citation"
                     self.list_c = self.interface_principal.list_citation
-                    self.interface_citation.tree.building_tree(self.list_c,"researchers.txt")
+                    self.interface_citation.tree.construir_arbol("researchers.txt","archivo1.bib")
+                    self.interface_citation.tree.poda_arbol(self.interface_principal.list_citation)
                     list_input_citation.clear()
                     self.interface_citation.ini_listas()
                     self.interface_citation.get_list_objects(list_input_citation)
+                    #self.interface_citation.print_list_objs()
 
 
-                if self.list_r != self.interface_principal.list_reference:
+                if not self.interface_principal.compare(self.list_r,self.interface_principal.list_reference):
                     self.list_r = self.interface_principal.list_reference
-                    self.interface_reference.tree.building_tree(self.list_r,"researchers.txt")
+#                    self.interface_reference.tree.building_tree(self.list_r,"researchers.txt")
+                    self.interface_reference.tree.construir_arbol("researchers.txt","archivo2.bib")
+                    #print self.interface_citation.tree.G.number_of_nodes()
+                   # self.interface_reference.tree.poda_arbol(self.interface_reference.list_reference)
+                   # print self.interface_citation.tree.G.number_of_nodes()
+
                     list_input_reference.clear()
                     self.interface_reference.ini_listas()
                     self.interface_reference.get_list_objects(list_input_reference)
-                    
+                    #self.interface_reference.print_list_objs()
 
                 count = count + 1
                 
@@ -139,3 +162,5 @@ class interfaces(object):
                 self.interface_reference.print_list_objs()
                 
                 count = count + 1
+            
+            
