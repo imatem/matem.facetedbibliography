@@ -126,24 +126,33 @@ class arbol:
                 except AttributeError:
                     year_pub =''
 
-            elif 'citedby' in line:
+            elif 'citedby' in line or 'reference' in line:
+               
                 try:
-                    citation_str = re.search('{(.+?)}',line).group(1)
+                    citation_str = re.search('"citedby(.+?)"',line).group(1)
                     citation_list = citation_str.split(',')
                     for item in citation_list:
                         string = item.strip()
-                        self.list_citation.add(string)
-                        objeto.citation.add(string)
-                except AttributeError:
-                    citation_str = ''
-            elif 'reference' in line:
-                try:
-                    reference_str = re.search('{(.+?)}',line).group(1)
+                        string = string.replace('=','')
+                        string = string.replace('}','')
+                        string = string.replace('{','')
+                        if string.__len__()>0:
+                                self.list_citation.add(string)
+                                objeto.citation.add(string)
+      #          except AttributeError:
+      #              citation_str = ''
+      #      elif 'reference' in line:
+      #          try:
+                    reference_str = re.search('"reference(.+?)"',line).group(1)
                     reference_list = reference_str.split(',')
                     for item in reference_list:
                         string = item.strip()
-                        self.list_reference.add(string)
-                        objeto.reference.add(string)
+                        string = string.replace('=','')
+                        string = string.replace('}','')
+                        string = string.replace('{','')
+                        if string.__len__()>0:
+                                self.list_reference.add(string)
+                                objeto.reference.add(string)
                 except AttributeError:
                     reference_str = ''
 

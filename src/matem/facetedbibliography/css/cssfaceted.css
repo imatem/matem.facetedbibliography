@@ -2,8 +2,8 @@
 .publications{
 
 position:absolute; left:250px;  top:300px;
-height:50%;
-overflow-y: auto;
+height:50%;overflow-y: auto;
+/**/
 }
 .years{
 width: 200px; height: 100px; overflow-y: auto;

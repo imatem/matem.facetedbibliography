@@ -124,7 +124,7 @@ Indice <i>i10</i>:
 
 <!--  ###################################################### -->
 
-<button name="clear">Limpiar entradas</button>
+<button class="btn btn-primary" name="clear">Clear</button>
 
 <form >
 
@@ -147,7 +147,7 @@ Indice <i>i10</i>:
         <div class='years' >
                 <ul  data-role="listview">
                 <div  tal:repeat="x python:year" tal:omit-tag="">
-                <li>
+                <li class="list-unstyled">
                 <input type="checkbox" name="faceta:list" tal:attributes="value string:$x;"  onclick="this.form.submit();">
                 <span tal:replace="string:$x">this </span>
                 </li>
@@ -161,7 +161,7 @@ Indice <i>i10</i>:
         <div class='authors' >
                 <ul  data-role="listview">
                 <div  tal:repeat="x python:author" tal:omit-tag="">                
-                <li>
+                <li class="list-unstyled">
                 <input type="checkbox" name="faceta:list" tal:attributes="value string:$x;"   onclick="this.form.submit();">
                 <span tal:replace="string:$x">this </span>
                 </li>
@@ -175,7 +175,7 @@ Indice <i>i10</i>:
         <div class="collaborators" >
                 <ul data-role="listview">
                 <div  tal:repeat="x python:collaborator" tal:omit-tag="">
-                <li>
+                <li class="list-unstyled">
                 <input type="checkbox" name="faceta:list" tal:attributes="value string:$x;"   onclick="this.form.submit();">
                 <span tal:replace="string:$x">this </span>
                 </li>
@@ -189,7 +189,7 @@ Indice <i>i10</i>:
         <div class='types' >
                 <ul data-role="listview">
                 <div  tal:repeat="x python:type" tal:omit-tag="">   
-                <li >
+                <li class="list-unstyled" >
                 <input type="checkbox" name="faceta:list" tal:attributes="value string:$x;"   onclick="this.form.submit();">
                 <span tal:replace="string:$x">this </span>
                 </li>
@@ -203,7 +203,7 @@ Indice <i>i10</i>:
         <div class='journals' >      
                 <ul data-role="listview">
                 <div  tal:repeat="x python:journal" tal:omit-tag="">
-                <li >
+                <li class="list-unstyled">
                 <input type="checkbox" name="faceta:list" tal:attributes="value string:$x;"   onclick="this.form.submit();">
                 <span tal:replace="string:$x">this </span>
                 </li>
@@ -240,7 +240,7 @@ Indice <i>i10</i>:
         <div class="years">
                 <ul>
                 <div  tal:repeat="x python:year_cit" tal:omit-tag="">
-                <li >
+                <li class="list-unstyled">
                 <input type="checkbox" name="faceta:list" tal:attributes="value string:$x+c;" class="cit" onclick="this.form.submit();">
                 <span tal:replace="string:$x">this </span>
                 </li>
@@ -254,7 +254,7 @@ Indice <i>i10</i>:
         <div class="authors">        
                 <ul>
                 <div tal:repeat="x python:author_cit" tal:omit-tag="">
-                <li >
+                <li class="list-unstyled">
                 <input type="checkbox" name="faceta:list" tal:attributes="value string:$x+c;" class="cit" onclick="this.form.submit();">
                 <span tal:replace="string:$x">this </span>
                 </li>
@@ -268,7 +268,7 @@ Indice <i>i10</i>:
         <div class="collaborators">
                 <ul>
                 <div  tal:repeat="x python:collaborator_cit" tal:omit-tag="">
-                <li >
+                <li class="list-unstyled">
                 <input type="checkbox" name="faceta:list" tal:attributes="value string:$x+c;" class="cit" onclick="this.form.submit();">
                 <span tal:replace="string:$x">this </span>
                 </li>
@@ -282,7 +282,7 @@ Indice <i>i10</i>:
         <div class="types">
                 <ul>
                 <div  tal:repeat="x python:type_cit" tal:omit-tag="">
-                <li>
+                <li class="list-unstyled">
                 <input type="checkbox" name="faceta:list" tal:attributes="value string:$x+c;" class="cit" onclick="this.form.submit();">
                 <span tal:replace="string:$x">this </span>
                 </li>
@@ -296,7 +296,7 @@ Indice <i>i10</i>:
         <div class="journals">
                 <ul>
                 <div class='journals' tal:repeat="x python:journal_cit" tal:omit-tag="">
-                <li >
+                <li class="list-unstyled">
                 <input type="checkbox" name="faceta:list" tal:attributes="value string:$x+c;" class="cit" onclick="this.form.submit();">
                 <span tal:replace="string:$x">this </span>
                 </li>
@@ -311,7 +311,7 @@ Indice <i>i10</i>:
         <div class='empty' style="width: 200px; height: 50px;overflow-y: auto">      
                 <ul data-role="listview">
                 <div  tal:repeat="x python:empty_cit" tal:omit-tag="">
-                <li >
+                <li class="list-unstyled">
                 <input type="checkbox" name="faceta:list" tal:attributes="value string:$x+c;"   onclick="this.form.submit();">
                 <span tal:replace="string:$x">this </span>
                 </li>
@@ -343,7 +343,7 @@ Indice <i>i10</i>:
         <div class="years">
                 <ul>
                 <div  tal:repeat="x python:year_ref" tal:omit-tag="">
-                <li >
+                <li class="list-unstyled">
                 <input type="checkbox" name="faceta:list" tal:attributes="value string:$x+r;" class='ref' onclick="this.form.submit();">
                 <span tal:replace="string:$x">this </span>
                 </li>
@@ -357,7 +357,7 @@ Indice <i>i10</i>:
         <div class="authors">
                 <ul>
                 <div tal:repeat="x python:author_ref" tal:omit-tag="">
-                <li >
+                <li class="list-unstyled">
                 <input type="checkbox" name="faceta:list" tal:attributes="value string:$x+r;" class='ref' onclick="this.form.submit();">
                 <span tal:replace="string:$x">this </span>
                 </li>
@@ -371,7 +371,7 @@ Indice <i>i10</i>:
         <div class="collaborators">
                 <ul>
                 <div tal:repeat="x python:collaborator_ref" tal:omit-tag="">
-                <li >
+                <li class="list-unstyled">
                 <input type="checkbox" name="faceta:list" tal:attributes="value string:$x+r;" class='ref' onclick="this.form.submit();">
                 <span tal:replace="string:$x">this </span>
                 </li>
@@ -385,7 +385,7 @@ Indice <i>i10</i>:
         <div class="types">    
                 <ul>
                 <div tal:repeat="x python:type_ref" tal:omit-tag="">
-                <li >
+                <li class="list-unstyled">
                 <input type="checkbox" name="faceta:list" tal:attributes="value string:$x+r;" class='ref' onclick="this.form.submit();">
                 <span tal:replace="string:$x">this </span>
                 </li>
@@ -399,7 +399,7 @@ Indice <i>i10</i>:
         <div class="journals">  
                 <ul>
                 <div  tal:repeat="x python:journal_ref" tal:omit-tag="">
-                <li >
+                <li class="list-unstyled">
                 <input type="checkbox" name="faceta:list" tal:attributes="value string:$x+r;" class='ref' onclick="this.form.submit();">
                 <span tal:replace="string:$x">this </span>
                 </li>
@@ -413,7 +413,7 @@ Indice <i>i10</i>:
         <div class='empty' style="width: 200px; height: 50px;overflow-y: auto">      
                 <ul data-role="listview">
                 <div  tal:repeat="x python:empty_ref" tal:omit-tag="">
-                <li >
+                <li class="list-unstyled">
                 <input type="checkbox" name="faceta:list" tal:attributes="value string:$x+r;"   onclick="this.form.submit();">
                 <span tal:replace="string:$x">this </span>
                 </li>
@@ -438,9 +438,9 @@ Indice <i>i10</i>:
         </div> <!--cierre del div ref-->
     </div> <!--cierre my -->
 </div>  <!--cierre content -->
-
+<div class="clearfix visible-xs"></div>
 </form>
-<br class="clear"/>
+
 </metal:main>
 	
 </body>
