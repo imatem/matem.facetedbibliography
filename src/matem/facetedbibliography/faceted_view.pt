@@ -8,34 +8,27 @@
       >
 
 <head>
-<!--
-<metal:css fill-slot="style_slot"                
- tal:define="resources_url string:${context/portal_url}/++resource++collective.js.bootstrap">
-    <link href="++resource++collective.js.bootstrap/css/bootstrap.css"
-            tal:attributes="href string:${resources_url}/css/bootstrap.css"
-            rel="stylesheet" type="text/css"/>
-</metal:css>
-
-
-<metal:jsslot fill-slot="javascript_head_slot" tal:define="resources_url string:${context/portal_url}/++resource++collective.js.bootstrap">
-    <script type="text/javascript" src="++resource++collective.js.bootstrap/js/bootstrap.js"
-              tal:attributes="src string:${resources_url}/js/bootstrap.js"></script>
-    <tal:insert tal:replace="nothing" tal:define="dummy python:request.set('disable_border', True)" />
--->              
-
 <metal:css fill-slot="style_slot"                
  tal:define="resources_url string:${context/portal_url}/++resource++">
     <link href="++resource++bootstrap.css"
             tal:attributes="href string:${resources_url}bootstrap.css"
             rel="stylesheet" type="text/css"/>
+    <link href="++resource++cssfaceted.css"
+            tal:attributes="href string:${resources_url}cssfaceted.css"
+            rel="stylesheet" type="text/css"/>
 </metal:css>
 
-
+<metal:override fill-slot="top_slot"
+    tal:define="disable_column_one python:request.set('disable_plone.leftcolumn',1);
+                disable_column_two python:request.set('disable_plone.rightcolumn',1);"/>
+                
 <metal:jsslot fill-slot="javascript_head_slot" tal:define="resources_url string:${context/portal_url}/++resource++">
     <script type="text/javascript" src="++resource++bootstrap.js"
               tal:attributes="src string:${resources_url}bootstrap.js"></script>
+              
     <tal:insert tal:replace="nothing" tal:define="dummy python:request.set('disable_border', True)" />
-
+    
+   
 <script type="text/javascript">
 (function($){
 
@@ -447,7 +440,7 @@ Indice <i>i10</i>:
 </div>  <!--cierre content -->
 
 </form>
-<br class="clear"/>
+
 </metal:main>
 	
 </body>

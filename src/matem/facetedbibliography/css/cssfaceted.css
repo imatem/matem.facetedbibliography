@@ -1,9 +1,9 @@
-.clear { clear: both; }
+
 .publications{
-clear:both;
+
 position:absolute; left:250px;  top:300px;
 height:50%;
-/*overflow-y: auto;*/
+overflow-y: auto;
 }
 .years{
 width: 200px; height: 100px; overflow-y: auto;
