@@ -33,7 +33,10 @@ class arbol:
         self.object_tmp = publication.publication()
         
     def leer_autores(self, filenameAuthors):
-        researchers_file = open (filenameAuthors,"r+")
+#        researchers_file = open (filenameAuthors,"r+")
+ 	researchers_file = filenameAuthors
+	researchers_file= researchers_file.open()
+
         for line in researchers_file:
                 if '\n' in line and line.__len__>1:
                     string = line.replace('\n','')
@@ -43,8 +46,10 @@ class arbol:
         researchers_file.close()
         
     def leer(self, filenameBib):
-        input_file=open(filenameBib,"r+")
-                
+#        input_file=open(filenameBib,"r+")
+ 	input_file=filenameBib 
+	input_file = input_file.open()
+          
         for line in input_file:
             objeto = self.object_tmp
             if '@'  in line:
@@ -147,6 +152,7 @@ class arbol:
                     reference_list = reference_str.split(',')
                     for item in reference_list:
                         string = item.strip()
+                        string = string.replace('=','')
                         string = string.replace('}','')
                         string = string.replace('{','')
                         if string.__len__()>0:
