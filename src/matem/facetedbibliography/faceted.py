@@ -171,6 +171,9 @@ class FacetedView(BrowserView):
     def show_empty_cit(self):
 	return sorted(self.interface_citation.list_empty)
 
+    def show_list_input_citation(self):
+	return sorted(self.list_input_citation)
+	
     ###########################################################################
 
     def show_years_ref(self):
@@ -193,4 +196,6 @@ class FacetedView(BrowserView):
 
     def show_empty_ref(self):
 	return sorted(self.interface_reference.list_empty)
-
+    def show_list_input_reference(self):
+	return sorted(self.list_input_reference)
+	

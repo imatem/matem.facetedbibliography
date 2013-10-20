@@ -125,7 +125,7 @@ class FacetedView(BrowserView):
     def indice_i10(self):
         return self.interface_principal.indice_i10() 
 
-     def show_years(self):
+    def show_years(self):
         return sorted(self.interface_principal.list_year)
 
     def show_authors(self):

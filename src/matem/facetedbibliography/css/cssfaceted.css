@@ -1,22 +1,30 @@
-
+/*
 .publications{
-
-position:absolute; left:250px;  top:300px;
-height:50%;overflow-y: auto;
-/**/
+left:250px;
+width:75%;/*overflow:hidden;*/
+/*
+height:60%;
+overflow-y: auto;
 }
+*/
+div#portal-footer { 
+   display: none 
+} 
+div#portal-footer-wrapper{ 
+   display: none 
+} 
 .years{
-width: 200px; height: 100px; overflow-y: auto;
+width: 200px; height: 150px; overflow-y: auto;
 }
 .empty,
 .authors{
 width: 200px; height: 60px;overflow-y: auto;
 }
 .collaborators{
-width: 200px; height: 100px;overflow-y: auto;
+width: 200px; height: 150px;overflow-y: auto;
 }
 .journals{
-width: 200px; height: 100px;overflow-y: auto;
+width: 200px; height: 150px;overflow-y: auto;
 }
 .types{
 width: 200px; height: 75px; overflow-y: auto;

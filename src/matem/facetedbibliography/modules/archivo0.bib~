@@ -8,7 +8,9 @@
  doi = {http://dx.doi.org/10.1109/IPDPS.2013.41},
  publisher = {IEEE Computer Society},
  address = {Washington, DC, USA},
- abstract={Esta es una prueba para el sitio. "citedby={2511344, 2421118,2332451}", "reference={586907}"},
+ abstract={Esta es una prueba para el sitio. 
+ "citedby={2511344, 2421118,2332451}", 
+ "reference={586907}"},
  }
 @article{2421118,
  author = {Herlihy, Maurice and Rajsbaum, Sergio and Raynal, Michel},
@@ -22,7 +24,10 @@
  doi = {http://doi.acm.org/10.1145/2421096.2421118},
  publisher = {ACM},
  address = {New York, NY, USA},
- abstract={"citedby={2385878}", "reference={586907}",},
+ abstract={
+ Prueba 2
+ "citedby={2385878}", "reference={586907}",
+ },
  }
 @inproceedings{2332451,
  author = {Casta\,{n}eda, Armando and Rajsbaum, Sergio and Raynal, Michel},
@@ -35,7 +40,10 @@
  doi = {http://doi.acm.org/10.1145/2332432.2332451},
  publisher = {ACM},
  address = {New York, NY, USA},
- abstract={"citedby={2385878}", "reference={}",}
+ abstract={
+ prueba 3.
+ "citedby={2385878}", 
+ "reference={}",}
  }
 @book{2385878,
  author = {Rajsbaum, Sergio and Travers, Corentin and Lynch, Nancy},
