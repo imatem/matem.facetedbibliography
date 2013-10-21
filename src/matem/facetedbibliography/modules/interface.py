@@ -8,7 +8,6 @@ import sys
 import re
 from sets import Set
 
-
 class interface(object):
     '''
     classdocs

@@ -1,7 +1,6 @@
 import publication
 import networkx as nx
 
-
 import re
 from sets import Set
 #import matplotlib.pyplot as plt
@@ -47,10 +46,11 @@ class arbol:
         
     def leer(self, filenameBib):
 #        input_file=open(filenameBib,"r+")
- 	input_file = filenameBib 
-	input_file = input_file.open()
-          
-        for line in input_file:
+ 	#input_file = filenameBib 
+	#input_file = input_file.open()
+
+	list_entrada = filenameBib.split('\n')
+        for line in list_entrada:
             objeto = self.object_tmp
             if '@'  in line:
                 try:
@@ -161,8 +161,8 @@ class arbol:
                 except AttributeError:
                     reference_str = ''
 
-        self.list_objects.add(objeto)
-        input_file.close()
+            self.list_objects.add(objeto)
+  #      input_file.close()
     
        
     '''

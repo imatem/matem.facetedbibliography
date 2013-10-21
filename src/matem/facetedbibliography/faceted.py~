@@ -15,13 +15,24 @@ class FacetedView(BrowserView):
     	self.context = context
     	self.request = request
         curpath = os.path.abspath(os.curdir)
-        self.researchers_file = os.path.join(curpath, "researchers.txt")
-        bib_file = os.path.join(curpath, "archivo0.bib")
-        self.bib_file_cit = os.path.join(curpath, "archivo1.bib")
-        self.bib_file_ref = os.path.join(curpath, "archivo2.bib")
-        self.interface_principal = interface.interface(self.researchers_file,bib_file)
- 
         
+        #self.researchers_file = os.path.join(curpath, "researchers.txt")
+        #bib_file = os.path.join(curpath, "archivo0.bib")
+        #self.bib_file_cit = os.path.join(curpath, "archivo1.bib")
+        #self.bib_file_ref = os.path.join(curpath, "archivo2.bib")
+        print 'mi context: ', self.context
+        print ' context publicaciones ',self.context['publicaciones']
+        print ' context citas ',self.context['citas']
+        print ' context referencias ', self.context['referencias']
+        print ' context investigadores ', self.context['investigadores']
+        
+	bib_file = self.context['publicaciones'].getFile().getBlob()
+	self.researchers_file = self.context['investigadores'].getFile().getBlob()
+        self.bib_file_cit = self.context['citas'].getFile().getBlob()
+	self.bib_file_ref = self.context['referencias'].getFile().getBlob()
+
+    
+        self.interface_principal = interface.interface(self.researchers_file,bib_file)    
         self.interface_principal.ini_listas()
         
         self.list_c = self.interface_principal.list_citation #objetos
