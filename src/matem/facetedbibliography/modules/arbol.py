@@ -134,13 +134,17 @@ class arbol:
             elif 'citedby' in line or 'reference' in line:
                
                 try:
-                    citation_str = re.search('"citedby(.+?)"',line).group(1)
+                    citation_str = re.search("citedby(.+?)\)",line).group(1)
                     citation_list = citation_str.split(',')
                     for item in citation_list:
                         string = item.strip()
                         string = string.replace('=','')
                         string = string.replace('}','')
                         string = string.replace('{','')
+                        string = string.replace('\\','')
+                        string = string.replace('(','')
+                        string = string.replace(')','')
+
                         if string.__len__()>0:
                                 self.list_citation.add(string)
                                 objeto.citation.add(string)
@@ -148,13 +152,17 @@ class arbol:
       #              citation_str = ''
       #      elif 'reference' in line:
       #          try:
-                    reference_str = re.search('"reference(.+?)"',line).group(1)
+                    reference_str = re.search('reference(.+?)\)',line).group(1)
                     reference_list = reference_str.split(',')
                     for item in reference_list:
                         string = item.strip()
                         string = string.replace('=','')
                         string = string.replace('}','')
                         string = string.replace('{','')
+                        string = string.replace('\\','')
+                        string = string.replace('(','')
+                        string = string.replace(')','')
+
                         if string.__len__()>0:
                                 self.list_reference.add(string)
                                 objeto.reference.add(string)

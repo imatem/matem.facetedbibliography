@@ -24,7 +24,7 @@ class FacetedView(BrowserView):
         #self.bib_file_cit = self.context['citas'].getFile().getBlob()
 	#self.bib_file_ref = self.context['referencias'].getFile().getBlob()
 	
-	self.renderer =  self._getRenderer(self.context['publicaciones'])
+	self.renderer =  self._getRenderer(self.context)
     
 	#*******************************************************************************************
 	#bib_file = open('archivo0.bib','wb+')
@@ -55,6 +55,7 @@ class FacetedView(BrowserView):
         self.interface_reference.tree.poda_arbol(self.list_r)
         self.interface_citation.ini_listas()
         self.interface_reference.ini_listas()
+        
         
 	#*******************************************************************************************
 
@@ -105,7 +106,7 @@ class FacetedView(BrowserView):
                self.interface_citation.tree.poda_arbol(self.list_c)
                self.interface_citation.ini_listas()
 
-        if not self.interface_principal.compare(self.list_c, self.interface_principal.list_reference):
+        if not self.interface_principal.compare(self.list_r, self.interface_principal.list_reference):
                self.list_r = self.interface_principal.list_reference
 	       #*******************************
                self.interface_reference.tree.construir_arbol(self.researchers_file, self.ref)

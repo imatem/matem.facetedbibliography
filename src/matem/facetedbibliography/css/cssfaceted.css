@@ -7,25 +7,38 @@ height:60%;
 overflow-y: auto;
 }
 */
+
 div#portal-footer { 
    display: none 
 } 
 div#portal-footer-wrapper{ 
    display: none 
-} 
-.years{
-width: 200px; height: 150px; overflow-y: auto;
 }
+/*
 .empty,
+.collaborators,
+.journals,
+.types,
+.years{
+height: 17%;
+overflow-y: auto;
+
+}
+*/
+
+.years{
+height: 150px; overflow-y: auto;
+}
 .authors{
-width: 200px; height: 60px;overflow-y: auto;
+height: 130px;overflow-y: auto;
 }
 .collaborators{
-width: 200px; height: 150px;overflow-y: auto;
+height: 150px;overflow-y: auto;
 }
 .journals{
-width: 200px; height: 150px;overflow-y: auto;
+height: 150px;overflow-y: auto;
 }
 .types{
-width: 200px; height: 75px; overflow-y: auto;
+height: 150px; overflow-y: auto;
 }
+
