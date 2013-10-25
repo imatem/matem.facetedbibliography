@@ -23,16 +23,5 @@
     name="bootstrap.js"
     file="./js/bootstrap.js"
     />
-  <browser:resource
-    name="jquery.collapsible.js"
-    file="./js/jquery.collapsible.js"
-    />
-  <browser:resource
-    name="jquery.collapse_cookie_storage.js"
-    file="./js/jquery.collapse_cookie_storage.js"
-    />
-  <browser:resource
-    name="jquery.collapse_storage.js"
-    file="./js/jquery.collapse_storage.js"
-    />
+
  </configure>

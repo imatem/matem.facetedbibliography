@@ -217,19 +217,19 @@ class interface(object):
         for item in self.list_objs:
             obj = self.tree.G.node[item]['data']
             
-            cad1= obj.idp +'. '+ obj.type +'. ' + obj.title+'. '
-            cad2 = ', '.join(obj.author)  +'. '      
-            cad3 = obj.journal +'. '+  obj.publisher +'. '+  obj.year  +'. '
+            cad1= obj.idp +'%% '+ obj.type +'%% ' + obj.title+'%% '
+            cad2 = ', '.join(obj.author)  +'%% '      
+            cad3 = obj.journal +'%% '+  obj.publisher +'%% '+  obj.year  +'%% '
             cad4 = ', '.join(obj.citation)
             cad5= ', '.join(obj.reference)
             if cad4.__len__()>0:
-                cadx=' Citedby: '+cad4  +'. '
+                cadx=' Citedby: '+cad4  +'%% '
             else:
-                cadx = cad4
+                cadx = '%%'
             if cad5.__len__()>0:
-                cady=' References: '+cad5 +'. '
+                cady=' References: '+cad5 +'%% '
             else:
-                cady = cad5
+                cady = '%%'
             
             string = cad1 +' '+ cad2 +' '+ cad3 +' '+ cadx +' '+ cady
             list_string_obj.add(string)
