@@ -622,7 +622,7 @@ class FacetedView(BrowserView):
         j=False
 	k=0
         list_ij =[]
-	list_a=sorted(self.interface_citation.list_year)
+	list_a=sorted(self.interface_citation.list_year, reverse=True)
         for i in list_a:
                 if i in self.interface_citation.list_val_year:
                         j=True
@@ -731,7 +731,7 @@ class FacetedView(BrowserView):
         j=False
 	k=0
         list_ij =[]
-	list_a=sorted(self.interface_reference.list_year)
+	list_a=sorted(self.interface_reference.list_year, reverse=True)
         for i in list_a:
                 if i in self.interface_reference.list_val_year:
                         j=True
