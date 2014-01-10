@@ -46,11 +46,12 @@ class arbol:
         
     def leer(self, filenameBib):
 #        input_file=open(filenameBib,"r+")
- 	#input_file = filenameBib 
-	#input_file = input_file.open()
+ 	input_file = filenameBib 
+	input_file = input_file.open()
 
-	list_entrada = filenameBib.split('\n')
-        for line in list_entrada:
+#	list_entrada = filenameBib.split('\n')
+#        for line in list_entrada:
+	for line in  input_file:
             objeto = self.object_tmp
             if '@'  in line:
                 try:
@@ -132,8 +133,7 @@ class arbol:
                     year_pub =''
 
             elif 'citedby' in line or 'reference' in line:
-               
-                try:
+		if 'citedby' in line:
                     citation_str = re.search("citedby(.+?)\)",line).group(1)
                     citation_list = citation_str.split(',')
                     for item in citation_list:
@@ -144,14 +144,10 @@ class arbol:
                         string = string.replace('\\','')
                         string = string.replace('(','')
                         string = string.replace(')','')
-
                         if string.__len__()>0:
                                 self.list_citation.add(string)
                                 objeto.citation.add(string)
-      #          except AttributeError:
-      #              citation_str = ''
-      #      elif 'reference' in line:
-      #          try:
+		if 'reference' in line:
                     reference_str = re.search('reference(.+?)\)',line).group(1)
                     reference_list = reference_str.split(',')
                     for item in reference_list:
@@ -166,11 +162,9 @@ class arbol:
                         if string.__len__()>0:
                                 self.list_reference.add(string)
                                 objeto.reference.add(string)
-                except AttributeError:
-                    reference_str = ''
 
             self.list_objects.add(objeto)
-  #      input_file.close()
+        input_file.close()
     
        
     '''
@@ -191,7 +185,6 @@ class arbol:
         self.G.add_node("journal",leaf='0')
         self.G.add_node("year",leaf='0')
         self.G.add_node("collaborator",leaf='0')
-        self.G.add_node("empty",leaf='0')
     
     
         self.G.add_edge("type","publication")
@@ -199,7 +192,6 @@ class arbol:
         self.G.add_edge("journal","publication")
         self.G.add_edge("year","publication")
         self.G.add_edge("collaborator","publication")
-        self.G.add_edge("empty","publication")
     
         self.leer(filenameBib)    
     
@@ -322,10 +314,3 @@ class arbol:
                 if self.extension(item).__len__()<=0:
                     self.G.remove_node(item)
         self.ini_listas()
-        #creo un nodo vacio pero con el Id
-        for item in listIds:
-            if item not in list_ids_pub:
-                empty_pub = publication.publication()
-                empty_pub.idp = item
-                self.G.add_node(item, data = empty_pub, leaf='1') #creo el objeto
-                self.G.add_edge(item, 'empty')

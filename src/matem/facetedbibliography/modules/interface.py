@@ -24,7 +24,6 @@ class interface(object):
         self.list_ext_type = Set([])
         self.list_ext_year = Set([])
         self.list_ext_collaborator = Set([])
-        self.list_ext_empty =Set([]) ## solo para citations y references
         # los conceptos validos
         
         self.list_val_author = Set([])
@@ -39,7 +38,6 @@ class interface(object):
         self.list_type = Set([])
         self.list_year = Set([])
         self.list_collaborator = Set([])
-        self.list_empty = Set([])
         
         self.list_input =Set([])
         
@@ -64,8 +62,6 @@ class interface(object):
         self.list_ext_journal = self.tree.extension("journal")
         self.list_objs = self.list_objs.union(self.list_ext_journal)
         
-        self.list_ext_empty = self.tree.extension("empty") 
-        self.list_objs = self.list_objs.union(self.list_ext_empty)
         
         
         self.list_val_author = self.tree.valido("author", self.list_ext_author)
@@ -79,8 +75,6 @@ class interface(object):
         self.list_year = self.list_val_year
         self.list_journal = self.list_val_journal
         self.list_collaborator = self.list_val_collaborator
-        if self.list_ext_empty.__len__()>0:
-            self.list_empty=(['empty'])
             
         
         list_c = Set([])
@@ -100,7 +94,6 @@ class interface(object):
             self.calculo_concepto_type(list_input)
             self.calculo_concepto_year(list_input)
             self.calculo_concepto_collaborator(list_input)
-            self.calculo_concepto_empty(list_input)
             
             for item in list_input:
                 if item in self.list_year:
@@ -117,29 +110,25 @@ class interface(object):
 
                 elif item in self.list_journal:
                     self.list_objs = self.list_objs.intersection(self.list_ext_journal)
-                elif item in self.list_empty:
-                    self.list_objs = self.list_objs.intersection(self.list_ext_empty)
-                #elif item in self.list_empty:
-            #if 'empty' in list_input:
-            #    self.list_objs = self.list_objs.union(self.list_ext_empty)
-            
-            self.list_val_author = sorted(self.tree.valido("author", self.list_objs))
-            self.list_val_type = sorted(self.tree.valido("type", self.list_objs))
-            self.list_val_journal = sorted(self.tree.valido("journal", self.list_objs))
-            self.list_val_year = sorted(self.tree.valido("year", self.list_objs))
-            self.list_val_collaborator = sorted(self.tree.valido("collaborator", self.list_objs))
-            list_c = Set([])
-            list_r = Set([])
-            for item in self.list_objs:
-                obj = self.tree.G.node[item]['data']
+	    self.related_concepts()
+        else:
+            self.ini_listas()
+    def related_concepts(self):            
+        self.list_val_author = sorted(self.tree.valido("author", self.list_objs))
+        self.list_val_type = sorted(self.tree.valido("type", self.list_objs))
+        self.list_val_journal = sorted(self.tree.valido("journal", self.list_objs))
+        self.list_val_year = sorted(self.tree.valido("year", self.list_objs))
+        self.list_val_collaborator = sorted(self.tree.valido("collaborator", self.list_objs))
+        list_c = Set([])
+        list_r = Set([])
+        for item in self.list_objs:
+        	obj = self.tree.G.node[item]['data']
                 list_c = list_c.union(obj.citation)  #union de listas
                 list_r = list_r.union(obj.reference)
             
             #de la lista de objetos obtengo las citas y referencias que son IDs
-            self.list_citation = list_c #self.tree.get_objects_list(list_c) #obtengo los objetos con los IDs pasados
-            self.list_reference = list_r #self.tree.get_objects_list(list_r)
-        else:
-            self.ini_listas()
+        self.list_citation = list_c #self.tree.get_objects_list(list_c) #obtengo los objetos con los IDs pasados
+        self.list_reference = list_r #self.tree.get_objects_list(list_r)
             
 
     def calculo_concepto_author(self,list_input):
@@ -191,18 +180,6 @@ class interface(object):
             self.list_ext_journal = list_aux
             self.list_objs = self.list_ext_journal
             
-    def calculo_concepto_empty(self,list_input):
-        if list_input.intersection(self.list_empty).__len__()>0:
-            list_aux = Set([])
-            for item in list_input:
-                if item in self.list_empty:
-                    list_aux = self.tree.extension(item).union(list_aux)
-        
-            self.list_ext_empty = list_aux
-            self.list_objs = self.list_ext_empty
-            
-            
-
     def print_list_objs(self):
         for item in self.list_objs:
             obj = self.tree.G.node[item]['data']
@@ -215,26 +192,67 @@ class interface(object):
     def return_list_objs(self):
         list_string_obj = Set([])
         for item in self.list_objs:
+	  if self.tree.G.has_node(item): 
             obj = self.tree.G.node[item]['data']
-            
-            cad1= obj.idp +'%% '+ obj.type +'%% ' + obj.title+'%% '
-            cad2 = ', '.join(obj.author)  +'%% '      
-            cad3 = obj.journal +'%% '+  obj.publisher +'%% '+  obj.year  +'%% '
-            cad4 = ', '.join(obj.citation)
-            cad5= ', '.join(obj.reference)
+
+	    if obj.type=='':
+		type_='--'
+	    else:
+		type_=obj.type
+
+	    if obj.year=='':
+		year_='--'
+	    else:
+		year_=obj.year
+
+	    if obj.journal=='':
+		journal_='--'
+	    else:
+		journal_=obj.journal
+
+	    if obj.publisher=='':
+		publisher_='--'
+	    else:
+		publisher_=obj.publisher
+
+	    if obj.author.__len__()==0:
+		author_='--'
+	    else:
+		author_=', '.join(obj.author)
+
+	    if obj.title=='':
+		title_='--'
+	    else:
+		title_=obj.title
+		
+            cad1 = obj.idp  +'%%' + title_+ '%%'+ type_ +'%%' 
+            cad2 = author_  +'%%'      
+            cad3 = journal_ +'%%' +  year_  +'%%'
+            cad4 = ','.join(obj.citation)
+            cad5= ','.join(obj.reference)
             if cad4.__len__()>0:
-                cadx=' Citedby: '+cad4  +'%% '
+                cadx= cad4  +'%%'
             else:
                 cadx = '%%'
             if cad5.__len__()>0:
-                cady=' References: '+cad5 +'%% '
+                cady= cad5 +'%%'
             else:
                 cady = '%%'
             
-            string = cad1 +' '+ cad2 +' '+ cad3 +' '+ cadx +' '+ cady
+            string = cad1 + cad2 + cad3 + cadx + cady
             list_string_obj.add(string)
-            
-        return list_string_obj
+
+	b=[]
+	for item in list_string_obj:
+       		l=item.split('%%')
+	        b.append(l)
+	c=sorted(b, key=lambda x: x[1])
+	d=[]
+	for item in c:
+        	string='%%'.join(item)
+	        d.append(string)
+	
+        return d
 
 
     

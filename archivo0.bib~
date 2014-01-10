@@ -8,8 +8,8 @@
  doi = {http://dx.doi.org/10.1109/IPDPS.2013.41},
  publisher = {IEEE Computer Society},
  address = {Washington, DC, USA},
- abstract={Esta es una prueba para el sitio. citedby=(2421118,2332451) reference=(586907)},
- }s
+ abstract={Esta es una prueba para el sitio. citedby=(2511344, 2421118,2332451) reference=(586907)},
+ }
 @article{2421118,
  author = {Herlihy, Maurice and Rajsbaum, Sergio and Raynal, Michel},
  title = {Computability in distributed computing: a Tutorial},

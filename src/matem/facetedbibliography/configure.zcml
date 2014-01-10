@@ -23,5 +23,16 @@
     name="bootstrap.js"
     file="./js/bootstrap.js"
     />
-
+  <browser:resource
+    name="bootstrap-popover.js"
+    file="./js/bootstrap-popover.js"
+    />
+  <browser:resource
+    name="bootstrap-tooltip.js"
+    file="./js/bootstrap-tooltip.js"
+    />
+  <browser:resource
+    name="functions.js"
+    file="./js/functions.js"
+    />
  </configure>

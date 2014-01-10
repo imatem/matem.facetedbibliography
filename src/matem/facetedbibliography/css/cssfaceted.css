@@ -1,44 +1,68 @@
-/*
-.publications{
-left:250px;
-width:75%;/*overflow:hidden;*/
-/*
-height:60%;
-overflow-y: auto;
-}
-*/
-
 div#portal-footer { 
    display: none 
 } 
 div#portal-footer-wrapper{ 
    display: none 
 }
-/*
-.empty,
-.collaborators,
-.journals,
-.types,
-.years{
-height: 17%;
-overflow-y: auto;
+.contenedor{
+border:1px solid #A9BEC9;
+border-radius:5px;
+margin-bottom: 0.5cm;
 
-}
-*/
-
-.years{
-height: 150px; overflow-y: auto;
-}
-.authors{
-height: 130px;overflow-y: auto;
-}
-.collaborators{
-height: 150px;overflow-y: auto;
-}
-.journals{
-height: 150px;overflow-y: auto;
-}
-.types{
-height: 150px; overflow-y: auto;
+-moz-border-radius: 5px;
+-moz-box-shadow: 2px 2px 2px #A9BEC9;
+-webkit-box-shadow: 2px 2px 2px #A9BEC9;
+box-shadow: 2px 2px 2px #A9BEC9;
 }
 
+
+.carousel-control{
+height: 60px;
+top:5px;
+width:  120px;
+color: #000000;
+background: #FFF;
+}
+.carousel {
+    /*overflow: hidden;*/
+}
+.carousel .item {
+    -webkit-transition: opacity 1s;
+    -moz-transition: opacity 1s;
+    -ms-transition: opacity 1s;
+    -o-transition: opacity 1s;
+    transition: opacity 1s;
+}
+.carousel .active.left, .carousel .active.right {
+    left:0;
+    opacity:0;
+    z-index:2;
+}
+.carousel .next, .carousel .prev {
+    left:0;
+    opacity:1;
+    z-index:1;
+}
+.table {
+    border-collapse: separate;
+    border-spacing: 0 5px;
+    overflow-x:auto;
+}
+
+thead th {
+    background-color: #A9BEC9;
+    color: black;
+}
+
+
+tr td:first-child,
+tr th:first-child {
+    border-top-left-radius: 1px;
+    border-bottom-left-radius: 1px;
+}
+
+tr td:last-child,
+tr th:last-child {
+    border-top-right-radius: 6px;
+    border-bottom-right-radius: 6px;
+}
