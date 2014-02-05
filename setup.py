@@ -31,6 +31,8 @@ setup(
         'setuptools',
         'networkx',
         'wildcard.foldercontents',
+        'collective.js.datatables',
+	'plone.api',
     ],
     extras_require={
         'test': [

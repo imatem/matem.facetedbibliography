@@ -56,13 +56,16 @@ class interface(object):
         self.list_ext_type = self.tree.extension("type")
         self.list_objs = self.list_objs.union(self.list_ext_type)
         
+#	list_aux=[]
+#	for item in self.tree.G.predecessors("year"):#extension("year")
+#		list_aux.append(item)
+#        self.list_ext_year=list_aux 
         self.list_ext_year = self.tree.extension("year")
+	
         self.list_objs = self.list_objs.union(self.list_ext_year)
         
         self.list_ext_journal = self.tree.extension("journal")
         self.list_objs = self.list_objs.union(self.list_ext_journal)
-        
-        
         
         self.list_val_author = self.tree.valido("author", self.list_ext_author)
         self.list_val_collaborator = self.tree.valido("collaborator", self.list_ext_collaborator)
@@ -235,9 +238,9 @@ class interface(object):
             else:
                 cadx = '%%'
             if cad5.__len__()>0:
-                cady= cad5 +'%%'
+                cady= cad5 +''
             else:
-                cady = '%%'
+                cady = ''
             
             string = cad1 + cad2 + cad3 + cadx + cady
             list_string_obj.add(string)
@@ -251,7 +254,8 @@ class interface(object):
 	for item in c:
         	string='%%'.join(item)
 	        d.append(string)
-	
+#	self.print_list_objs()
+		
         return d
 
 

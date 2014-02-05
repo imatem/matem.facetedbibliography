@@ -7,7 +7,7 @@ from sets import Set
 from bibliograph.rendering.interfaces import IBibliographyRenderer
 from zope import component
 from Products.CMFCore.utils import getToolByName
-
+import plone.api
 class FacetedView(BrowserView):
 
     template = ViewPageTemplateFile('faceted_view.pt')
@@ -24,39 +24,21 @@ class FacetedView(BrowserView):
 #	self.renderer =  self._getRenderer(self.context)
 
 	#*******************************************************************************************
-	print "ini get pub"
 #	pub = self.renderer.render(self.context['publicaciones'], output_encoding=self.output_encoding, msdos_eol_style=self.eol_style)
 	pub= self.context['file2'].getFile().getBlob()
-	print "fin get pub"
-	print "start build tax principal"
 	self.interface_principal = interface.interface(self.researchers_file, pub)    
-	print "end build tax principal"
-	print "start build tax aux principal"
 	self.interface_principal_aux = interface.interface(self.researchers_file, pub)    
-	print "end build tax aux principal"
 	pub=''
 	#*******************************************************************************************
-	print "ini get cit"
 #	self.cit =self.renderer.render(self.context['citas'], output_encoding=self.output_encoding, msdos_eol_style=self.eol_style)
 	self.cit= self.context['file1'].getFile().getBlob()
-	print "end get cit"
-	print "start build tax cit"
         self.interface_citation = interface.interface(self.researchers_file , self.cit)
-	print "end build tax cit"
-	print "start build tax aux cit"
         self.interface_citation_aux = interface.interface(self.researchers_file , self.cit)
-	print "start end tax aux cit"
 	#*******************************************************************************************
-	print "ini get ref"
 #	self.ref = self.renderer.render(self.context['referencias'], output_encoding=self.output_encoding, msdos_eol_style=self.eol_style)
 	self.ref= self.context['file3'].getFile().getBlob()
-	print "fin get ref"
-	print "start build tax ref"
         self.interface_reference = interface.interface(self.researchers_file, self.ref)
-	print "end build tax ref"
-	print "start build tax aux ref"
         self.interface_reference_aux = interface.interface(self.researchers_file, self.ref)
-	print "end build tax aux ref"
 	#*******************************************************************************************
 
 	self.interface_principal.ini_listas()
@@ -159,21 +141,17 @@ class FacetedView(BrowserView):
         self.list_input_reference  = Set([])
     	list_fac = self.request.form.get('faceta','')
     	list_pub = self.request.form.get('publication','')
-#	print list_fac
-#	print list_pub	
     	self.listas_a(list_fac)
 	self.publication_select(list_pub)
-	print 'Objs Publication: ', self.list_princ, self.list_cit, self.list_ref
-	print '\nFacetas select: ', self.list_input, self.list_input_citation, self.list_input_reference
     	if  self.submitted_faceta or  self.submitted_publication:
 	    self.select_publications()
     
             if self.list_input.__len__()>0 and self.list_input_citation.__len__()<=0 and self.list_input_reference.__len__()<=0:
-		    print "princ 100"
+#		    print "princ 100"
 		    self.calcula_princ(self.list_input)
 
 	    if  self.list_input.__len__()<=0 and self.list_input_citation.__len__()>0 and self.list_input_reference.__len__()>0:
-		    print "cit ref 011"
+#		    print "cit ref 011"
 		    self.calcula_citation(self.list_input_citation)
 
 		    list_ref_princ= self.interface_citation.list_reference
@@ -189,7 +167,7 @@ class FacetedView(BrowserView):
 		    self.calcula_citation(self.list_input_citation)
 	
 	    if  self.list_input.__len__()<=0 and self.list_input_citation.__len__()>0 and self.list_input_reference.__len__()<=0:
-		    print "cit 010"
+#		    print "cit 010"
                     self.calcula_citation(self.list_input_citation)
 
 	       	    list_ref_princ= self.interface_citation.list_reference
@@ -202,7 +180,7 @@ class FacetedView(BrowserView):
                	    self.interface_reference.ini_listas()
 
             if  self.list_input.__len__()<=0 and self.list_input_citation.__len__()<=0 and self.list_input_reference.__len__()>0:
-                    print "ref 001"
+#                    print "ref 001"
                     self.calcula_reference(self.list_input_reference)
 	       	    list_cit_princ= self.interface_reference.list_citation
 
@@ -216,7 +194,7 @@ class FacetedView(BrowserView):
 
 	    if  self.list_input.__len__()>0 and self.list_input_citation.__len__()>0 and self.list_input_reference.__len__()<=0:
   	 
-		    print "princ cit 110" 
+#		    print "princ cit 110" 
         	    self.interface_principal.get_list_objects(self.list_input)
 
                     self.calcula_citation(self.list_input_citation)
@@ -238,7 +216,7 @@ class FacetedView(BrowserView):
                	    self.interface_reference.ini_listas()
 
 	    if  self.list_input.__len__()>0 and self.list_input_citation.__len__()<=0 and self.list_input_reference.__len__()>0:
-		    print "princ ref 101" 
+#		    print "princ ref 101" 
  
                     self.interface_principal.get_list_objects(self.list_input)
 
@@ -261,7 +239,7 @@ class FacetedView(BrowserView):
                     self.interface_citation.ini_listas()
 
 	    if  self.list_input.__len__()>0 and self.list_input_citation.__len__()>0 and self.list_input_reference.__len__()>0:
-		    print "all 111" 
+#		    print "all 111" 
                     self.interface_principal.get_list_objects(self.list_input)
                     self.calcula_citation(self.list_input_citation)
 
@@ -279,9 +257,7 @@ class FacetedView(BrowserView):
                     self.calcula_princ(self.list_input)
                     self.calcula_reference(self.list_input_reference)
                     self.calcula_citation(self.list_input_citation)
-	print "ini update template"
 	self.request.form.update()
-	print "end up/start return template"
  	return self.template()
 
     def select_publications(self):
@@ -298,7 +274,7 @@ class FacetedView(BrowserView):
 				self.interface_citation.related_concepts()
 
 				if self.list_ref.__len__()>0:
-					print "111"
+#					print "111"
 					self.list_ref=Set(self.interface_reference.list_objs).intersection(Set(self.list_ref))
 					self.interface_reference.list_objs=sorted(self.list_ref)
 					self.interface_reference.related_concepts()
@@ -324,7 +300,7 @@ class FacetedView(BrowserView):
 	    				self.interface_reference.tree.poda_arbol(self.list_ref)
 	    				self.interface_reference.ini_listas()
 				else:
-					print "110"
+#					print "110"
 					self.list_princ=Set(self.interface_citation.list_reference).intersection(Set(self.list_princ))
 					self.interface_principal.list_objs=sorted(self.list_princ)
 					self.interface_principal.related_concepts()
@@ -346,7 +322,7 @@ class FacetedView(BrowserView):
 	    				self.interface_reference.ini_listas()
 			else:
 				if self.list_ref.__len__()>0:
-					print "101"
+#					print "101"
 					self.list_ref=Set(self.interface_reference.list_objs).intersection(Set(self.list_ref))
 					self.interface_reference.list_objs=sorted(self.list_ref)
 					self.interface_reference.related_concepts()
@@ -371,7 +347,7 @@ class FacetedView(BrowserView):
 	    				self.interface_reference.tree.poda_arbol(self.list_ref)
 	    				self.interface_reference.ini_listas()
 				else:
-					print "100"
+#					print "100"
 
 					self.interface_principal.list_objs=sorted(self.list_princ)
 					self.interface_principal.related_concepts()
@@ -400,7 +376,7 @@ class FacetedView(BrowserView):
 				self.interface_citation.related_concepts()
 
 				if self.list_ref.__len__()>0:
-					print "011"
+#					print "011"
 					self.list_ref=Set(self.interface_reference.list_objs).intersection(Set(self.list_ref))
 					self.interface_reference.list_objs=sorted(self.list_ref)
 					self.interface_reference.related_concepts()
@@ -426,7 +402,7 @@ class FacetedView(BrowserView):
 	    				self.interface_reference.tree.poda_arbol(self.list_ref)
 	    				self.interface_reference.ini_listas()
 				else:
-					print "010"
+#					print "010"
 					self.list_princ=Set(self.interface_citation.list_reference).intersection(Set(self.list_princ))
 					self.interface_principal.list_objs=sorted(self.list_princ)
 					self.interface_principal.related_concepts()
@@ -448,7 +424,7 @@ class FacetedView(BrowserView):
 	    				self.interface_reference.ini_listas()
 			else:
 				if self.list_ref.__len__()>0:
-					print "001"
+#					print "001"
 					self.list_ref=Set(self.interface_reference.list_objs).intersection(Set(self.list_ref))
 					self.interface_reference.list_objs=sorted(self.list_ref)
 					self.interface_reference.related_concepts()
@@ -573,14 +549,29 @@ class FacetedView(BrowserView):
 			idc=i.strip()
 			if idc.__len__()>0 and self.interface_citation_aux.tree.G.has_node(idc):
 				obj=  self.interface_citation_aux.tree.G.node[idc]['data']
-				str_b= idc +';;'+ obj.title
+#				str_b= idc +';;'+ obj.title
+                                obj.title=obj.title.replace('.','')
+                                if obj.journal.__len__()>0:
+                                        str_b= idc +';;'+ "; ".join(sorted(obj.author))+ '. '+ obj.title +". "+obj.journal+". "+ obj.year
+                                else:
+
+                                        str_b= idc +';;'+ "; ".join(sorted(obj.author))+ '. '+ obj.title +". "+obj.publisher+". "+ obj.year
+                                str_b= str_b.replace(',','')
+
 				list_2b.append(str_b)
 				
 		for i in list_c:
 			idc=i.strip()
 			if idc.__len__()>0 and self.interface_reference_aux.tree.G.has_node(idc):
 				obj= self.interface_reference_aux.tree.G.node[idc]['data']
-				str_c= idc +';;'+ obj.title
+#				str_c= idc +';;'+ obj.title
+                                obj.title=obj.title.replace('.','')
+                                if obj.journal.__len__()>0:
+                                        str_c= idc +';;'+ "; ".join(sorted(obj.author))+ '. '+ obj.title +". "+obj.journal+". "+ obj.year
+                                else:
+
+                                        str_c= idc +';;'+ "; ".join(sorted(obj.author))+ '. '+ obj.title +". "+obj.publisher+". "+ obj.year
+                                str_c= str_c.replace(',','')
 				list_2c.append(str_c)
 	
 #		print 'PRINC ', list_a[0], list_a[1], list_a[2], list_a[3], list_a[4], list_a[5]
@@ -705,7 +696,15 @@ class FacetedView(BrowserView):
                         idc=i.strip()
                         if idc.__len__()>0 and self.interface_principal_aux.tree.G.has_node(idc):
                                 obj= self.interface_principal_aux.tree.G.node[idc]['data']
-                                str_c= idc +';;'+ obj.title
+#                                str_c= idc +';;'+ obj.title
+                                obj.title=obj.title.replace('.','')
+                                if obj.journal.__len__()>0:
+                                        str_c= idc +';;'+ "; ".join(sorted(obj.author))+ '. '+ obj.title +". "+obj.journal+". "+ obj.year
+                                else:
+
+                                        str_c= idc +';;'+ "; ".join(sorted(obj.author))+ '. '+ obj.title +". "+obj.publisher+". "+ obj.year
+                                str_c= str_c.replace(',','')
+
 				
                                 list_2c.append(str_c)
 		#print list_2c
@@ -813,7 +812,15 @@ class FacetedView(BrowserView):
                         idc=i.strip()
                         if idc.__len__()>0 and self.interface_principal_aux.tree.G.has_node(idc):
                                 obj=  self.interface_principal_aux.tree.G.node[idc]['data']
-                                str_b= idc +';;'+ obj.title
+#                                str_b= idc +';;'+ obj.title
+                                obj.title=obj.title.replace('.','')
+                                if obj.journal.__len__()>0:
+                                        str_b= idc +';;'+ "; ".join(sorted(obj.author))+ '. '+ obj.title +". "+obj.journal+". "+ obj.year
+                                else:
+
+                                        str_b= idc +';;'+ "; ".join(sorted(obj.author))+ '. '+ obj.title +". "+obj.publisher+". "+ obj.year
+                                str_b= str_b.replace(',','')
+
                                 list_2b.append(str_b)
                 list_a[6]=',,'.join(list_2b)
                 str_final='%%'.join(list_a)
@@ -827,4 +834,16 @@ class FacetedView(BrowserView):
     def show_num_ref(self):
 	list_pub= self.interface_reference.return_list_objs()
 	return [x for x in list_pub if x].__len__()
+    def getUserName(self):
+        owner = self.context.getOwner().getId()
+        membership = getToolByName(self.context, 'portal_membership')
+        member_info = membership.getMemberInfo(owner)
+        if member_info:
+                fullname = member_info.get('fullname', '')
+                return fullname
+        else:
+                fullname = None
+                return fullname
+                #fullname = member_data.getProperty("fullname")
+
 

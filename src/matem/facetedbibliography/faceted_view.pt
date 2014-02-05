@@ -4,9 +4,7 @@
       xmlns:tal="http://xml.zope.org/namespaces/tal"
       xmlns:i18n="http://xml.zope.org/namespaces/i18n"
       metal:use-macro="context/main_template/macros/master"
-      
       >
-
 <head>
 <metal:css fill-slot="style_slot"                
  tal:define="resources_url string:${context/portal_url}/++resource++">
@@ -18,6 +16,8 @@
             rel="stylesheet" type="text/css"/>
     <link href="http://glyphicons.getbootstrap.com/css/bootstrap-glyphicons.css"
             rel="stylesheet" type="text/css"/>
+    <link rel="stylesheet" type="text/css" media="screen" href="++resource++jquery.datatables/media/css/jquery.dataTables.css">
+    <link rel="stylesheet" type="text/css" media="screen" href="++resource++jquery.datatables/extras/TableTools/media/css/TableTools.css">
 </metal:css>
 
 <metal:override fill-slot="top_slot"
@@ -28,23 +28,15 @@
     <script type="text/javascript" src="++resource++bootstrap.js"
               tal:attributes="src string:${resources_url}bootstrap.js"></script>
 
-    <script type="text/javascript" src="++resource++bootstrap-popover.js"
-              tal:attributes="src string:${resources_url}bootstrap-popover.js"></script>
 
-    <script type="text/javascript" src="++resource++bootstrap-tooltip.js"
-              tal:attributes="src string:${resources_url}bootstrap-tooltip.js"></script>
+   <script type="text/javascript" src="++resource++jquery.datatables.js"></script>
+   <script type="text/javascript" src="++resource++jquery.datatables/extras/TableTools/media/js/ZeroClipboard.js"></script>
+   <script type="text/javascript" src="++resource++jquery.datatables/extras/TableTools/media/js/TableTools.js"></script>
 
-    <script type="text/javascript" src="++resource++functions.js"
-              tal:attributes="src string:${resources_url}functions.js"></script>
-
-
-              
     <tal:insert tal:replace="nothing" tal:define="dummy python:request.set('disable_border', True)" />
-    
    
 <script type="text/javascript">
 (function($){
-   
    $(document).ready(function(){
 
         var i;
@@ -91,6 +83,8 @@
 		}
 	}			
 	var elemts=document.getElementsByClassName('item');
+	var titlenav=document.getElementById('titlenav');
+	var username=$('.usernameclass');
 	for (i=0; i<elemts.length;i++){
 		var flag=sessionStorage.getItem($(elemts[i]).attr('id'));
 		if (flag=='true'){
@@ -109,14 +103,21 @@
                         if( $(elemts[i]).attr('id')=='0' ){
 				var well0=document.getElementById('well0');
 				$(well0).css("background-color","#F5F5F5");
+				var str="".concat("<h4>Citations of ",$(username).html() ,"'s publications &#8594; <small> ",$(username).html(),"'s publications </small></h4>");
+				titlenav.innerHTML=str;
+			
                         }
                         if( $(elemts[i]).attr('id')=='1' ){
 				var well1=document.getElementById('well1');
 				$(well1).css("background-color","#F5F5F5");
+				var str="".concat("<h4><small>Citations of ",$(username).html(),"'s publications</small> &#8592; ",$(username).html(),"'s publications &#8594; <small>References of ",$(username).html(),"'s publications</small></h4>");
+				titlenav.innerHTML=str;
                         }
                         if( $(elemts[i]).attr('id')=='2' ){
 				var well2=document.getElementById('well2');
 				$(well2).css("background-color","#F5F5F5");
+				var str="".concat("<h4><small>",$(username).html(), "'s publications</small> &#8592; References of ",$(username).html(),"'s publications</h4>");
+				titlenav.innerHTML=str;
                         }
 
                 }
@@ -172,14 +173,20 @@
 	                        if( $(elemts[i]).attr('id')=='0' ){
 					var well0=document.getElementById('well0');
 					$(well0).css("background-color","#F5F5F5");
+					var str="".concat("<h4>Citations of ",$(username).html() ,"'s publications &#8594; <small> ",$(username).html(),"'s publications </small></h4>");
+					titlenav.innerHTML=str;
 	                        }
         	                if( $(elemts[i]).attr('id')=='1' ){
 					var well1=document.getElementById('well1');
 					$(well1).css("background-color","#F5F5F5");
+					var str="".concat("<h4><small>Citations of ",$(username).html(),"'s publications</small> &#8592; ",$(username).html(),"'s publications &#8594; <small>References of ",$(username).html(),"'s publications</small></h4>");
+					titlenav.innerHTML=str
 	                        }
         	                if( $(elemts[i]).attr('id')=='2' ){
 					var well2=document.getElementById('well2');
 					$(well2).css("background-color","#F5F5F5");
+					var str="".concat("<h4><small>",$(username).html(), "'s publications</small> &#8592; References of ",$(username).html(),"'s publications</h4>");
+					titlenav.innerHTML=str
        		                }
 			}
 		}
@@ -188,6 +195,12 @@
 	    $( this ).closest( 'tr' ).toggleClass( 'success' );
 	});
  
+	$( '#myTable-cit' ).on( 'click', 'input[type="checkbox"]', function() {
+	    $( this ).closest( 'tr' ).toggleClass( 'success' );
+	});
+	$( '#myTable-ref' ).on( 'click', 'input[type="checkbox"]', function() {
+	    $( this ).closest( 'tr' ).toggleClass( 'success' );
+	});
         $('input').change(function(){
                 var cad= $(this).val();
                 sessionStorage.setItem($(this).val(),$(this).is(':checked'));
@@ -221,13 +234,10 @@
 		$('form').submit();
 	});
 
-	$('#myTable-cit').pageMe({pagerSelector:'#myPager-cit',showPrevNext:true,hidePageNumbers:false,perPage:20});
-	$('#myTable').pageMe({pagerSelector:'#myPager',showPrevNext:true,hidePageNumbers:false,perPage:20});
-	$('#myTable-ref').pageMe({pagerSelector:'#myPager-ref',showPrevNext:true,hidePageNumbers:false,perPage:20});
-//	alert(location.search.substring(1));
- 
+	$('.dataTable').dataTable({"sPaginationType": "full_numbers"});
 
    });
+
 })(jQuery);
 </script>
 </metal:jsslot>
@@ -236,11 +246,12 @@
 <body>
 
 <metal:main fill-slot="main">
-
 <span tal:define="absolute_url_path view/get_url">
-<a class="text center" tal:attributes="href string:$absolute_url_path">Back to user directory
- </a>
+<a tal:attributes="href string:$absolute_url_path" >
+<span class="usernameclass" tal:content="view/getUserName">User's directory</span>
+</a>
 </span>
+
 <form style="margin-top: 0.5cm;">
 <div class="container">
 <div class="row" style="margin-bottom: 0.5cm;">
@@ -271,15 +282,23 @@ Indice <i>i10</i>:
 
 </div><!--col-md-12-->
 </div><!--container-->
-
 <!--  ###################################################### -->
-
-
-
 <div class="container"> 
 <div id="myCarousel" class="carousel slide" >
 
-<div style="width:100%; height:85px; ">
+<div style="width:100%; height:85px;">
+	<div class="text-center" id="titlenav" tal:define="username view/getUserName">
+	<h4 ><small>Citations of 
+         <span tal:replace="string:$username">this </span>
+	's publications</small> &#8592; 
+
+         <span tal:replace="string:$username">this </span>
+	's publications &#8594;
+
+	 <small> References of 
+         <span tal:replace="string:$username">this </span>
+	's publications</small></h4>
+	</div>
 </div>
  
 <div class="row">
@@ -420,22 +439,13 @@ Indice <i>i10</i>:
 <div class="row">
     <div class="carousel-inner" >
         <div class="item" id="0" style="word-wrap:break-word;">
-            <h3></h3>
 <!--  ######################################################################################### -->
-        
 <div class='container'>
-<!--div class="col-md-12  col-xs-12"--> 
-   <!--div class="row" style="height:50px;"--> 
-		<div class='col-md-3  col-xs-3'>	
+		<div class='col-md-12  col-xs-12'>	
 		<h5><span  class="text-info">Results: </span>
 		<span class="label label-primary" tal:content="view/show_num_cit"> this </span>
 		</h5>
 		</div>
-		<div class="col-md-9  col-xs-9 text-center" style="margin-bottom: 0.2cm;">
-		      <ul class="pagination pagination-sm pager" id="myPager-cit"></ul>
-		</div>
-   <!--/div-->
-<!--/div-->
 <div class='row'>
    <div class="col-md-3  col-xs-3"> 
    <!--****************************************************************************************--> 
@@ -679,11 +689,11 @@ Indice <i>i10</i>:
    </div>  <!--cierre "col-md-3" -->
    <div class="col-md-9  col-xs-9">
    <!--********************************************************-->                 
-	<button class="btn btn-primary" id="submit1">Submit publications </button>
+	<button class="btn btn-primary" id="submit1" >Submit publications </button>
         <div>
-        <div class="row">
+        <div class="row" style="margin-top:0.5cm">
                 <div class="table-responsive" tal:define="local publication_cit view/show_pub_cit">
-                 <table class="table" style="word-wrap:break-word;">
+                 <table class="table dataTable" style="word-wrap:break-word;">
                  <thead>
                         <tr >
                         <th ></th>
@@ -694,11 +704,10 @@ Indice <i>i10</i>:
                         <th >Year</th>
 			<th >Cited_by</th>
 			<th >References</th>
-			<th></th>
                         </tr>
                  </thead>
-                 <tbody id="myTable-cit" >
-                        <tr  tal:repeat="row publication_cit" style="background-color: #f5f5f5;">
+                 <tbody id="myTable-cit">
+                        <tr  tal:repeat="row publication_cit" style="background-color: #f5f5f5;" >
                            <span tal:define="first python:''.join(row.split('%%')[0])" >
                            <span tal:define="second python:''.join(row.split('%%')[1])" >
                            <span tal:define="citedby python:''.join(row.split('%%')[6])" >
@@ -710,7 +719,6 @@ Indice <i>i10</i>:
                             <span   tal:condition="python:first==column">
 					
         	                    <input type="checkbox" name="publication:list" tal:attributes="value python:first+'+x';"   class="pub">
-			            <span tal:replace="python:publication_cit.index(row)+1">this</span>
                             </span>
 
                             <span   tal:condition="python:column==second ">
@@ -729,23 +737,27 @@ Indice <i>i10</i>:
                                 </span>
                             </span>
 <!--***************************************************************************-->
-
-                            <span   tal:condition="python:references==column" >
+			    <div id="modalcit" style="">
+                            <span   tal:condition="python:references==column and [x for x in column.split(',,') if x.strip().__len__()>0].__len__()>0">
                                 <span tal:define="get_url_ref view/get_url_pub">
-                                <span tal:condition="python:''.join(column.split(',')).strip().__len__()>0">
-                            	<span tal:define="numero_ref python:filter(None,[x.strip() for x in column.split(',,')]).__len__()">
+                            	<span tal:define="numero_ref python:[x for x in column.split(',,') if x.strip().__len__()>0].__len__()">
+
                                 <div class="btn-group">
+
                                 <button type="button" class="btn btn-link" data-toggle="modal"  tal:attributes="data-target string:#r$first">
-	                          Ref:   <span tal:replace="python:numero_ref">this</span>
+	                        <span tal:replace="python:str(numero_ref).zfill(4)">this</span>
                                 </button>
 
 				<!-- Modal -->
 				<div class="modal fade" tal:attributes="id string:r$first"  tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style='width:50%;margin-left: 25%;overflow-y: auto;'>
 				<div class="modal-content">
+				<!--modal content-->
+	
 				<div class="modal-header">
 				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
 				<h4 class="modal-title" id="myModalLabel">References</h4>
 				</div>
+
 				<div class="modal-body">
                                 <ol >
                                         <div tal:repeat="parref python:column.split(',')"  tal:omit-tag="">
@@ -761,57 +773,57 @@ Indice <i>i10</i>:
                                         </div>
                                 </ol>
 				</div>
+
 				<div class="modal-footer">
 				<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
 				</div>
+
 				</div><!-- /.modal-content -->
 				</div><!-- /.modal -->
 
                                 </div>
                                 </span>
                                 </span>
-                                </span>
                             </span>
+			   </div>
                            </td>
                            </span></span>
                            </span></span>
                            </span>
                         </tr>
 		 </tbody>
+                 <tfoot>
+                        <tr >
+                        <th ></th>
+                        <th >Title</th>
+                        <th >Type</th>
+                        <th >Author</th>
+                        <th >Journal</th>
+                        <th >Year</th>
+			<th >Cited_by</th>
+			<th >References</th>
+                        </tr>
+                 </tfoot>
                 </table>
                 </div>
 
-	</div>
+	</div><!--row-->
 	</div>
 
    <!--********************************************************-->          
    </div> <!--col-md-9-->
    </div>          <!--row-->      
-   <!--/div--> <!--col-md-12-->
-
-</div>          <!--row-->      
-            
+</div>          <!--container-->      
 <!--  ######################################################################################### -->
         </div><!--item-->
         <div class="item active" id="1" style="word-wrap:break-word;">
-
-            <h3></h3>
 <!--  ########################################################################################## -->
-
-
 <div class="container">
-   <!--div class="col-md-12  col-xs-12"-->
-   <!--div class="row" style="height:50px;"-->
-		<div class='col-md-3  col-xs-3'>	
+		<div class='col-md-12 col-xs-12'>	
                 <h5><span  class="text-info">Results: </span>
                 <span class="label label-primary" tal:content="view/show_num_pub"> this </span>
                 </h5>
                 </div>
-                <div class="col-md-9  col-xs-9 text-center" style="margin-bottom: 0.2cm;">
-                      <ul class="pagination pagination-sm pager" id="myPager"></ul>
-                </div>
-   <!--/div-->
-   <!--/div-->
    <div class="row">
    <div class="col-md-3  col-xs-3"> 
    <!--**********************************************************************************************-->    
@@ -1062,9 +1074,9 @@ Indice <i>i10</i>:
    <div class="col-md-9  col-xs-9">
 	<button class="btn btn-primary" id="submit2">Submit publications </button>
 	<div >
-	<div class="row">
+	<div class="row" style="margin-top:0.5cm">
                 <div class="table-responsive" tal:define="local publication view/show_pub">
-                 <table class="table " style="word-wrap:break-word;" >
+                 <table class="dataTable table " style="word-wrap:break-word;" >
 		 <thead>
 			<tr >
 			<th></th>
@@ -1075,7 +1087,6 @@ Indice <i>i10</i>:
 			<th >Year</th>
 			<th >Cited_by</th>
 			<th >References</th>
-			<th></th>
 			</tr>
 		 </thead>
 		 <tbody id="myTable" >
@@ -1091,8 +1102,6 @@ Indice <i>i10</i>:
 
                             <span   tal:condition="python:first==column">
         	                    <input type="checkbox" name="publication:list" tal:attributes="value python:first+'+p';"   class="pub">
-			            <span tal:replace="python:publication.index(row)+1">this</span>
-	                            <!--span tal:replace="python:first">this </span-->
                             </span>
 
 
@@ -1107,13 +1116,12 @@ Indice <i>i10</i>:
                             </span>
 
 
-                            <span   tal:condition="python:citedby==column">
+                            <span   tal:condition="python:citedby==column and [x for x in column.split(',,') if x.strip().__len__()>0].__len__()>0">
                                 <span tal:define="get_url_cit view/get_url_cit">
-                                <span tal:condition="python:''.join(column.split(',')).strip().__len__()>0">
-                            	<span tal:define="numero_citas python:filter(None,[x.strip() for x in column.split(',,')]).__len__()">
+                            	<span tal:define="numero_citas python:[x for x in column.split(',,') if x.strip().__len__()>0].__len__()">
                                 <div class="btn-group">
                                 <button type="button" class="btn btn-link" data-toggle="modal"  tal:attributes="data-target string:#$first">
-	                          Cit: <span tal:replace="python:numero_citas">this</span>
+	                        <span tal:replace="python:str(numero_citas).zfill(4)">this</span>
                                 </button>
 				<!-- Modal -->
 				<div class="modal fade" style='width:50%;overflow-y:auto;margin-left: 25%;' tal:attributes="id string:$first" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" >
@@ -1146,17 +1154,15 @@ Indice <i>i10</i>:
                                 </div>
                                 </span>
                                 </span>
-                                </span>
                             </span>
 <!--***************************************************************************-->
 
-                            <span   tal:condition="python:references==column" >
+                            <span   tal:condition="python:references==column and [x for x in column.split(',,') if x.strip().__len__()>0].__len__()>0" >
                                 <span tal:define="get_url_ref view/get_url_ref">
-                                <span tal:condition="python:''.join(column.split(',')).strip().__len__()>0">
-                            	<span tal:define="numero_ref python:filter(None,[x.strip() for x in column.split(',,')]).__len__()">
+                            	<span tal:define="numero_ref python:[x for x in column.split(',,') if x.strip().__len__()>0].__len__()">
                                 <div class="btn-group">
                                 <button type="button" class="btn btn-link" data-toggle="modal"  tal:attributes="data-target string:#r$first">
-	                          Ref:   <span tal:replace="python:numero_ref">this</span>
+	                        <span tal:replace="python:str(numero_ref).zfill(4)">this</span>
                                 </button>
 
 				<!-- Modal -->
@@ -1190,7 +1196,6 @@ Indice <i>i10</i>:
                                 </div>
                                 </span>
                                 </span>
-                                </span>
                             </span>
                            </td>
                            </span></span>
@@ -1198,6 +1203,18 @@ Indice <i>i10</i>:
                            </span>
                         </tr>
 			</tbody>
+	                 <tfoot>
+                        <tr >
+                        <th ></th>
+                        <th >Title</th>
+                        <th >Type</th>
+                        <th >Author</th>
+                        <th >Journal</th>
+                        <th >Year</th>
+			<th >Cited_by</th>
+			<th >References</th>
+                        </tr>
+			</tfoot>
                 </table>
 		</div>
 	</div> 
@@ -1205,28 +1222,17 @@ Indice <i>i10</i>:
 
    </div><!--cierre col-md-9--> 
    </div><!--row-->
-   <!--/div--><!--col-md-12--> 
-</div><!--row-->
-
+</div><!--container-->
 <!--  ########################################################################################## -->
         </div><!--item-->
         <div class="item" id="2" style="word-wrap:break-word;">
-            <h3></h3>
-<!--  ######################################################################################### -->
 <!--  ######################################################################################### -->
 <div class='container'>
-<!--div class="col-md-12  col-xs-12"-->
-   <!--div class="row" style="height:50px;"-->
-		<div class='col-md-3  col-xs-3'>	
+		<div class='col-md-12  col-xs-12'>	
                 <h5><span  class="text-info">Results: </span>
                 <span class="label label-primary" tal:content="view/show_num_ref"> this </span>
                 </h5>
 		</div>
-                <div class="col-md-9  col-xs-9 text-center" style="margin-bottom: 0.2cm;">
-                      <ul class="pagination pagination-sm pager" id="myPager-ref"></ul>
-                </div>
-   <!--/div-->
-<!--/div-->
    <div class='row'>
    <div class="col-md-3  col-xs-3"> 
    <!--***************************************************************************************-->          
@@ -1475,9 +1481,9 @@ Indice <i>i10</i>:
 	<button class="btn btn-primary" id="submit3">Submit publications </button>
    <!--********************************************************-->          
         <div >
-        <div class="row">
+        <div class="row" style="margin-top:0.5cm">
                 <div class="table-responsive" tal:define="local publication_ref view/show_pub_ref">
-                 <table class="table" style="word-wrap:break-word; " >
+                 <table class="dataTable table" style="word-wrap:break-word; " >
                  <thead>
                         <tr >
                         <th></th>
@@ -1488,7 +1494,6 @@ Indice <i>i10</i>:
                         <th >Year</th>
 			<th >Cited_by</th>
 			<th>References</th>
-			<th></th>
                         </tr>
                  </thead>
                  <tbody id="myTable-ref" >
@@ -1504,8 +1509,6 @@ Indice <i>i10</i>:
 
                             <span   tal:condition="python:first==column">
         	                    <input type="checkbox" name="publication:list" tal:attributes="value python:first+'+y';"   class="pub">
-			            <span tal:replace="python:publication_ref.index(row)+1">this</span>
-	                            <!--span tal:replace="python:first">this </span-->
                             </span>
 
 
@@ -1520,13 +1523,12 @@ Indice <i>i10</i>:
                             </span>
 
 
-                            <span   tal:condition="python:citedby==column">
+                            <span   tal:condition="python:citedby==column and [x for x in column.split(',,') if x.strip().__len__()>0].__len__()>0">
                                 <span tal:define="get_url_cit view/get_url_pub">
-                                <span tal:condition="python:''.join(column.split(',')).strip().__len__()>0">
-                            	<span tal:define="numero_citas python:filter(None,[x.strip() for x in column.split(',,')]).__len__()">
+                            	<span tal:define="numero_citas python:[x for x in column.split(',,') if x.strip().__len__()>0].__len__()">
                                 <div class="btn-group">
                                 <button type="button" class="btn btn-link" data-toggle="modal"  tal:attributes="data-target string:#$first">
-	                          Cit: <span tal:replace="python:numero_citas">this</span>
+	                        <span tal:replace="python:str(numero_citas).zfill(4)">this</span>
                                 </button>
 				<!-- Modal -->
 				<div class="modal fade" style='width:50%;overflow-y:auto;margin-left: 25%;' tal:attributes="id string:$first" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" >
@@ -1559,7 +1561,6 @@ Indice <i>i10</i>:
                                 </div>
                                 </span>
                                 </span>
-                                </span>
                             </span>
 <!--***************************************************************************-->
 
@@ -1573,6 +1574,18 @@ Indice <i>i10</i>:
                            </span>
                         </tr>
 		</tbody>
+                 <tfoot>
+                        <tr >
+                        <th></th>
+                        <th >Title</th>
+                        <th >Type</th>
+                        <th >Author</th>
+                        <th >Journal</th>
+                        <th >Year</th>
+			<th >Cited_by</th>
+			<th>References</th>
+                        </tr>
+                 </tfoot>
                 </table>
                 </div>
 	</div>
@@ -1582,24 +1595,23 @@ Indice <i>i10</i>:
    <!--********************************************************-->          
    </div><!--col-md-9-->
    </div>    <!--row-->  
-<!--/div--><!--col-md-12-->
-</div>    <!--row-->  
-
-<!--  ######################################################################################### -->
+</div>    <!--container-->  
+</div>    <!--item-->  
 <!--  ######################################################################################### -->
         </div> <!--cierre inner-->
-     </div> <!--row-->
-    </div> <!--cierre myCarousel -->
+    </div> <!--row -->
+
 <a class="carousel-control left" href="#myCarousel" data-slide="prev">
-<span class="glyphicon glyphicon-chevron-left"></span>
+<span class="glyphicon glyphicon-chevron-left"><h5>Cited by</h5></span>
 </a>
 <a class="carousel-control right" href="#myCarousel" data-slide="next">
-<span class="glyphicon glyphicon-chevron-right"></span>
+<span class="glyphicon glyphicon-chevron-right"><h5>References</h5></span>
 </a>
-</div>  <!--col-md-12 -->
 
+</div>  <!--my -->
 </div>
 
+</form>
 </metal:main>
 	
 </body>
