@@ -6,27 +6,27 @@
       metal:use-macro="context/main_template/macros/master"
       >
 <head>
-<metal:css fill-slot="style_slot"                
+<metal:css fill-slot="style_slot"		 
  tal:define="resources_url string:${context/portal_url}/++resource++">
     <link href="++resource++bootstrap.css"
-            tal:attributes="href string:${resources_url}bootstrap.css"
-            rel="stylesheet" type="text/css"/>
+	    tal:attributes="href string:${resources_url}bootstrap.css"
+	    rel="stylesheet" type="text/css"/>
     <link href="++resource++cssfaceted.css"
-            tal:attributes="href string:${resources_url}cssfaceted.css"
-            rel="stylesheet" type="text/css"/>
+	    tal:attributes="href string:${resources_url}cssfaceted.css"
+	    rel="stylesheet" type="text/css"/>
     <link href="http://glyphicons.getbootstrap.com/css/bootstrap-glyphicons.css"
-            rel="stylesheet" type="text/css"/>
+	    rel="stylesheet" type="text/css"/>
     <link rel="stylesheet" type="text/css" media="screen" href="++resource++jquery.datatables/media/css/jquery.dataTables.css">
     <link rel="stylesheet" type="text/css" media="screen" href="++resource++jquery.datatables/extras/TableTools/media/css/TableTools.css">
 </metal:css>
 
 <metal:override fill-slot="top_slot"
     tal:define="disable_column_one python:request.set('disable_plone.leftcolumn',1);
-                disable_column_two python:request.set('disable_plone.rightcolumn',1);"/>
-                
+		disable_column_two python:request.set('disable_plone.rightcolumn',1);"/>
+		
 <metal:jsslot fill-slot="javascript_head_slot" tal:define="resources_url string:${context/portal_url}/++resource++">
     <script type="text/javascript" src="++resource++bootstrap.js"
-              tal:attributes="src string:${resources_url}bootstrap.js"></script>
+	      tal:attributes="src string:${resources_url}bootstrap.js"></script>
 
 
    <script type="text/javascript" src="++resource++jquery.datatables.js"></script>
@@ -39,20 +39,20 @@
 (function($){
    $(document).ready(function(){
 
-        var i;
-        var checkboxes = document.querySelectorAll('input[type=checkbox]');
-        var checkboxes_c = document.getElementsByClassName('cit');
-        var checkboxes_r = document.getElementsByClassName('ref');
-        var checkboxes_p = document.getElementsByClassName('pub');
+	var i;
+	var checkboxes = document.querySelectorAll('input[type=checkbox]');
+	var checkboxes_c = document.getElementsByClassName('cit');
+	var checkboxes_r = document.getElementsByClassName('ref');
+	var checkboxes_p = document.getElementsByClassName('pub');
 
-        
-        for (i=0; i<checkboxes.length;i++){
+	
+	for (i=0; i<checkboxes.length;i++){
 		var cad= $(checkboxes[i]).val();
-                checkboxes[i].checked = sessionStorage.getItem(checkboxes[i].value) == 'true'?true:false;
+		checkboxes[i].checked = sessionStorage.getItem(checkboxes[i].value) == 'true'?true:false;
 		if (checkboxes[i].checked == true && (cad.indexOf("+p")!=-1 || cad.indexOf("+x")!=-1 || cad.indexOf("+y")!=-1 )){
-    			$(checkboxes[i]).closest( 'tr' ).toggleClass( 'success' );
+			$(checkboxes[i]).closest( 'tr' ).toggleClass( 'success' );
 		}
-        }
+	}
       
 	$('.collapse').on('hidden.bs.collapse', function() {
 		var id=$(this).attr('id');
@@ -94,51 +94,51 @@
 			$this.children('.carousel-control').show();
 			if($('.carousel-inner .item:first').hasClass('active')) {
 				$this.children('.left.carousel-control').hide();
-                    
-			} else if($('.carousel-inner .item:last').hasClass('active'))                 
+		    
+			} else if($('.carousel-inner .item:last').hasClass('active'))		      
 			{
 				$this.children('.right.carousel-control').hide();
 			}
 
-                        if( $(elemts[i]).attr('id')=='0' ){
+			if( $(elemts[i]).attr('id')=='0' ){
 				var well0=document.getElementById('well0');
 				$(well0).css("background-color","#F5F5F5");
 				var str="".concat("<h4>Citations of ",$(username).html() ,"'s publications &#8594; <small> ",$(username).html(),"'s publications </small></h4>");
 				titlenav.innerHTML=str;
 			
-                        }
-                        if( $(elemts[i]).attr('id')=='1' ){
+			}
+			if( $(elemts[i]).attr('id')=='1' ){
 				var well1=document.getElementById('well1');
 				$(well1).css("background-color","#F5F5F5");
 				var str="".concat("<h4><small>Citations of ",$(username).html(),"'s publications</small> &#8592; ",$(username).html(),"'s publications &#8594; <small>References of ",$(username).html(),"'s publications</small></h4>");
 				titlenav.innerHTML=str;
-                        }
-                        if( $(elemts[i]).attr('id')=='2' ){
+			}
+			if( $(elemts[i]).attr('id')=='2' ){
 				var well2=document.getElementById('well2');
 				$(well2).css("background-color","#F5F5F5");
 				var str="".concat("<h4><small>",$(username).html(), "'s publications</small> &#8592; References of ",$(username).html(),"'s publications</h4>");
 				titlenav.innerHTML=str;
-                        }
+			}
 
-                }
-		if (flag=='false'){     
+		}
+		if (flag=='false'){	
 			$(elemts[i]).removeClass('active');
-                        if( $(elemts[i]).attr('id')=='0' ){
+			if( $(elemts[i]).attr('id')=='0' ){
 				var well0=document.getElementById('well0');
 				$(well0).css("background-color","white");
-                        }
-                        if( $(elemts[i]).attr('id')=='1' ){
+			}
+			if( $(elemts[i]).attr('id')=='1' ){
 				var well1=document.getElementById('well1');
 				$(well1).css("background-color","white");
-                        }
-                        if( $(elemts[i]).attr('id')=='2' ){
+			}
+			if( $(elemts[i]).attr('id')=='2' ){
 				var well2=document.getElementById('well2');
 				$(well2).css("background-color","white");
-                        }
+			}
 		}
 	}
 	$('#myCarousel').carousel({
-    		interval: false
+		interval: false
 	});
 	$('#myCarousel').on('slid', '', function() {
 		var $this = $(this);
@@ -155,39 +155,39 @@
 			if($(elemts[i]).attr('id') != currentIndex){
 				sessionStorage.setItem($(elemts[i]).attr('id'),'false');
 
-                        	if( $(elemts[i]).attr('id')=='0' ){
+				if( $(elemts[i]).attr('id')=='0' ){
 					var well0=document.getElementById('well0');
 					$(well0).css("background-color","white");
-	                        }
-        	                if( $(elemts[i]).attr('id')=='1' ){
+				}
+				if( $(elemts[i]).attr('id')=='1' ){
 					var well1=document.getElementById('well1');
 					$(well1).css("background-color","white");
-                       		}
-	                        if( $(elemts[i]).attr('id')=='2' ){
+				}
+				if( $(elemts[i]).attr('id')=='2' ){
 					var well2=document.getElementById('well2');
 					$(well2).css("background-color","white");
-	                        }
+				}
 			}
-			else{                                               
+			else{						    
 				sessionStorage.setItem($(elemts[i]).attr('id'),'true');
-	                        if( $(elemts[i]).attr('id')=='0' ){
+				if( $(elemts[i]).attr('id')=='0' ){
 					var well0=document.getElementById('well0');
 					$(well0).css("background-color","#F5F5F5");
 					var str="".concat("<h4>Citations of ",$(username).html() ,"'s publications &#8594; <small> ",$(username).html(),"'s publications </small></h4>");
 					titlenav.innerHTML=str;
-	                        }
-        	                if( $(elemts[i]).attr('id')=='1' ){
+				}
+				if( $(elemts[i]).attr('id')=='1' ){
 					var well1=document.getElementById('well1');
 					$(well1).css("background-color","#F5F5F5");
 					var str="".concat("<h4><small>Citations of ",$(username).html(),"'s publications</small> &#8592; ",$(username).html(),"'s publications &#8594; <small>References of ",$(username).html(),"'s publications</small></h4>");
 					titlenav.innerHTML=str
-	                        }
-        	                if( $(elemts[i]).attr('id')=='2' ){
+				}
+				if( $(elemts[i]).attr('id')=='2' ){
 					var well2=document.getElementById('well2');
 					$(well2).css("background-color","#F5F5F5");
 					var str="".concat("<h4><small>",$(username).html(), "'s publications</small> &#8592; References of ",$(username).html(),"'s publications</h4>");
 					titlenav.innerHTML=str
-       		                }
+				}
 			}
 		}
 	}); 
@@ -201,29 +201,29 @@
 	$( '#myTable-ref' ).on( 'click', 'input[type="checkbox"]', function() {
 	    $( this ).closest( 'tr' ).toggleClass( 'success' );
 	});
-        $('input').change(function(){
-                var cad= $(this).val();
-                sessionStorage.setItem($(this).val(),$(this).is(':checked'));
-                //indexOf returns the position of the str in the other str. If not found,return -1:
-                if (cad.indexOf("+c")==-1 && cad.indexOf("+r")==-1 && cad.indexOf("+p")==-1){
-                }
+	$('input').change(function(){
+		var cad= $(this).val();
+		sessionStorage.setItem($(this).val(),$(this).is(':checked'));
+		//indexOf returns the position of the str in the other str. If not found,return -1:
+		if (cad.indexOf("+c")==-1 && cad.indexOf("+r")==-1 && cad.indexOf("+p")==-1){
+		}
 		if (cad.indexOf("+p")!=-1){
 		}
 		if (cad.indexOf("+c")!=-1){
 		}
 		if (cad.indexOf("+r")!=-1){
 		}
-                for (i=0; i<checkboxes.length;i++){
-                	sessionStorage.setItem($(checkboxes[i]).val(),$(checkboxes[i]).is(':checked'))
-                } 
-        });
-        $('#clear').click(function(){
-                sessionStorage.clear();
-                for (i=0; i<checkboxes.length;i++){
-                checkboxes[i].checked = false;
-                }
-                $('form').submit();
-        });
+		for (i=0; i<checkboxes.length;i++){
+			sessionStorage.setItem($(checkboxes[i]).val(),$(checkboxes[i]).is(':checked'))
+		} 
+	});
+	$('#clear').click(function(){
+		sessionStorage.clear();
+		for (i=0; i<checkboxes.length;i++){
+		checkboxes[i].checked = false;
+		}
+		$('form').submit();
+	});
 	$('#submit1').click(function(){
 		$('form').submit();
 	});
@@ -289,14 +289,14 @@ Indice <i>i10</i>:
 <div style="width:100%; height:85px;">
 	<div class="text-center" id="titlenav" tal:define="username view/getUserName">
 	<h4 ><small>Citations of 
-         <span tal:replace="string:$username">this </span>
+	 <span tal:replace="string:$username">this </span>
 	's publications</small> &#8592; 
 
-         <span tal:replace="string:$username">this </span>
+	 <span tal:replace="string:$username">this </span>
 	's publications &#8594;
 
 	 <small> References of 
-         <span tal:replace="string:$username">this </span>
+	 <span tal:replace="string:$username">this </span>
 	's publications</small></h4>
 	</div>
 </div>
@@ -309,36 +309,36 @@ Indice <i>i10</i>:
    <span tal:condition="python:list_input_cit.__len__()>0 or list_ids_cit.__len__()>0">
    <div id='selectcit' class='collapse in'>
    <div style="background-color:white; padding-right:0.1cm;padding-left:0.1cm;padding-top:0.2cm;" id='well0' >
-                <span   tal:condition="python:list_input_cit.__len__()>0">
+		<span	tal:condition="python:list_input_cit.__len__()>0">
 		<h5>Selected entries:</h5>
-                <table style="word-wrap:break-word; "  >
-                        <tr tal:repeat="x python:list_input_cit" tal:omit-tag="">
-                        <td  style="display:inline">
+		<table style="word-wrap:break-word; "  >
+			<tr tal:repeat="x python:list_input_cit" tal:omit-tag="">
+			<td  style="display:inline">
 			<div class="well well-sm" style="display: inline-block;">
-                        <span tal:replace="string:$x">this </span>
+			<span tal:replace="string:$x">this </span>
 			</div>
-                        </td>
-                        </tr>
-                </table>
+			</td>
+			</tr>
+		</table>
 		</span>
 
-                <span   tal:condition="python:list_ids_cit.__len__()>0">
+		<span	tal:condition="python:list_ids_cit.__len__()>0">
 		<h5>Selected publications:</h5>
-                <table style="word-wrap:break-word;">
-                        <tr tal:repeat="x python:list_ids_cit" tal:omit-tag="">
-                        <td  style="display:inline">
+		<table style="word-wrap:break-word;">
+			<tr tal:repeat="x python:list_ids_cit" tal:omit-tag="">
+			<td  style="display:inline">
 			<div class="well well-sm" style="display: inline-block;">
-                        <span tal:replace="string:$x">this </span>
+			<span tal:replace="string:$x">this </span>
 			</div>
-                        </td>
-                        </tr>
-                </table>
+			</td>
+			</tr>
+		</table>
 		</span>
 </div>
 </div>
 <a id="selectedcitp" class="accordion-toggle" data-toggle="collapse"  href="#selectcit">
 <span class="selectcitspan">
-	      	Less
+		Less
 </span>
 </a>
 </span>
@@ -349,40 +349,40 @@ Indice <i>i10</i>:
    <div class="col-md-4 col-xs-4" >
 	<div tal:define="local list_input view/show_list_input" >
 	<div tal:define="list_ids view/show_list_princ" >
-        <span tal:condition="python:list_input.__len__()>0 or list_ids.__len__()>0">
-   	<div id='selectpub' class='collapse in'>
+	<span tal:condition="python:list_input.__len__()>0 or list_ids.__len__()>0">
+	<div id='selectpub' class='collapse in'>
 	<div  style="background-color:white; padding-right:0.1cm;padding-left:0.1cm;padding-top:0.2cm;" id='well1'>
 
-                <span   tal:condition="python:list_input.__len__()>0">
+		<span	tal:condition="python:list_input.__len__()>0">
 		<h5>Selected entries:</h5>
-                <table style="word-wrap:break-word; " >
-                        <tr tal:repeat="x python:list_input" tal:omit-tag="">
-                        <td  style="display:inline">
-                        <div class="well well-sm" style="display: inline-block;">
-                        <span tal:replace="string:$x">this </span>
+		<table style="word-wrap:break-word; " >
+			<tr tal:repeat="x python:list_input" tal:omit-tag="">
+			<td  style="display:inline">
+			<div class="well well-sm" style="display: inline-block;">
+			<span tal:replace="string:$x">this </span>
 			</div>
-                        </td>
-                        </tr>
-                </table>
+			</td>
+			</tr>
+		</table>
 		</span>
 
-                <span   tal:condition="python:list_ids.__len__()>0">
+		<span	tal:condition="python:list_ids.__len__()>0">
 		<h5>Selected publications:</h5>
-                <table style="word-wrap:break-word;">
-                        <tr tal:repeat="x python:list_ids" tal:omit-tag="">
-                        <td  style="display:inline">
+		<table style="word-wrap:break-word;">
+			<tr tal:repeat="x python:list_ids" tal:omit-tag="">
+			<td  style="display:inline">
 			<div class="well well-sm" style="display: inline-block;">
-                        <span tal:replace="string:$x">this </span>
+			<span tal:replace="string:$x">this </span>
 			</div>
-                        </td>
-                        </tr>
-                </table>
+			</td>
+			</tr>
+		</table>
 		</span>
 </div>
 </div>
 <a id="selectedpubp" class="accordion-toggle" data-toggle="collapse"  href="#selectpub">
 <span class="selectpubspan">
-	      	Less
+		Less
 </span>
 </a>
 </span>
@@ -393,39 +393,39 @@ Indice <i>i10</i>:
    <div class="col-md-4 col-xs-4">
 	<div  tal:define="local list_input_ref view/show_list_input_reference" >
 	<div tal:define="list_ids_ref view/show_list_ref" >
-        <span tal:condition="python:list_ids_ref.__len__()>0 or list_input_ref.__len__()>0 ">
-   	<div id='selectref' class='collapse in'>
+	<span tal:condition="python:list_ids_ref.__len__()>0 or list_input_ref.__len__()>0 ">
+	<div id='selectref' class='collapse in'>
 	<div  style="background-color:white; padding-right:0.1cm;padding-left:0.1cm;padding-top:0.2cm;" id='well2'>
-                <span   tal:condition="python:list_input_ref.__len__()>0">
+		<span	tal:condition="python:list_input_ref.__len__()>0">
 		<h5>Selected entries:</h5>
-                <table style="word-wrap:break-word; " >
-                        <tr tal:repeat="x python:list_input_ref" tal:omit-tag="">
-                        <td  style="display:inline">
+		<table style="word-wrap:break-word; " >
+			<tr tal:repeat="x python:list_input_ref" tal:omit-tag="">
+			<td  style="display:inline">
 			<div class="well well-sm" style="display: inline-block;">
-                        <span tal:replace="string:$x">this </span>
+			<span tal:replace="string:$x">this </span>
 			</div>
-                        </td>
-                        </tr>
-                </table>
+			</td>
+			</tr>
+		</table>
 		</span>
 
-                <span   tal:condition="python:list_ids_ref.__len__()>0">
+		<span	tal:condition="python:list_ids_ref.__len__()>0">
 		<h5>Selected publications:</h5>
-                <table style="word-wrap:break-word;">
-                        <tr tal:repeat="x python:list_ids_ref" tal:omit-tag="">
-                        <td  style="display:inline">
+		<table style="word-wrap:break-word;">
+			<tr tal:repeat="x python:list_ids_ref" tal:omit-tag="">
+			<td  style="display:inline">
 			<div class="well well-sm" style="display: inline-block;">
-                        <span tal:replace="string:$x">this </span>
+			<span tal:replace="string:$x">this </span>
 			</div>
-                        </td>
-                        </tr>
-                </table>
+			</td>
+			</tr>
+		</table>
 		</span>
 </div>
 </div>
 <a id="selectedrefp" class="accordion-toggle" data-toggle="collapse"  href="#selectref">
 <span class="selectrefspan">
-	      	Less
+		Less
 </span>
 </a>
 </span>
@@ -438,7 +438,7 @@ Indice <i>i10</i>:
 
 <div class="row">
     <div class="carousel-inner" >
-        <div class="item" id="0" style="word-wrap:break-word;">
+	<div class="item" id="0" style="word-wrap:break-word;">
 <!--  ######################################################################################### -->
 <div class='container'>
 		<div class='col-md-12  col-xs-12'>	
@@ -451,302 +451,302 @@ Indice <i>i10</i>:
    <!--****************************************************************************************--> 
 	<div class='contenedor' > 
 	<div class='text-center'><h5 class="text-success"><strong>years</strong></h5></div>
-        <div class="years" tal:define="local year_cit view/show_years_cit">
-                <ul>
-                <div  tal:repeat="x python:year_cit" tal:omit-tag="">
-                <h6>
-		<span   tal:condition="python:x[2]<5">
-                <li  class="list-unstyled">
-                <input type="checkbox" name="faceta:list" tal:attributes="value python:x[0]+'+c';"  onclick="this.form.submit();" class="cit">
-                <span   tal:condition="python:x[1]==True"><strong>
-                <span   tal:replace="python:x[0]">this </span></strong></span>
-                <span  class="text-muted" tal:condition="python:x[1]==False">
-                <span  tal:replace="python:x[0]">this </span></span>
-                </li>
+	<div class="years" tal:define="local year_cit view/show_years_cit">
+		<ul>
+		<div  tal:repeat="x python:year_cit" tal:omit-tag="">
+		<h6>
+		<span	tal:condition="python:x[2]<5">
+		<li  class="list-unstyled">
+		<input type="checkbox" name="faceta:list" tal:attributes="value python:x[0]+'+c';"  onclick="this.form.submit();" class="cit">
+		<span	tal:condition="python:x[1]==True"><strong>
+		<span	tal:replace="python:x[0]">this </span></strong></span>
+		<span  class="text-muted" tal:condition="python:x[1]==False">
+		<span  tal:replace="python:x[0]">this </span></span>
+		</li>
 		</span>
-                </h6>
-                </div>
-                </ul>
-        </div>
+		</h6>
+		</div>
+		</ul>
+	</div>
 	<div class="years" tal:define="local year_cit view/show_years_cit">
 	<div id="collapseYearC" class="panel-collapse collapse">
-                <ul>
-                <div  tal:repeat="x python:year_cit" tal:omit-tag="">
-                <h6>
-		<span   tal:condition="python:x[2]>=5">
-                <li  class="list-unstyled">
-                <input type="checkbox" name="faceta:list" tal:attributes="value python:x[0]+'+c';"  onclick="this.form.submit();" class="cit">
-                <span   tal:condition="python:x[1]==True"><strong>
-                <span   tal:replace="python:x[0]">this </span></strong></span>
-                <span  class="text-muted" tal:condition="python:x[1]==False">
-                <span  tal:replace="python:x[0]">this </span></span>
-                </li>
+		<ul>
+		<div  tal:repeat="x python:year_cit" tal:omit-tag="">
+		<h6>
+		<span	tal:condition="python:x[2]>=5">
+		<li  class="list-unstyled">
+		<input type="checkbox" name="faceta:list" tal:attributes="value python:x[0]+'+c';"  onclick="this.form.submit();" class="cit">
+		<span	tal:condition="python:x[1]==True"><strong>
+		<span	tal:replace="python:x[0]">this </span></strong></span>
+		<span  class="text-muted" tal:condition="python:x[1]==False">
+		<span  tal:replace="python:x[0]">this </span></span>
+		</li>
 		</span>
-                </h6>
-                </div>
-                </ul>
+		</h6>
+		</div>
+		</ul>
 	</div>
-	<span   tal:condition="python:year_cit.__len__()>5">
+	<span	tal:condition="python:year_cit.__len__()>5">
 	<a id='moreyearc' class="accordion-toggle" data-toggle="collapse"  href="#collapseYearC">
 	<span class="collapseYearCspan">
-      	More
+	More
 	</span>
-        </a>
+	</a>
 	</span>
 	</div>
 	</div>
-        <!--********************************************************-->          
+	<!--********************************************************-->		 
 	<div class='contenedor'>
 	<div class='text-center'><h5 class="text-success"><strong>IMATE authors</strong></h5></div>
-        <div class="authors" tal:define="local author_cit view/show_authors_cit">        
-                <ul>
-                <div tal:repeat="x python:author_cit" tal:omit-tag="">
-                <h6>
-		<span   tal:condition="python:x[2]<5">
-                <li  class="list-unstyled">
-                <input type="checkbox" name="faceta:list" tal:attributes="value python:x[0]+'+c';"  onclick="this.form.submit();" class="cit">
-                <span   tal:condition="python:x[1]==True"><strong>
-                <span   tal:replace="python:x[0]">this </span></strong></span>
-                <span  class="text-muted" tal:condition="python:x[1]==False">
-                <span  tal:replace="python:x[0]">this </span></span>
-                </li>
+	<div class="authors" tal:define="local author_cit view/show_authors_cit">	 
+		<ul>
+		<div tal:repeat="x python:author_cit" tal:omit-tag="">
+		<h6>
+		<span	tal:condition="python:x[2]<5">
+		<li  class="list-unstyled">
+		<input type="checkbox" name="faceta:list" tal:attributes="value python:x[0]+'+c';"  onclick="this.form.submit();" class="cit">
+		<span	tal:condition="python:x[1]==True"><strong>
+		<span	tal:replace="python:x[0]">this </span></strong></span>
+		<span  class="text-muted" tal:condition="python:x[1]==False">
+		<span  tal:replace="python:x[0]">this </span></span>
+		</li>
 		</span>
-                </h6>
-                </div>
-                </ul>
-        </div>
+		</h6>
+		</div>
+		</ul>
+	</div>
 	<div class="authors" tal:define="local author_cit view/show_authors_cit">
 	<div id="collapseAuthorC" class="panel-collapse collapse">
-                <ul>
-                <div tal:repeat="x python:author_cit" tal:omit-tag="">
-                <h6>
-		<span   tal:condition="python:x[2]>=5">
-                <li  class="list-unstyled">
-                <input type="checkbox" name="faceta:list" tal:attributes="value python:x[0]+'+c';"  onclick="this.form.submit();" class="cit">
-                <span   tal:condition="python:x[1]==True"><strong>
-                <span   tal:replace="python:x[0]">this </span></strong></span>
-                <span  class="text-muted" tal:condition="python:x[1]==False">
-                <span  tal:replace="python:x[0]">this </span></span>
-                </li>
+		<ul>
+		<div tal:repeat="x python:author_cit" tal:omit-tag="">
+		<h6>
+		<span	tal:condition="python:x[2]>=5">
+		<li  class="list-unstyled">
+		<input type="checkbox" name="faceta:list" tal:attributes="value python:x[0]+'+c';"  onclick="this.form.submit();" class="cit">
+		<span	tal:condition="python:x[1]==True"><strong>
+		<span	tal:replace="python:x[0]">this </span></strong></span>
+		<span  class="text-muted" tal:condition="python:x[1]==False">
+		<span  tal:replace="python:x[0]">this </span></span>
+		</li>
 		</span>
-                </h6>
-                </div>
-                </ul>
+		</h6>
+		</div>
+		</ul>
 	</div>
-	<span   tal:condition="python:author_cit.__len__()>5">
+	<span	tal:condition="python:author_cit.__len__()>5">
 	<a  id='moreauthorc' class="accordion-toggle" data-toggle="collapse"  href="#collapseAuthorC">
 	<span class="collapseAuthorCspan">
-      	More
+	More
 	</span>
-        </a>
+	</a>
 	</span>
 	</div>
 	</div>
-        <!--********************************************************-->          
-        
+	<!--********************************************************-->		 
+	
 	<div class='contenedor'>
 	<div class='text-center'><h5 class="text-success"><strong>collaborators</strong></h5></div>
-        <div class="collaborators" tal:define="local collaborator_cit view/show_collaborators_cit">
-                <ul>
-                <div  tal:repeat="x python:collaborator_cit" tal:omit-tag="">
-                <h6>
-		<span   tal:condition="python:x[2]<5">
-                <li  class="list-unstyled">
-                <input type="checkbox" name="faceta:list" tal:attributes="value python:x[0]+'+c';"  onclick="this.form.submit();" class="cit">
-                <span   tal:condition="python:x[1]==True"><strong>
-                <span   tal:replace="python:x[0]">this </span></strong></span>
-                <span  class="text-muted" tal:condition="python:x[1]==False">
-                <span  tal:replace="python:x[0]">this </span></span>
-                </li>
+	<div class="collaborators" tal:define="local collaborator_cit view/show_collaborators_cit">
+		<ul>
+		<div  tal:repeat="x python:collaborator_cit" tal:omit-tag="">
+		<h6>
+		<span	tal:condition="python:x[2]<5">
+		<li  class="list-unstyled">
+		<input type="checkbox" name="faceta:list" tal:attributes="value python:x[0]+'+c';"  onclick="this.form.submit();" class="cit">
+		<span	tal:condition="python:x[1]==True"><strong>
+		<span	tal:replace="python:x[0]">this </span></strong></span>
+		<span  class="text-muted" tal:condition="python:x[1]==False">
+		<span  tal:replace="python:x[0]">this </span></span>
+		</li>
 		</span>
-                </h6>
+		</h6>
 
-                </div>
-                </ul>
-        </div>
+		</div>
+		</ul>
+	</div>
 	<div class="collaborators" tal:define="local collaborator_cit view/show_collaborators_cit">
 	<div id="collapseCollC" class="panel-collapse collapse">
-                <ul>
-                <div  tal:repeat="x python:collaborator_cit" tal:omit-tag="">
-                <h6>
-		<span   tal:condition="python:x[2]>=5">
-                <li  class="list-unstyled">
-                <input type="checkbox" name="faceta:list" tal:attributes="value python:x[0]+'+c';"  onclick="this.form.submit();" class="cit">
-                <span   tal:condition="python:x[1]==True"><strong>
-                <span   tal:replace="python:x[0]">this </span></strong></span>
-                <span  class="text-muted" tal:condition="python:x[1]==False">
-                <span  tal:replace="python:x[0]">this </span></span>
-                </li>
+		<ul>
+		<div  tal:repeat="x python:collaborator_cit" tal:omit-tag="">
+		<h6>
+		<span	tal:condition="python:x[2]>=5">
+		<li  class="list-unstyled">
+		<input type="checkbox" name="faceta:list" tal:attributes="value python:x[0]+'+c';"  onclick="this.form.submit();" class="cit">
+		<span	tal:condition="python:x[1]==True"><strong>
+		<span	tal:replace="python:x[0]">this </span></strong></span>
+		<span  class="text-muted" tal:condition="python:x[1]==False">
+		<span  tal:replace="python:x[0]">this </span></span>
+		</li>
 		</span>
-                </h6>
-                </div>
-                </ul>
+		</h6>
+		</div>
+		</ul>
 	</div>
-	<span   tal:condition="python:collaborator_cit.__len__()>5">
+	<span	tal:condition="python:collaborator_cit.__len__()>5">
 	<a id='morecollc' class="accordion-toggle" data-toggle="collapse"  href="#collapseCollC">
 	<span class="collapseCollCspan">
-      	More
+	More
 	</span>
-        </a>
+	</a>
 	</span>
 	</div>
 	</div>
-        <!--********************************************************-->          
+	<!--********************************************************-->		 
 	<div class='contenedor'>
 	<div class='text-center'><h5 class="text-success"><strong>types</strong></h5></div>
-        <div class="types" tal:define="local type_cit view/show_types_cit">
-                <ul>
-                <div  tal:repeat="x python:type_cit" tal:omit-tag="">
-                <h6>
-		<span   tal:condition="python:x[2]<5">
-                <li  class="list-unstyled">
-                <input type="checkbox" name="faceta:list" tal:attributes="value python:x[0]+'+c';"  onclick="this.form.submit();" class="cit">
-                <span   tal:condition="python:x[1]==True"><strong>
-                <span   tal:replace="python:x[0]">this </span></strong></span>
-                <span  class="text-muted" tal:condition="python:x[1]==False">
-                <span  tal:replace="python:x[0]">this </span></span>
-                </li>
+	<div class="types" tal:define="local type_cit view/show_types_cit">
+		<ul>
+		<div  tal:repeat="x python:type_cit" tal:omit-tag="">
+		<h6>
+		<span	tal:condition="python:x[2]<5">
+		<li  class="list-unstyled">
+		<input type="checkbox" name="faceta:list" tal:attributes="value python:x[0]+'+c';"  onclick="this.form.submit();" class="cit">
+		<span	tal:condition="python:x[1]==True"><strong>
+		<span	tal:replace="python:x[0]">this </span></strong></span>
+		<span  class="text-muted" tal:condition="python:x[1]==False">
+		<span  tal:replace="python:x[0]">this </span></span>
+		</li>
 		</span>
-                </h6>
-                </div>
-                </ul>
-        </div>
+		</h6>
+		</div>
+		</ul>
+	</div>
 	<div class="types" tal:define="local type_cit view/show_types_cit">
 	<div id="collapseTypeC" class="panel-collapse collapse">
-                <ul>
-                <div  tal:repeat="x python:type_cit" tal:omit-tag="">
-                <h6>
-		<span   tal:condition="python:x[2]>=5">
-                <li  class="list-unstyled">
-                <input type="checkbox" name="faceta:list" tal:attributes="value python:x[0]+'+c';"  onclick="this.form.submit();" class="cit">
-                <span   tal:condition="python:x[1]==True"><strong>
-                <span   tal:replace="python:x[0]">this </span></strong></span>
-                <span  class="text-muted" tal:condition="python:x[1]==False">
-                <span  tal:replace="python:x[0]">this </span></span>
-                </li>
+		<ul>
+		<div  tal:repeat="x python:type_cit" tal:omit-tag="">
+		<h6>
+		<span	tal:condition="python:x[2]>=5">
+		<li  class="list-unstyled">
+		<input type="checkbox" name="faceta:list" tal:attributes="value python:x[0]+'+c';"  onclick="this.form.submit();" class="cit">
+		<span	tal:condition="python:x[1]==True"><strong>
+		<span	tal:replace="python:x[0]">this </span></strong></span>
+		<span  class="text-muted" tal:condition="python:x[1]==False">
+		<span  tal:replace="python:x[0]">this </span></span>
+		</li>
 		</span>
-                </h6>
-                </div>
-                </ul>
+		</h6>
+		</div>
+		</ul>
 	</div>
-	<span   tal:condition="python:type_cit.__len__()>5">
+	<span	tal:condition="python:type_cit.__len__()>5">
 	<a id='moretypec' class="accordion-toggle" data-toggle="collapse"  href="#collapseTypeC">
 	<span class="collapseTypeCspan">
-      	More
+	More
 	</span>
-        </a>
+	</a>
 	</span>
 	</div>
 	</div>
-        <!--********************************************************-->           
+	<!--********************************************************-->		  
 	<div class='contenedor'>
 	<div class='text-center'><h5 class="text-success"><strong>journals</strong></h5></div>
-        <div class="journals" tal:define="local journal_cit view/show_journals_cit">
-                <ul>
-                <div class='journals' tal:repeat="x python:journal_cit" tal:omit-tag="">
-                <h6>
-		<span   tal:condition="python:x[2]<5">
-                <li  class="list-unstyled">
-                <input type="checkbox" name="faceta:list" tal:attributes="value python:x[0]+'+c';"  onclick="this.form.submit();" class="cit">
-                <span   tal:condition="python:x[1]==True"><strong>
-                <span   tal:replace="python:x[0]">this </span></strong></span>
-                <span  class="text-muted" tal:condition="python:x[1]==False">
-                <span  tal:replace="python:x[0]">this </span></span>
-                </li>
+	<div class="journals" tal:define="local journal_cit view/show_journals_cit">
+		<ul>
+		<div class='journals' tal:repeat="x python:journal_cit" tal:omit-tag="">
+		<h6>
+		<span	tal:condition="python:x[2]<5">
+		<li  class="list-unstyled">
+		<input type="checkbox" name="faceta:list" tal:attributes="value python:x[0]+'+c';"  onclick="this.form.submit();" class="cit">
+		<span	tal:condition="python:x[1]==True"><strong>
+		<span	tal:replace="python:x[0]">this </span></strong></span>
+		<span  class="text-muted" tal:condition="python:x[1]==False">
+		<span  tal:replace="python:x[0]">this </span></span>
+		</li>
 		</span>
-                </h6>
-                </div>
-                </ul>
-        </div>
-        <div class="journals" tal:define="local journal_cit view/show_journals_cit">
+		</h6>
+		</div>
+		</ul>
+	</div>
+	<div class="journals" tal:define="local journal_cit view/show_journals_cit">
 	<div id="collapseJournalC" class="panel-collapse collapse">
-                <ul>
-                <div class='journals' tal:repeat="x python:journal_cit" tal:omit-tag="">
-                <h6>
-		<span   tal:condition="python:x[2]>=5">
-                <li  class="list-unstyled">
-                <input type="checkbox" name="faceta:list" tal:attributes="value python:x[0]+'+c';"  onclick="this.form.submit();" class="cit">
-                <span   tal:condition="python:x[1]==True"><strong>
-                <span   tal:replace="python:x[0]">this </span></strong></span>
-                <span  class="text-muted" tal:condition="python:x[1]==False">
-                <span  tal:replace="python:x[0]">this </span></span>
-                </li>
+		<ul>
+		<div class='journals' tal:repeat="x python:journal_cit" tal:omit-tag="">
+		<h6>
+		<span	tal:condition="python:x[2]>=5">
+		<li  class="list-unstyled">
+		<input type="checkbox" name="faceta:list" tal:attributes="value python:x[0]+'+c';"  onclick="this.form.submit();" class="cit">
+		<span	tal:condition="python:x[1]==True"><strong>
+		<span	tal:replace="python:x[0]">this </span></strong></span>
+		<span  class="text-muted" tal:condition="python:x[1]==False">
+		<span  tal:replace="python:x[0]">this </span></span>
+		</li>
 		</span>
-                </h6>
-                </div>
-                </ul>
-        </div>
-	<span   tal:condition="python:journal_cit.__len__()>5">
+		</h6>
+		</div>
+		</ul>
+	</div>
+	<span	tal:condition="python:journal_cit.__len__()>5">
 	<a id='morejournalc' class="accordion-toggle" data-toggle="collapse"  href="#collapseJournalC">
 	<span class="collapseJournalCspan">
-      	More
+	More
 	</span>
-        </a>
+	</a>
 	</span>
 	</div>
 	</div>
-   <!--*************************************************************************************-->             
+   <!--*************************************************************************************-->		    
    </div>  <!--cierre "col-md-3" -->
    <div class="col-md-9  col-xs-9">
-   <!--********************************************************-->                 
+   <!--********************************************************-->		   
 	<button class="btn btn-primary" id="submit1" >Submit publications </button>
-        <div>
-        <div class="row" style="margin-top:0.5cm">
-                <div class="table-responsive" tal:define="local publication_cit view/show_pub_cit">
-                 <table class="table dataTable" style="word-wrap:break-word;">
-                 <thead>
-                        <tr >
-                        <th ></th>
-                        <th >Title</th>
-                        <th >Type</th>
-                        <th >Author</th>
-                        <th >Journal</th>
-                        <th >Year</th>
+	<div>
+	<div class="row" style="margin-top:0.5cm">
+		<div class="table-responsive" tal:define="local publication_cit view/show_pub_cit">
+		 <table class="table dataTable" style="word-wrap:break-word;">
+		 <thead>
+			<tr >
+			<th ></th>
+			<th >Title</th>
+			<th >Type</th>
+			<th >Author</th>
+			<th >Journal</th>
+			<th >Year</th>
 			<th >Cited_by</th>
 			<th >References</th>
-                        </tr>
-                 </thead>
-                 <tbody id="myTable-cit">
-                        <tr  tal:repeat="row publication_cit" style="background-color: #f5f5f5;" >
-                           <span tal:define="first python:''.join(row.split('%%')[0])" >
-                           <span tal:define="second python:''.join(row.split('%%')[1])" >
-                           <span tal:define="citedby python:''.join(row.split('%%')[6])" >
-                           <span tal:define="references python:''.join(row.split('%%')[7])" >
-                           <span tal:define="get_url_pub view/get_url_cit">
+			</tr>
+		 </thead>
+		 <tbody id="myTable-cit">
+			<tr  tal:repeat="row publication_cit" style="background-color: #f5f5f5;" >
+			   <span tal:define="first python:''.join(row.split('%%')[0])" >
+			   <span tal:define="second python:''.join(row.split('%%')[1])" >
+			   <span tal:define="citedby python:''.join(row.split('%%')[6])" >
+			   <span tal:define="references python:''.join(row.split('%%')[7])" >
+			   <span tal:define="get_url_pub view/get_url_cit">
 
-                           <td tal:repeat="column python:row.split('%%')" >
+			   <td tal:repeat="column python:row.split('%%')" >
 
-                            <span   tal:condition="python:first==column">
+			    <span   tal:condition="python:first==column">
 					
-        	                    <input type="checkbox" name="publication:list" tal:attributes="value python:first+'+x';"   class="pub">
-                            </span>
+				    <input type="checkbox" name="publication:list" tal:attributes="value python:first+'+x';"   class="pub">
+			    </span>
 
-                            <span   tal:condition="python:column==second ">
-                            <a tal:attributes="href string:$get_url_pub/$first">
-                               <span tal:replace="python:second">this </span>
-                            </a>
-                            </span>
+			    <span   tal:condition="python:column==second ">
+			    <a tal:attributes="href string:$get_url_pub/$first">
+			       <span tal:replace="python:second">this </span>
+			    </a>
+			    </span>
 
-                            <span   tal:condition="python:first!=column and column!=citedby and column!=references and column!=second">
-                            <span tal:replace="string:$column"></span>
-                            </span>
+			    <span   tal:condition="python:first!=column and column!=citedby and column!=references and column!=second">
+			    <span tal:replace="string:$column"></span>
+			    </span>
 
 
-                            <span   tal:condition="python:citedby==column">
-                                <span tal:condition="python:''.join(column.split(',')).strip().__len__()>0">
-                                </span>
-                            </span>
+			    <span   tal:condition="python:citedby==column">
+				<span tal:condition="python:''.join(column.split(',')).strip().__len__()>0">
+				</span>
+			    </span>
 <!--***************************************************************************-->
 			    <div id="modalcit" style="">
-                            <span   tal:condition="python:references==column and [x for x in column.split(',,') if x.strip().__len__()>0].__len__()>0">
-                                <span tal:define="get_url_ref view/get_url_pub">
-                            	<span tal:define="numero_ref python:[x for x in column.split(',,') if x.strip().__len__()>0].__len__()">
+			    <span   tal:condition="python:references==column and [x for x in column.split(',,') if x.strip().__len__()>0].__len__()>0">
+				<span tal:define="get_url_ref view/get_url_pub">
+				<span tal:define="numero_ref python:[x for x in column.split(',,') if x.strip().__len__()>0].__len__()">
 
-                                <div class="btn-group">
+				<div class="btn-group">
 
-                                <button type="button" class="btn btn-link" data-toggle="modal"  tal:attributes="data-target string:#r$first">
-	                        <span tal:replace="python:str(numero_ref).zfill(4)">this</span>
-                                </button>
+				<button type="button" class="btn btn-link" data-toggle="modal"	tal:attributes="data-target string:#r$first">
+				<span tal:replace="python:str(numero_ref).zfill(4)">this</span>
+				</button>
 
 				<!-- Modal -->
 				<div class="modal fade" tal:attributes="id string:r$first"  tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style='width:50%;margin-left: 25%;overflow-y: auto;'>
@@ -759,19 +759,19 @@ Indice <i>i10</i>:
 				</div>
 
 				<div class="modal-body">
-                                <ol >
-                                        <div tal:repeat="parref python:column.split(',')"  tal:omit-tag="">
-                                          <span tal:define="idref python:parref.split(';;')[0]" >
-                                	  <span tal:condition="python:parref.split(';;').__len__()>1">
-                                          <li class="text-left">
-                                                <a tal:attributes="href string:$get_url_ref/$idref">
-                                                <span tal:replace="python:parref.split(';;')[1]">this </span>
-                                                </a>
-                                          </li>
-                                          </span>
-                                          </span>
-                                        </div>
-                                </ol>
+				<ol >
+					<div tal:repeat="parref python:column.split(',')"  tal:omit-tag="">
+					  <span tal:define="idref python:parref.split(';;')[0]" >
+					  <span tal:condition="python:parref.split(';;').__len__()>1">
+					  <li class="text-left">
+						<a tal:attributes="href string:$get_url_ref/$idref">
+						<span tal:replace="python:parref.split(';;')[1]">this </span>
+						</a>
+					  </li>
+					  </span>
+					  </span>
+					</div>
+				</ol>
 				</div>
 
 				<div class="modal-footer">
@@ -781,302 +781,302 @@ Indice <i>i10</i>:
 				</div><!-- /.modal-content -->
 				</div><!-- /.modal -->
 
-                                </div>
-                                </span>
-                                </span>
-                            </span>
+				</div>
+				</span>
+				</span>
+			    </span>
 			   </div>
-                           </td>
-                           </span></span>
-                           </span></span>
-                           </span>
-                        </tr>
+			   </td>
+			   </span></span>
+			   </span></span>
+			   </span>
+			</tr>
 		 </tbody>
-                 <tfoot>
-                        <tr >
-                        <th ></th>
-                        <th >Title</th>
-                        <th >Type</th>
-                        <th >Author</th>
-                        <th >Journal</th>
-                        <th >Year</th>
+		 <tfoot>
+			<tr >
+			<th ></th>
+			<th >Title</th>
+			<th >Type</th>
+			<th >Author</th>
+			<th >Journal</th>
+			<th >Year</th>
 			<th >Cited_by</th>
 			<th >References</th>
-                        </tr>
-                 </tfoot>
-                </table>
-                </div>
+			</tr>
+		 </tfoot>
+		</table>
+		</div>
 
 	</div><!--row-->
 	</div>
 
-   <!--********************************************************-->          
+   <!--********************************************************-->	    
    </div> <!--col-md-9-->
-   </div>          <!--row-->      
-</div>          <!--container-->      
+   </div>	   <!--row-->	   
+</div>		<!--container-->      
 <!--  ######################################################################################### -->
-        </div><!--item-->
-        <div class="item active" id="1" style="word-wrap:break-word;">
+	</div><!--item-->
+	<div class="item active" id="1" style="word-wrap:break-word;">
 <!--  ########################################################################################## -->
 <div class="container">
 		<div class='col-md-12 col-xs-12'>	
-                <h5><span  class="text-info">Results: </span>
-                <span class="label label-primary" tal:content="view/show_num_pub"> this </span>
-                </h5>
-                </div>
+		<h5><span  class="text-info">Results: </span>
+		<span class="label label-primary" tal:content="view/show_num_pub"> this </span>
+		</h5>
+		</div>
    <div class="row">
    <div class="col-md-3  col-xs-3"> 
    <!--**********************************************************************************************-->    
 	<div class="contenedor">
 	<div class='text-center'><h5 class="text-success"><strong>years</strong></h5></div>
-        <div class="years"  tal:define="local year view/show_years;" >
-             <ul >
+	<div class="years"  tal:define="local year view/show_years;" >
+	     <ul >
 		<div  tal:repeat="x python:year" tal:omit-tag="">
 		<h6>
 		<li  class="list-unstyled">
-		<span   tal:condition="python:x[2]<5">
+		<span	tal:condition="python:x[2]<5">
 
 		<input type="checkbox" name="faceta:list" tal:attributes="value python:x[0];"  onclick="this.form.submit();">
-		<span   tal:condition="python:x[1]==True"><strong>
-                <span   tal:replace="python:x[0]">this </span></strong>
+		<span	tal:condition="python:x[1]==True"><strong>
+		<span	tal:replace="python:x[0]">this </span></strong>
 		</span>		
-                <span  class="text-muted" tal:condition="python:x[1]==False">
-                <span  tal:replace="python:x[0]">this </span></span>
+		<span  class="text-muted" tal:condition="python:x[1]==False">
+		<span  tal:replace="python:x[0]">this </span></span>
 		
 		</span>
-                </li>
+		</li>
 		</h6>
-                </div>
+		</div>
 		</ul>
 	</div>
 
 	<div class="years" tal:define="local year view/show_years;" >
-        <div id="collapseYears" class="collapse" >
+	<div id="collapseYears" class="collapse" >
 	     <ul>
 		<div tal:repeat="x python:year" tal:omit-tag="" >
 		<h6>
 		<li  class="list-unstyled">
-		<span   tal:condition="python:x[2]>=5">
+		<span	tal:condition="python:x[2]>=5">
 		<input type="checkbox" name="faceta:list" tal:attributes="value python:x[0];"  onclick="this.form.submit();">
-		<span   tal:condition="python:x[1]==True"><strong>
-                <span   tal:replace="python:x[0]">this </span></strong>
+		<span	tal:condition="python:x[1]==True"><strong>
+		<span	tal:replace="python:x[0]">this </span></strong>
 		</span>		
-                <span  class="text-muted" tal:condition="python:x[1]==False">
-                <span  tal:replace="python:x[0]">this </span></span>
+		<span  class="text-muted" tal:condition="python:x[1]==False">
+		<span  tal:replace="python:x[0]">this </span></span>
 
 		</span>
-                </li>
+		</li>
 		</h6>
-                </div>
+		</div>
 
-             </ul>
-        </div>
-	<span   tal:condition="python:year.__len__()>5">
+	     </ul>
+	</div>
+	<span	tal:condition="python:year.__len__()>5">
 	<a id='moreyear' class="accordion-toggle" data-toggle="collapse"  href="#collapseYears">
 	<span class="collapseYearsspan">
-      	More
+	More
 	</span>
-        </a>
+	</a>
 	</span>
 	</div>
 	</div>
-        <!--********************************************************-->
+	<!--********************************************************-->
 	<div class='contenedor'>
 	<div class='text-center'><h5 class="text-success"><strong>IMATE authors</strong></h5></div>
-        <div class="authors" tal:define="local author view/show_authors">        
-                <ul>
-                <div tal:repeat="x python:author" tal:omit-tag="">
-                <h6>
-		<span   tal:condition="python:x[2]<5">
-                <li  class="list-unstyled">
-                <input type="checkbox" name="faceta:list" tal:attributes="value python:x[0];"  onclick="this.form.submit();" >
-                <span   tal:condition="python:x[1]==True"><strong>
-                <span   tal:replace="python:x[0]">this </span></strong></span>
-                <span  class="text-muted" tal:condition="python:x[1]==False">
-                <span  tal:replace="python:x[0]">this </span></span>
-                </li>
+	<div class="authors" tal:define="local author view/show_authors">	 
+		<ul>
+		<div tal:repeat="x python:author" tal:omit-tag="">
+		<h6>
+		<span	tal:condition="python:x[2]<5">
+		<li  class="list-unstyled">
+		<input type="checkbox" name="faceta:list" tal:attributes="value python:x[0];"  onclick="this.form.submit();" >
+		<span	tal:condition="python:x[1]==True"><strong>
+		<span	tal:replace="python:x[0]">this </span></strong></span>
+		<span  class="text-muted" tal:condition="python:x[1]==False">
+		<span  tal:replace="python:x[0]">this </span></span>
+		</li>
 		</span>
-                </h6>
-                </div>
-                </ul>
-        </div>
+		</h6>
+		</div>
+		</ul>
+	</div>
 	<div class="authors" tal:define="local author view/show_authors">
 	<div id="collapseAuthor" class="panel-collapse collapse">
-                <ul>
-                <div tal:repeat="x python:author" tal:omit-tag="">
-                <h6>
-		<span   tal:condition="python:x[2]>=5">
-                <li  class="list-unstyled">
-                <input type="checkbox" name="faceta:list" tal:attributes="value python:x[0];"  onclick="this.form.submit();">
-                <span   tal:condition="python:x[1]==True"><strong>
-                <span   tal:replace="python:x[0]">this </span></strong></span>
-                <span  class="text-muted" tal:condition="python:x[1]==False">
-                <span  tal:replace="python:x[0]">this </span></span>
-                </li>
+		<ul>
+		<div tal:repeat="x python:author" tal:omit-tag="">
+		<h6>
+		<span	tal:condition="python:x[2]>=5">
+		<li  class="list-unstyled">
+		<input type="checkbox" name="faceta:list" tal:attributes="value python:x[0];"  onclick="this.form.submit();">
+		<span	tal:condition="python:x[1]==True"><strong>
+		<span	tal:replace="python:x[0]">this </span></strong></span>
+		<span  class="text-muted" tal:condition="python:x[1]==False">
+		<span  tal:replace="python:x[0]">this </span></span>
+		</li>
 		</span>
-                </h6>
-                </div>
-                </ul>
+		</h6>
+		</div>
+		</ul>
 	</div>
-	<span   tal:condition="python:author.__len__()>5">
+	<span	tal:condition="python:author.__len__()>5">
 	<a id='moreauthor' class="accordion-toggle" data-toggle="collapse"  href="#collapseAuthor">
 	<span class="collapseAuthorspan">
-      	More 
+	More 
 	</span>
-        </a>
+	</a>
 	</span>
 	</div>
 	</div>
-        <!--********************************************************-->          
-    	<div class='contenedor'>
+	<!--********************************************************-->		 
+	<div class='contenedor'>
 	<div class='text-center'><h5 class="text-success"><strong>collaborators</strong></h5></div>
-        <div class="collaborators" tal:define="local collaborator view/show_collaborators">
-                <ul >
-                <div  tal:repeat="x python:collaborator" tal:omit-tag="">
-                <h6>
-		<span   tal:condition="python:x[2]<5">
-                <li  class="list-unstyled">
-                <input type="checkbox" name="faceta:list" tal:attributes="value python:x[0];"  onclick="this.form.submit();">
-                <span   tal:condition="python:x[1]==True"><strong>
-                <span   tal:replace="python:x[0]">this </span></strong></span>
-                <span  class="text-muted" tal:condition="python:x[1]==False">
-                <span  tal:replace="python:x[0]">this </span></span>
-                </li>
-		</span>
-                </h6>
-                </div>
-                </ul>
-        </div>
 	<div class="collaborators" tal:define="local collaborator view/show_collaborators">
-        <div id="collapseColl" class="panel-collapse collapse" >
-                <ul >
-                <div  tal:repeat="x python:collaborator" tal:omit-tag="">
-                <h6>
-		<span   tal:condition="python:x[2]>=5">
-                <li  class="list-unstyled">
-                <input type="checkbox" name="faceta:list" tal:attributes="value python:x[0];"  onclick="this.form.submit();">
-                <span   tal:condition="python:x[1]==True"><strong>
-                <span   tal:replace="python:x[0]">this </span></strong></span>
-                <span  class="text-muted" tal:condition="python:x[1]==False">
-                <span  tal:replace="python:x[0]">this </span></span>
-                </li>
+		<ul >
+		<div  tal:repeat="x python:collaborator" tal:omit-tag="">
+		<h6>
+		<span	tal:condition="python:x[2]<5">
+		<li  class="list-unstyled">
+		<input type="checkbox" name="faceta:list" tal:attributes="value python:x[0];"  onclick="this.form.submit();">
+		<span	tal:condition="python:x[1]==True"><strong>
+		<span	tal:replace="python:x[0]">this </span></strong></span>
+		<span  class="text-muted" tal:condition="python:x[1]==False">
+		<span  tal:replace="python:x[0]">this </span></span>
+		</li>
 		</span>
-                </h6>
-                </div>
-                </ul>
-        </div>
-	<span   tal:condition="python:collaborator.__len__()>5">
+		</h6>
+		</div>
+		</ul>
+	</div>
+	<div class="collaborators" tal:define="local collaborator view/show_collaborators">
+	<div id="collapseColl" class="panel-collapse collapse" >
+		<ul >
+		<div  tal:repeat="x python:collaborator" tal:omit-tag="">
+		<h6>
+		<span	tal:condition="python:x[2]>=5">
+		<li  class="list-unstyled">
+		<input type="checkbox" name="faceta:list" tal:attributes="value python:x[0];"  onclick="this.form.submit();">
+		<span	tal:condition="python:x[1]==True"><strong>
+		<span	tal:replace="python:x[0]">this </span></strong></span>
+		<span  class="text-muted" tal:condition="python:x[1]==False">
+		<span  tal:replace="python:x[0]">this </span></span>
+		</li>
+		</span>
+		</h6>
+		</div>
+		</ul>
+	</div>
+	<span	tal:condition="python:collaborator.__len__()>5">
 	<a id='morecoll' class="accordion-toggle" data-toggle="collapse"  href="#collapseColl">
 	<span class="collapseCollspan">
-      	More
+	More
 	</span>
-        </a>
+	</a>
 	</span>
 	</div>
 	</div>
-         <!--********************************************************-->            
+	 <!--********************************************************-->	    
 	<div class='contenedor'>
 	<div class='text-center'><h5 class="text-success"><strong>types</strong></h5></div>
-        <div class='types' tal:define="local type view/show_types">
-                <ul >
-                <div  tal:repeat="x python:type" tal:omit-tag="">   
-                <h6>
-		<span   tal:condition="python:x[2]<5">
-                <li  class="list-unstyled">
-                <input type="checkbox" name="faceta:list" tal:attributes="value python:x[0];"  onclick="this.form.submit();">
-                <span   tal:condition="python:x[1]==True"><strong>
-                <span   tal:replace="python:x[0]">this </span></strong></span>
-                <span  class="text-muted" tal:condition="python:x[1]==False">
-                <span  tal:replace="python:x[0]">this </span></span>
-                </li>
-		</span>
-                </h6>
-                </div>
-                </ul>
-        </div>
 	<div class='types' tal:define="local type view/show_types">
-        <div id="collapseType" class="panel-collapse collapse" >
-                <ul >
-                <div  tal:repeat="x python:type" tal:omit-tag="">   
-                <h6>
-		<span   tal:condition="python:x[2]>=5">
-                <li  class="list-unstyled">
-                <input type="checkbox" name="faceta:list" tal:attributes="value python:x[0];"  onclick="this.form.submit();">
-                <span   tal:condition="python:x[1]==True"><strong>
-                <span   tal:replace="python:x[0]">this </span></strong></span>
-                <span  class="text-muted" tal:condition="python:x[1]==False">
-                <span  tal:replace="python:x[0]">this </span></span>
-                </li>
+		<ul >
+		<div  tal:repeat="x python:type" tal:omit-tag="">   
+		<h6>
+		<span	tal:condition="python:x[2]<5">
+		<li  class="list-unstyled">
+		<input type="checkbox" name="faceta:list" tal:attributes="value python:x[0];"  onclick="this.form.submit();">
+		<span	tal:condition="python:x[1]==True"><strong>
+		<span	tal:replace="python:x[0]">this </span></strong></span>
+		<span  class="text-muted" tal:condition="python:x[1]==False">
+		<span  tal:replace="python:x[0]">this </span></span>
+		</li>
 		</span>
-                </h6>
-                </div>
-                </ul>
-        </div>
-	<span   tal:condition="python:type.__len__()>5">
+		</h6>
+		</div>
+		</ul>
+	</div>
+	<div class='types' tal:define="local type view/show_types">
+	<div id="collapseType" class="panel-collapse collapse" >
+		<ul >
+		<div  tal:repeat="x python:type" tal:omit-tag="">   
+		<h6>
+		<span	tal:condition="python:x[2]>=5">
+		<li  class="list-unstyled">
+		<input type="checkbox" name="faceta:list" tal:attributes="value python:x[0];"  onclick="this.form.submit();">
+		<span	tal:condition="python:x[1]==True"><strong>
+		<span	tal:replace="python:x[0]">this </span></strong></span>
+		<span  class="text-muted" tal:condition="python:x[1]==False">
+		<span  tal:replace="python:x[0]">this </span></span>
+		</li>
+		</span>
+		</h6>
+		</div>
+		</ul>
+	</div>
+	<span	tal:condition="python:type.__len__()>5">
 	<a id='moretype' class="accordion-toggle" data-toggle="collapse"  href="#collapseType">
 	<span class="collapseTypespan">
-      	More
+	More
 	</span>
-        </a>
+	</a>
 	</span>
 	</div>
 	</div>
-        <!--********************************************************-->  
-	<div class='contenedor'>        
+	<!--********************************************************-->  
+	<div class='contenedor'>	
 	<div class='text-center'><h5 class="text-success"><strong>journals</strong></h5></div>
-        <div class='journals' tal:define="local journal view/show_journals">      
-                <ul >
-                <div  tal:repeat="x python:journal" tal:omit-tag="">
-                <h6>
-		<span   tal:condition="python:x[2]<5">
-                <li  class="list-unstyled">
-                <input type="checkbox" name="faceta:list" tal:attributes="value python:x[0];"  onclick="this.form.submit();">
-                <span   tal:condition="python:x[1]==True"><strong>
-                <span   tal:replace="python:x[0]">this </span></strong></span>
-                <span  class="text-muted" tal:condition="python:x[1]==False">
-                <span  tal:replace="python:x[0]">this </span></span>
-                </li>
+	<div class='journals' tal:define="local journal view/show_journals">	  
+		<ul >
+		<div  tal:repeat="x python:journal" tal:omit-tag="">
+		<h6>
+		<span	tal:condition="python:x[2]<5">
+		<li  class="list-unstyled">
+		<input type="checkbox" name="faceta:list" tal:attributes="value python:x[0];"  onclick="this.form.submit();">
+		<span	tal:condition="python:x[1]==True"><strong>
+		<span	tal:replace="python:x[0]">this </span></strong></span>
+		<span  class="text-muted" tal:condition="python:x[1]==False">
+		<span  tal:replace="python:x[0]">this </span></span>
+		</li>
 		</span>
-                </h6>
-                </div>
-                </ul>
-        </div>  
+		</h6>
+		</div>
+		</ul>
+	</div>	
 	<div div class='journals' tal:define="local journal view/show_journals">
-        <div id="collapseJournal" class="panel-collapse collapse" >
-                <ul >
-                <div  tal:repeat="x python:journal" tal:omit-tag="">   
-                <h6>
-		<span   tal:condition="python:x[2]>=5">
-                <li  class="list-unstyled">
-                <input type="checkbox" name="faceta:list" tal:attributes="value python:x[0];"  onclick="this.form.submit();">
-                <span   tal:condition="python:x[1]==True"><strong>
-                <span   tal:replace="python:x[0]">this </span></strong></span>
-                <span  class="text-muted" tal:condition="python:x[1]==False">
-                <span  tal:replace="python:x[0]">this </span></span>
-                </li>
+	<div id="collapseJournal" class="panel-collapse collapse" >
+		<ul >
+		<div  tal:repeat="x python:journal" tal:omit-tag="">   
+		<h6>
+		<span	tal:condition="python:x[2]>=5">
+		<li  class="list-unstyled">
+		<input type="checkbox" name="faceta:list" tal:attributes="value python:x[0];"  onclick="this.form.submit();">
+		<span	tal:condition="python:x[1]==True"><strong>
+		<span	tal:replace="python:x[0]">this </span></strong></span>
+		<span  class="text-muted" tal:condition="python:x[1]==False">
+		<span  tal:replace="python:x[0]">this </span></span>
+		</li>
 		</span>
-                </h6>
-                </div>
-                </ul>
-        </div>
-	<span   tal:condition="python:journal.__len__()>5">
+		</h6>
+		</div>
+		</ul>
+	</div>
+	<span	tal:condition="python:journal.__len__()>5">
 	<a id='morejournal' class="accordion-toggle" data-toggle="collapse"  href="#collapseJournal">
 	<span class="collapseJournalspan">
-      	More
+	More
 	</span>
-        </a>
+	</a>
 	</span>
 	</div>
 	</div>
-   <!--*************************************************************************************-->             
+   <!--*************************************************************************************-->		    
    </div>  <!--cierre "col-md-3" -->
 
    <div class="col-md-9  col-xs-9">
 	<button class="btn btn-primary" id="submit2">Submit publications </button>
 	<div >
 	<div class="row" style="margin-top:0.5cm">
-                <div class="table-responsive" tal:define="local publication view/show_pub">
-                 <table class="dataTable table " style="word-wrap:break-word;" >
+		<div class="table-responsive" tal:define="local publication view/show_pub">
+		 <table class="dataTable table " style="word-wrap:break-word;" >
 		 <thead>
 			<tr >
 			<th></th>
@@ -1090,39 +1090,39 @@ Indice <i>i10</i>:
 			</tr>
 		 </thead>
 		 <tbody id="myTable" >
-                        <tr  tal:repeat="row publication" style="background-color: #f5f5f5;">
-                           <span tal:define="first python:''.join(row.split('%%')[0])" >
-                           <span tal:define="second python:''.join(row.split('%%')[1])" >
-                           <span tal:define="citedby python:''.join(row.split('%%')[6])" >
-                           <span tal:define="references python:''.join(row.split('%%')[7])" >
-                           <span tal:define="get_url_pub view/get_url_pub">
+			<tr  tal:repeat="row publication" style="background-color: #f5f5f5;">
+			   <span tal:define="first python:''.join(row.split('%%')[0])" >
+			   <span tal:define="second python:''.join(row.split('%%')[1])" >
+			   <span tal:define="citedby python:''.join(row.split('%%')[6])" >
+			   <span tal:define="references python:''.join(row.split('%%')[7])" >
+			   <span tal:define="get_url_pub view/get_url_pub">
 
-                           <td tal:repeat="column python:row.split('%%')" >
-
-
-                            <span   tal:condition="python:first==column">
-        	                    <input type="checkbox" name="publication:list" tal:attributes="value python:first+'+p';"   class="pub">
-                            </span>
+			   <td tal:repeat="column python:row.split('%%')" >
 
 
-                            <span   tal:condition="python:column==second ">
-                            <a tal:attributes="href string:$get_url_pub/$first">
-                               <span tal:replace="python:second">this </span>
-                            </a>
-                            </span>
-
-                            <span   tal:condition="python:first!=column and column!=citedby and column!=references and column!=second">
-                            <span tal:replace="string:$column"></span>
-                            </span>
+			    <span   tal:condition="python:first==column">
+				    <input type="checkbox" name="publication:list" tal:attributes="value python:first+'+p';"   class="pub">
+			    </span>
 
 
-                            <span   tal:condition="python:citedby==column and [x for x in column.split(',,') if x.strip().__len__()>0].__len__()>0">
-                                <span tal:define="get_url_cit view/get_url_cit">
-                            	<span tal:define="numero_citas python:[x for x in column.split(',,') if x.strip().__len__()>0].__len__()">
-                                <div class="btn-group">
-                                <button type="button" class="btn btn-link" data-toggle="modal"  tal:attributes="data-target string:#$first">
-	                        <span tal:replace="python:str(numero_citas).zfill(4)">this</span>
-                                </button>
+			    <span   tal:condition="python:column==second ">
+			    <a tal:attributes="href string:$get_url_pub/$first">
+			       <span tal:replace="python:second">this </span>
+			    </a>
+			    </span>
+
+			    <span   tal:condition="python:first!=column and column!=citedby and column!=references and column!=second">
+			    <span tal:replace="string:$column"></span>
+			    </span>
+
+
+			    <span   tal:condition="python:citedby==column and [x for x in column.split(',,') if x.strip().__len__()>0].__len__()>0">
+				<span tal:define="get_url_cit view/get_url_cit">
+				<span tal:define="numero_citas python:[x for x in column.split(',,') if x.strip().__len__()>0].__len__()">
+				<div class="btn-group">
+				<button type="button" class="btn btn-link" data-toggle="modal"	tal:attributes="data-target string:#$first">
+				<span tal:replace="python:str(numero_citas).zfill(4)">this</span>
+				</button>
 				<!-- Modal -->
 				<div class="modal fade" style='width:50%;overflow-y:auto;margin-left: 25%;' tal:attributes="id string:$first" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" >
 				<div class="modal-content">
@@ -1131,19 +1131,19 @@ Indice <i>i10</i>:
 				<h4 class="modal-title" id="myModalLabel">Cited by</h4>
 				</div>
 				<div class="modal-body">
-                                <ol>
-                                        <div tal:repeat="parcit python:column.split(',')"  tal:omit-tag="">
-                                          <span tal:define="idcit python:parcit.split(';;')[0]" >
-                                	  <span tal:condition="python:parcit.split(';;').__len__()>1">
-                                          <li class="text-left">
-                                                <a tal:attributes="href string:$get_url_cit/$idcit">
-                                                <span tal:replace="python:parcit.split(';;')[1]">this </span>
-                                                </a>
-                                          </li>
-                                          </span>
-                                          </span>
-                                        </div>
-                                </ol>
+				<ol>
+					<div tal:repeat="parcit python:column.split(',')"  tal:omit-tag="">
+					  <span tal:define="idcit python:parcit.split(';;')[0]" >
+					  <span tal:condition="python:parcit.split(';;').__len__()>1">
+					  <li class="text-left">
+						<a tal:attributes="href string:$get_url_cit/$idcit">
+						<span tal:replace="python:parcit.split(';;')[1]">this </span>
+						</a>
+					  </li>
+					  </span>
+					  </span>
+					</div>
+				</ol>
 				</div>
 				<div class="modal-footer">
 				<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
@@ -1151,19 +1151,19 @@ Indice <i>i10</i>:
 				</div><!-- /.modal-content -->
 				</div><!-- /.modal -->
 
-                                </div>
-                                </span>
-                                </span>
-                            </span>
+				</div>
+				</span>
+				</span>
+			    </span>
 <!--***************************************************************************-->
 
-                            <span   tal:condition="python:references==column and [x for x in column.split(',,') if x.strip().__len__()>0].__len__()>0" >
-                                <span tal:define="get_url_ref view/get_url_ref">
-                            	<span tal:define="numero_ref python:[x for x in column.split(',,') if x.strip().__len__()>0].__len__()">
-                                <div class="btn-group">
-                                <button type="button" class="btn btn-link" data-toggle="modal"  tal:attributes="data-target string:#r$first">
-	                        <span tal:replace="python:str(numero_ref).zfill(4)">this</span>
-                                </button>
+			    <span   tal:condition="python:references==column and [x for x in column.split(',,') if x.strip().__len__()>0].__len__()>0" >
+				<span tal:define="get_url_ref view/get_url_ref">
+				<span tal:define="numero_ref python:[x for x in column.split(',,') if x.strip().__len__()>0].__len__()">
+				<div class="btn-group">
+				<button type="button" class="btn btn-link" data-toggle="modal"	tal:attributes="data-target string:#r$first">
+				<span tal:replace="python:str(numero_ref).zfill(4)">this</span>
+				</button>
 
 				<!-- Modal -->
 				<div class="modal fade" tal:attributes="id string:r$first"  tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style='width:50%;margin-left: 25%;overflow-y: auto;'>
@@ -1173,19 +1173,19 @@ Indice <i>i10</i>:
 				<h4 class="modal-title" id="myModalLabel">References</h4>
 				</div>
 				<div class="modal-body">
-                                <ol >
-                                        <div tal:repeat="parref python:column.split(',')"  tal:omit-tag="">
-                                          <span tal:define="idref python:parref.split(';;')[0]" >
-                                	  <span tal:condition="python:parref.split(';;').__len__()>1">
-                                          <li class="text-left">
-                                                <a tal:attributes="href string:$get_url_ref/$idref">
-                                                <span tal:replace="python:parref.split(';;')[1]">this </span>
-                                                </a>
-                                          </li>
-                                          </span>
-                                          </span>
-                                        </div>
-                                </ol>
+				<ol >
+					<div tal:repeat="parref python:column.split(',')"  tal:omit-tag="">
+					  <span tal:define="idref python:parref.split(';;')[0]" >
+					  <span tal:condition="python:parref.split(';;').__len__()>1">
+					  <li class="text-left">
+						<a tal:attributes="href string:$get_url_ref/$idref">
+						<span tal:replace="python:parref.split(';;')[1]">this </span>
+						</a>
+					  </li>
+					  </span>
+					  </span>
+					</div>
+				</ol>
 				</div>
 				<div class="modal-footer">
 				<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
@@ -1193,29 +1193,29 @@ Indice <i>i10</i>:
 				</div><!-- /.modal-content -->
 				</div><!-- /.modal -->
 
-                                </div>
-                                </span>
-                                </span>
-                            </span>
-                           </td>
-                           </span></span>
-                           </span></span>
-                           </span>
-                        </tr>
+				</div>
+				</span>
+				</span>
+			    </span>
+			   </td>
+			   </span></span>
+			   </span></span>
+			   </span>
+			</tr>
 			</tbody>
-	                 <tfoot>
-                        <tr >
-                        <th ></th>
-                        <th >Title</th>
-                        <th >Type</th>
-                        <th >Author</th>
-                        <th >Journal</th>
-                        <th >Year</th>
+			 <tfoot>
+			<tr >
+			<th ></th>
+			<th >Title</th>
+			<th >Type</th>
+			<th >Author</th>
+			<th >Journal</th>
+			<th >Year</th>
 			<th >Cited_by</th>
 			<th >References</th>
-                        </tr>
+			</tr>
 			</tfoot>
-                </table>
+		</table>
 		</div>
 	</div> 
 	</div> 
@@ -1224,312 +1224,312 @@ Indice <i>i10</i>:
    </div><!--row-->
 </div><!--container-->
 <!--  ########################################################################################## -->
-        </div><!--item-->
-        <div class="item" id="2" style="word-wrap:break-word;">
+	</div><!--item-->
+	<div class="item" id="2" style="word-wrap:break-word;">
 <!--  ######################################################################################### -->
 <div class='container'>
 		<div class='col-md-12  col-xs-12'>	
-                <h5><span  class="text-info">Results: </span>
-                <span class="label label-primary" tal:content="view/show_num_ref"> this </span>
-                </h5>
+		<h5><span  class="text-info">Results: </span>
+		<span class="label label-primary" tal:content="view/show_num_ref"> this </span>
+		</h5>
 		</div>
    <div class='row'>
    <div class="col-md-3  col-xs-3"> 
-   <!--***************************************************************************************-->          
+   <!--***************************************************************************************-->	   
 	<div class="contenedor">
 	<div class='text-center'><h5 class="text-success"><strong>years</strong></h5></div>
-        <div class="years" tal:define="local year_ref view/show_years_ref">
-                <ul>
-                <div  tal:repeat="x python:year_ref" tal:omit-tag="">
-                <h6>
-		<span   tal:condition="python:x[2]<5">
-                <li  class="list-unstyled">
-                <input type="checkbox" name="faceta:list" tal:attributes="value python:x[0]+'+r';"  onclick="this.form.submit();" class="ref">
-                <span   tal:condition="python:x[1]==True"><strong>
-                <span   tal:replace="python:x[0]">this </span></strong></span>
-                <span  class="text-muted" tal:condition="python:x[1]==False">
-                <span  tal:replace="python:x[0]">this </span></span>
-                </li>
+	<div class="years" tal:define="local year_ref view/show_years_ref">
+		<ul>
+		<div  tal:repeat="x python:year_ref" tal:omit-tag="">
+		<h6>
+		<span	tal:condition="python:x[2]<5">
+		<li  class="list-unstyled">
+		<input type="checkbox" name="faceta:list" tal:attributes="value python:x[0]+'+r';"  onclick="this.form.submit();" class="ref">
+		<span	tal:condition="python:x[1]==True"><strong>
+		<span	tal:replace="python:x[0]">this </span></strong></span>
+		<span  class="text-muted" tal:condition="python:x[1]==False">
+		<span  tal:replace="python:x[0]">this </span></span>
+		</li>
 		</span>
-                </h6>
-                </div>
-                </ul>
-        </div>
+		</h6>
+		</div>
+		</ul>
+	</div>
 	<div class="years" tal:define="local year_ref view/show_years_ref">
 	<div id="collapseYearR" class="panel-collapse collapse">
-                <ul>
-                <div  tal:repeat="x python:year_ref" tal:omit-tag="">
-                <h6>
-		<span   tal:condition="python:x[2]>=5">
-                <li  class="list-unstyled">
-                <input type="checkbox" name="faceta:list" tal:attributes="value python:x[0]+'+r';"  onclick="this.form.submit();" class="ref">
-                <span   tal:condition="python:x[1]==True"><strong>
-                <span   tal:replace="python:x[0]">this </span></strong></span>
-                <span  class="text-muted" tal:condition="python:x[1]==False">
-                <span  tal:replace="python:x[0]">this </span></span>
-                </li>
+		<ul>
+		<div  tal:repeat="x python:year_ref" tal:omit-tag="">
+		<h6>
+		<span	tal:condition="python:x[2]>=5">
+		<li  class="list-unstyled">
+		<input type="checkbox" name="faceta:list" tal:attributes="value python:x[0]+'+r';"  onclick="this.form.submit();" class="ref">
+		<span	tal:condition="python:x[1]==True"><strong>
+		<span	tal:replace="python:x[0]">this </span></strong></span>
+		<span  class="text-muted" tal:condition="python:x[1]==False">
+		<span  tal:replace="python:x[0]">this </span></span>
+		</li>
 		</span>
-                </h6>
-                </div>
-                </ul>
-        </div>
-	<span   tal:condition="python:year_ref.__len__()>5">
+		</h6>
+		</div>
+		</ul>
+	</div>
+	<span	tal:condition="python:year_ref.__len__()>5">
 	<a id='moreyearr' class="accordion-toggle" data-toggle="collapse"  href="#collapseYearR">
 	<span class="collapseYearRspan">
-      	More
+	More
 	</span>
-        </a>
+	</a>
 	</span>
 	</div>
 	</div>
 <!--****************************************************************************-->
-        
+	
 	<div class="contenedor">
 	<div class='text-center'><h5 class="text-success"><strong>IMATE authors</strong></h5></div>
-        <div class="authors" tal:define="local author_ref view/show_authors_ref">
-                <ul>
-                <div tal:repeat="x python:author_ref" tal:omit-tag="">
-                <h6>
-		<span   tal:condition="python:x[2]<5">
-                <li  class="list-unstyled">
-                <input type="checkbox" name="faceta:list" tal:attributes="value python:x[0]+'+r';"  onclick="this.form.submit();" class="ref">
-                <span   tal:condition="python:x[1]==True"><strong>
-                <span   tal:replace="python:x[0]">this </span></strong></span>
-                <span  class="text-muted" tal:condition="python:x[1]==False">
-                <span  tal:replace="python:x[0]">this </span></span>
-                </li>
+	<div class="authors" tal:define="local author_ref view/show_authors_ref">
+		<ul>
+		<div tal:repeat="x python:author_ref" tal:omit-tag="">
+		<h6>
+		<span	tal:condition="python:x[2]<5">
+		<li  class="list-unstyled">
+		<input type="checkbox" name="faceta:list" tal:attributes="value python:x[0]+'+r';"  onclick="this.form.submit();" class="ref">
+		<span	tal:condition="python:x[1]==True"><strong>
+		<span	tal:replace="python:x[0]">this </span></strong></span>
+		<span  class="text-muted" tal:condition="python:x[1]==False">
+		<span  tal:replace="python:x[0]">this </span></span>
+		</li>
 		</span>
-                </h6>
-                </div>
-                </ul>
-        </div>
-        <div class="authors" tal:define="local author_ref view/show_authors_ref">
+		</h6>
+		</div>
+		</ul>
+	</div>
+	<div class="authors" tal:define="local author_ref view/show_authors_ref">
 	<div id="collapseAuthorR" class="panel-collapse collapse">
-                <ul>
-                <div tal:repeat="x python:author_ref" tal:omit-tag="">
-                <h6>
-		<span   tal:condition="python:x[2]>=5">
-                <li  class="list-unstyled">
-                <input type="checkbox" name="faceta:list" tal:attributes="value python:x[0]+'+r';"  onclick="this.form.submit();" class="ref">
-                <span   tal:condition="python:x[1]==True"><strong>
-                <span   tal:replace="python:x[0]">this </span></strong></span>
-                <span  class="text-muted" tal:condition="python:x[1]==False">
-                <span  tal:replace="python:x[0]">this </span></span>
-                </li>
+		<ul>
+		<div tal:repeat="x python:author_ref" tal:omit-tag="">
+		<h6>
+		<span	tal:condition="python:x[2]>=5">
+		<li  class="list-unstyled">
+		<input type="checkbox" name="faceta:list" tal:attributes="value python:x[0]+'+r';"  onclick="this.form.submit();" class="ref">
+		<span	tal:condition="python:x[1]==True"><strong>
+		<span	tal:replace="python:x[0]">this </span></strong></span>
+		<span  class="text-muted" tal:condition="python:x[1]==False">
+		<span  tal:replace="python:x[0]">this </span></span>
+		</li>
 		</span>
-                </h6>
-                </div>
-                </ul>
-        </div>
-	<span   tal:condition="python:author_ref.__len__()>5">
+		</h6>
+		</div>
+		</ul>
+	</div>
+	<span	tal:condition="python:author_ref.__len__()>5">
 	<a id='moreauthorr' class="accordion-toggle" data-toggle="collapse"  href="#collapseAuthorR">
 	<span class="collapseAuthorRspan">
-      	More
+	More
 	</span>
-        </a>
+	</a>
 	</span>
-        </div>
 	</div>
-        <!--****************************************************************************-->
+	</div>
+	<!--****************************************************************************-->
 	<div class="contenedor">
 	<div class='text-center'><h5 class="text-success"><strong>collaborators</strong></h5></div>
-        <div class="collaborators" tal:define="local collaborator_ref view/show_collaborators_ref">
-                <ul>
-                <div tal:repeat="x python:collaborator_ref" tal:omit-tag="">
-                <h6>
-		<span   tal:condition="python:x[2]<5">
-                <li  class="list-unstyled">
-                <input type="checkbox" name="faceta:list" tal:attributes="value python:x[0]+'+r';"  onclick="this.form.submit();" class="ref">
-                <span   tal:condition="python:x[1]==True"><strong>
-                <span   tal:replace="python:x[0]">this </span></strong></span>
-                <span  class="text-muted" tal:condition="python:x[1]==False">
-                <span  tal:replace="python:x[0]">this </span></span>
-                </li>
+	<div class="collaborators" tal:define="local collaborator_ref view/show_collaborators_ref">
+		<ul>
+		<div tal:repeat="x python:collaborator_ref" tal:omit-tag="">
+		<h6>
+		<span	tal:condition="python:x[2]<5">
+		<li  class="list-unstyled">
+		<input type="checkbox" name="faceta:list" tal:attributes="value python:x[0]+'+r';"  onclick="this.form.submit();" class="ref">
+		<span	tal:condition="python:x[1]==True"><strong>
+		<span	tal:replace="python:x[0]">this </span></strong></span>
+		<span  class="text-muted" tal:condition="python:x[1]==False">
+		<span  tal:replace="python:x[0]">this </span></span>
+		</li>
 		</span>
-                </h6>
-                </div>
-                </ul>
-        </div>
-        <div class="collaborators" tal:define="local collaborator_ref view/show_collaborators_ref">
+		</h6>
+		</div>
+		</ul>
+	</div>
+	<div class="collaborators" tal:define="local collaborator_ref view/show_collaborators_ref">
 	<div id="collapseCollR" class="panel-collapse collapse">
-                <ul>
-                <div tal:repeat="x python:collaborator_ref" tal:omit-tag="">
-                <h6>
-		<span   tal:condition="python:x[2]>=5">
-                <li  class="list-unstyled">
-                <input type="checkbox" name="faceta:list" tal:attributes="value python:x[0]+'+r';"  onclick="this.form.submit();" class="ref">
-                <span   tal:condition="python:x[1]==True"><strong>
-                <span   tal:replace="python:x[0]">this </span></strong></span>
-                <span  class="text-muted" tal:condition="python:x[1]==False">
-                <span  tal:replace="python:x[0]">this </span></span>
-                </li>
+		<ul>
+		<div tal:repeat="x python:collaborator_ref" tal:omit-tag="">
+		<h6>
+		<span	tal:condition="python:x[2]>=5">
+		<li  class="list-unstyled">
+		<input type="checkbox" name="faceta:list" tal:attributes="value python:x[0]+'+r';"  onclick="this.form.submit();" class="ref">
+		<span	tal:condition="python:x[1]==True"><strong>
+		<span	tal:replace="python:x[0]">this </span></strong></span>
+		<span  class="text-muted" tal:condition="python:x[1]==False">
+		<span  tal:replace="python:x[0]">this </span></span>
+		</li>
 		</span>
-                </h6>
-                </div>
-                </ul>
-        </div>
-	<span   tal:condition="python:collaborator_ref.__len__()>5">
+		</h6>
+		</div>
+		</ul>
+	</div>
+	<span	tal:condition="python:collaborator_ref.__len__()>5">
 	<a id='morecollr' class="accordion-toggle" data-toggle="collapse"  href="#collapseCollR">
 	<span class="collapseCollRspan">
-      	More
+	More
 	</span>
-        </a>
+	</a>
 	</span>
-        </div>
+	</div>
 	</div>
        <!--****************************************************************************-->
 	<div class="contenedor">
 	<div class='text-center'><h5 class="text-success"><strong>types</strong></h5></div>
-        <div class="types" tal:define="local type_ref view/show_types_ref">    
-                <ul>
-                <div tal:repeat="x python:type_ref" tal:omit-tag="">
-                <h6>
-		<span   tal:condition="python:x[2]<5">
-                <li  class="list-unstyled">
-                <input type="checkbox" name="faceta:list" tal:attributes="value python:x[0]+'+r';"  onclick="this.form.submit();" class="ref">
-                <span   tal:condition="python:x[1]==True"><strong>
-                <span   tal:replace="python:x[0]">this </span></strong></span>
-                <span  class="text-muted" tal:condition="python:x[1]==False">
-                <span  tal:replace="python:x[0]">this </span></span>
-                </li>
+	<div class="types" tal:define="local type_ref view/show_types_ref">    
+		<ul>
+		<div tal:repeat="x python:type_ref" tal:omit-tag="">
+		<h6>
+		<span	tal:condition="python:x[2]<5">
+		<li  class="list-unstyled">
+		<input type="checkbox" name="faceta:list" tal:attributes="value python:x[0]+'+r';"  onclick="this.form.submit();" class="ref">
+		<span	tal:condition="python:x[1]==True"><strong>
+		<span	tal:replace="python:x[0]">this </span></strong></span>
+		<span  class="text-muted" tal:condition="python:x[1]==False">
+		<span  tal:replace="python:x[0]">this </span></span>
+		</li>
 		</span>
-                </h6>
-                </div>
-                </ul>
-        </div>
-        <div class="types" tal:define="local type_ref view/show_types_ref">
+		</h6>
+		</div>
+		</ul>
+	</div>
+	<div class="types" tal:define="local type_ref view/show_types_ref">
 	<div id="collapseTypeR" class="panel-collapse collapse"> 
-                <ul>
-                <div tal:repeat="x python:type_ref" tal:omit-tag="">
-                <h6>
-		<span   tal:condition="python:x[2]>=5">
-                <li  class="list-unstyled">
-                <input type="checkbox" name="faceta:list" tal:attributes="value python:x[0]+'+r';"  onclick="this.form.submit();" class="ref">
-                <span   tal:condition="python:x[1]==True"><strong>
-                <span   tal:replace="python:x[0]">this </span></strong></span>
-                <span  class="text-muted" tal:condition="python:x[1]==False">
-                <span  tal:replace="python:x[0]">this </span></span>
-                </li>
+		<ul>
+		<div tal:repeat="x python:type_ref" tal:omit-tag="">
+		<h6>
+		<span	tal:condition="python:x[2]>=5">
+		<li  class="list-unstyled">
+		<input type="checkbox" name="faceta:list" tal:attributes="value python:x[0]+'+r';"  onclick="this.form.submit();" class="ref">
+		<span	tal:condition="python:x[1]==True"><strong>
+		<span	tal:replace="python:x[0]">this </span></strong></span>
+		<span  class="text-muted" tal:condition="python:x[1]==False">
+		<span  tal:replace="python:x[0]">this </span></span>
+		</li>
 		</span>
-                </h6>
-                </div>
-                </ul>
-        </div>
-	<span   tal:condition="python:type_ref.__len__()>5">
+		</h6>
+		</div>
+		</ul>
+	</div>
+	<span	tal:condition="python:type_ref.__len__()>5">
 	<a  id='moretyper' class="accordion-toggle" data-toggle="collapse"  href="#collapseTypeR">
 	<span class="collapseTypeRspan">
-      	More
+	More
 	</span>
-        </a>
+	</a>
 	</span>
 	</div>
 	</div>
-        <!--****************************************************************************-->
-        
-        
+	<!--****************************************************************************-->
+	
+	
 	<div class="contenedor">
 	<div class='text-center'><h5 class="text-success"><strong>journals</strong></h5></div>
-        <div class="journals" tal:define="local journal_ref view/show_journals_ref">  
-                <ul>
-                <div  tal:repeat="x python:journal_ref" tal:omit-tag="">
-                <h6>
-		<span   tal:condition="python:x[2]<5">
-                <li  class="list-unstyled">
-                <input type="checkbox" name="faceta:list" tal:attributes="value python:x[0]+'+r';"  onclick="this.form.submit();" class="ref">
-                <span   tal:condition="python:x[1]==True"><strong>
-                <span   tal:replace="python:x[0]">this </span></strong></span>
-                <span  class="text-muted" tal:condition="python:x[1]==False">
-                <span  tal:replace="python:x[0]">this </span></span>
-                </li>
+	<div class="journals" tal:define="local journal_ref view/show_journals_ref">  
+		<ul>
+		<div  tal:repeat="x python:journal_ref" tal:omit-tag="">
+		<h6>
+		<span	tal:condition="python:x[2]<5">
+		<li  class="list-unstyled">
+		<input type="checkbox" name="faceta:list" tal:attributes="value python:x[0]+'+r';"  onclick="this.form.submit();" class="ref">
+		<span	tal:condition="python:x[1]==True"><strong>
+		<span	tal:replace="python:x[0]">this </span></strong></span>
+		<span  class="text-muted" tal:condition="python:x[1]==False">
+		<span  tal:replace="python:x[0]">this </span></span>
+		</li>
 		</span>
-                </h6>
-                </div>
-                </ul>
-        </div>
-        <div class="journals" tal:define="local journal_ref view/show_journals_ref">  
+		</h6>
+		</div>
+		</ul>
+	</div>
+	<div class="journals" tal:define="local journal_ref view/show_journals_ref">  
 	<div id="collapseJournalR" class="panel-collapse collapse">
-                <ul>
-                <div  tal:repeat="x python:journal_ref" tal:omit-tag="">
-                <h6>
-		<span   tal:condition="python:x[2]>=5">
-                <li  class="list-unstyled">
-                <input type="checkbox" name="faceta:list" tal:attributes="value python:x[0]+'+r';"  onclick="this.form.submit();" class="ref">
-                <span   tal:condition="python:x[1]==True"><strong>
-                <span   tal:replace="python:x[0]">this </span></strong></span>
-                <span  class="text-muted" tal:condition="python:x[1]==False">
-                <span  tal:replace="python:x[0]">this </span></span>
-                </li>
+		<ul>
+		<div  tal:repeat="x python:journal_ref" tal:omit-tag="">
+		<h6>
+		<span	tal:condition="python:x[2]>=5">
+		<li  class="list-unstyled">
+		<input type="checkbox" name="faceta:list" tal:attributes="value python:x[0]+'+r';"  onclick="this.form.submit();" class="ref">
+		<span	tal:condition="python:x[1]==True"><strong>
+		<span	tal:replace="python:x[0]">this </span></strong></span>
+		<span  class="text-muted" tal:condition="python:x[1]==False">
+		<span  tal:replace="python:x[0]">this </span></span>
+		</li>
 		</span>
-                </h6>
-                </div>
-                </ul>
-        </div>
-	<span   tal:condition="python:journal_ref.__len__()>5">
+		</h6>
+		</div>
+		</ul>
+	</div>
+	<span	tal:condition="python:journal_ref.__len__()>5">
 	<a id='morejournalr' class="accordion-toggle" data-toggle="collapse"  href="#collapseJournalR">
 	<span class="collapseJournalRspan">
-      	More
+	More
 	</span>
-        </a>
+	</a>
 	</span>
-        </div>
-        </div> 
-        
+	</div>
+	</div> 
+	
   
-   <!--*************************************************************************************-->             
+   <!--*************************************************************************************-->		    
    </div>  <!--cierre "col-md-3" -->
    <div class="col-md-9  col-xs-9">
 	<button class="btn btn-primary" id="submit3">Submit publications </button>
-   <!--********************************************************-->          
-        <div >
-        <div class="row" style="margin-top:0.5cm">
-                <div class="table-responsive" tal:define="local publication_ref view/show_pub_ref">
-                 <table class="dataTable table" style="word-wrap:break-word; " >
-                 <thead>
-                        <tr >
-                        <th></th>
-                        <th >Title</th>
-                        <th >Type</th>
-                        <th >Author</th>
-                        <th >Journal</th>
-                        <th >Year</th>
+   <!--********************************************************-->	    
+	<div >
+	<div class="row" style="margin-top:0.5cm">
+		<div class="table-responsive" tal:define="local publication_ref view/show_pub_ref">
+		 <table class="dataTable table" style="word-wrap:break-word; " >
+		 <thead>
+			<tr >
+			<th></th>
+			<th >Title</th>
+			<th >Type</th>
+			<th >Author</th>
+			<th >Journal</th>
+			<th >Year</th>
 			<th >Cited_by</th>
 			<th>References</th>
-                        </tr>
-                 </thead>
-                 <tbody id="myTable-ref" >
-                        <tr  tal:repeat="row publication_ref" style="background-color: #f5f5f5;">
-                           <span tal:define="first python:''.join(row.split('%%')[0])" >
-                           <span tal:define="second python:''.join(row.split('%%')[1])" >
-                           <span tal:define="citedby python:''.join(row.split('%%')[6])" >
-                           <span tal:define="references python:''.join(row.split('%%')[7])" >
-                           <span tal:define="get_url_pub view/get_url_ref">
+			</tr>
+		 </thead>
+		 <tbody id="myTable-ref" >
+			<tr  tal:repeat="row publication_ref" style="background-color: #f5f5f5;">
+			   <span tal:define="first python:''.join(row.split('%%')[0])" >
+			   <span tal:define="second python:''.join(row.split('%%')[1])" >
+			   <span tal:define="citedby python:''.join(row.split('%%')[6])" >
+			   <span tal:define="references python:''.join(row.split('%%')[7])" >
+			   <span tal:define="get_url_pub view/get_url_ref">
 
-                           <td tal:repeat="column python:row.split('%%')" >
-
-
-                            <span   tal:condition="python:first==column">
-        	                    <input type="checkbox" name="publication:list" tal:attributes="value python:first+'+y';"   class="pub">
-                            </span>
+			   <td tal:repeat="column python:row.split('%%')" >
 
 
-                            <span   tal:condition="python:column==second ">
-                            <a tal:attributes="href string:$get_url_pub/$first">
-                               <span tal:replace="python:second">this </span>
-                            </a>
-                            </span>
-
-                            <span   tal:condition="python:first!=column and column!=citedby and column!=references and column!=second">
-                            <span tal:replace="string:$column"></span>
-                            </span>
+			    <span   tal:condition="python:first==column">
+				    <input type="checkbox" name="publication:list" tal:attributes="value python:first+'+y';"   class="pub">
+			    </span>
 
 
-                            <span   tal:condition="python:citedby==column and [x for x in column.split(',,') if x.strip().__len__()>0].__len__()>0">
-                                <span tal:define="get_url_cit view/get_url_pub">
-                            	<span tal:define="numero_citas python:[x for x in column.split(',,') if x.strip().__len__()>0].__len__()">
-                                <div class="btn-group">
-                                <button type="button" class="btn btn-link" data-toggle="modal"  tal:attributes="data-target string:#$first">
-	                        <span tal:replace="python:str(numero_citas).zfill(4)">this</span>
-                                </button>
+			    <span   tal:condition="python:column==second ">
+			    <a tal:attributes="href string:$get_url_pub/$first">
+			       <span tal:replace="python:second">this </span>
+			    </a>
+			    </span>
+
+			    <span   tal:condition="python:first!=column and column!=citedby and column!=references and column!=second">
+			    <span tal:replace="string:$column"></span>
+			    </span>
+
+
+			    <span   tal:condition="python:citedby==column and [x for x in column.split(',,') if x.strip().__len__()>0].__len__()>0">
+				<span tal:define="get_url_cit view/get_url_pub">
+				<span tal:define="numero_citas python:[x for x in column.split(',,') if x.strip().__len__()>0].__len__()">
+				<div class="btn-group">
+				<button type="button" class="btn btn-link" data-toggle="modal"	tal:attributes="data-target string:#$first">
+				<span tal:replace="python:str(numero_citas).zfill(4)">this</span>
+				</button>
 				<!-- Modal -->
 				<div class="modal fade" style='width:50%;overflow-y:auto;margin-left: 25%;' tal:attributes="id string:$first" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" >
 				<div class="modal-content">
@@ -1538,19 +1538,19 @@ Indice <i>i10</i>:
 				<h4 class="modal-title" id="myModalLabel">Cited by</h4>
 				</div>
 				<div class="modal-body">
-                                <ol>
-                                        <div tal:repeat="parcit python:column.split(',')"  tal:omit-tag="">
-                                          <span tal:define="idcit python:parcit.split(';;')[0]" >
-                                	  <span tal:condition="python:parcit.split(';;').__len__()>1">
-                                          <li class="text-left">
-                                                <a tal:attributes="href string:$get_url_cit/$idcit">
-                                                <span tal:replace="python:parcit.split(';;')[1]">this </span>
-                                                </a>
-                                          </li>
-                                          </span>
-                                          </span>
-                                        </div>
-                                </ol>
+				<ol>
+					<div tal:repeat="parcit python:column.split(',')"  tal:omit-tag="">
+					  <span tal:define="idcit python:parcit.split(';;')[0]" >
+					  <span tal:condition="python:parcit.split(';;').__len__()>1">
+					  <li class="text-left">
+						<a tal:attributes="href string:$get_url_cit/$idcit">
+						<span tal:replace="python:parcit.split(';;')[1]">this </span>
+						</a>
+					  </li>
+					  </span>
+					  </span>
+					</div>
+				</ol>
 				</div>
 				<div class="modal-footer">
 				<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
@@ -1558,47 +1558,47 @@ Indice <i>i10</i>:
 				</div><!-- /.modal-content -->
 				</div><!-- /.modal -->
 
-                                </div>
-                                </span>
-                                </span>
-                            </span>
+				</div>
+				</span>
+				</span>
+			    </span>
 <!--***************************************************************************-->
 
-                            <span   tal:condition="python:references==column" >
-                                <span tal:condition="python:''.join(column.split(',')).strip().__len__()>0">
-                                </span>
-                            </span>
-                           </td>
-                           </span></span>
-                           </span></span>
-                           </span>
-                        </tr>
+			    <span   tal:condition="python:references==column" >
+				<span tal:condition="python:''.join(column.split(',')).strip().__len__()>0">
+				</span>
+			    </span>
+			   </td>
+			   </span></span>
+			   </span></span>
+			   </span>
+			</tr>
 		</tbody>
-                 <tfoot>
-                        <tr >
-                        <th></th>
-                        <th >Title</th>
-                        <th >Type</th>
-                        <th >Author</th>
-                        <th >Journal</th>
-                        <th >Year</th>
+		 <tfoot>
+			<tr >
+			<th></th>
+			<th >Title</th>
+			<th >Type</th>
+			<th >Author</th>
+			<th >Journal</th>
+			<th >Year</th>
 			<th >Cited_by</th>
 			<th>References</th>
-                        </tr>
-                 </tfoot>
-                </table>
-                </div>
+			</tr>
+		 </tfoot>
+		</table>
+		</div>
 	</div>
 	</div>
 
-        
-   <!--********************************************************-->          
+	
+   <!--********************************************************-->	    
    </div><!--col-md-9-->
    </div>    <!--row-->  
-</div>    <!--container-->  
-</div>    <!--item-->  
+</div>	  <!--container-->  
+</div>	  <!--item-->  
 <!--  ######################################################################################### -->
-        </div> <!--cierre inner-->
+	</div> <!--cierre inner-->
     </div> <!--row -->
 
 <a class="carousel-control left" href="#myCarousel" data-slide="prev">
@@ -1608,7 +1608,7 @@ Indice <i>i10</i>:
 <span class="glyphicon glyphicon-chevron-right"><h5>References</h5></span>
 </a>
 
-</div>  <!--my -->
+</div>	<!--my -->
 </div>
 
 </form>
