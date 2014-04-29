@@ -1,10 +1,14 @@
 import publication
 import networkx as nx
-import unicodedata
+
 import re
+import unicodedata
 from sets import Set
 #import matplotlib.pyplot as plt
 #import sys
+
+
+
 
 class arbol:
 
@@ -27,6 +31,10 @@ class arbol:
 #	 self.list_valid_authors = Set([])
 	
 	self.object_tmp = publication.publication()
+
+    def remove_accents(self,data):
+	return ''.join(x for x in unicodedata.normalize('NFKD', data) if x in string.ascii_letters).lower()
+
 	
     def leer_autores(self, filenameAuthors):
 #	 researchers_file = open (filenameAuthors,"r+")
@@ -42,37 +50,38 @@ class arbol:
 	researchers_file.close()
 	
     def leer(self, filenameBib):
-	list_types=['article', 'book','booklet', 'conference', 'inbook','incollection','inproceedings','manual', 'mastersthesis','misc','phdthesis','proceedings','techreport','unpublished']
 #	 input_file=open(filenameBib,"r+")
 	input_file = filenameBib 
 	input_file = input_file.open()
 
-#	list_entrada = filenameBib.split('\n')
-#	 for line in list_entrada:
-
-	for line in  input_file:
+##	list_entrada = filenameBib.split('\n')
+##	  for line in list_entrada:
+	for line in input_file:
+	    text=repr(line.decode('unicode-escape'))
+	    text= text.encode("utf-8")
 	    objeto = self.object_tmp
 	    if '@'  in line:
 		try:
+		    
 		    type_pub = re.search('@(.+?){',line).group(1)
-		    if type_pub.lower() in list_types: 
-			    key_pub = re.search('{(.+?),',line).group(1)
-			    type_pub = type_pub.strip()
-			    type_pub = type_pub.title()
-			    key_pub = key_pub.strip()
-			    self.list_types.add(type_pub)
+		    key_pub = re.search('{(.+?),',line).group(1)
+		    type_pub = type_pub.strip()
+		    type_pub = type_pub.title()
+		    key_pub = key_pub.strip()
+
+		    self.list_types.add(type_pub)
     
-			    self.list_objects.add(objeto)
+		    self.list_objects.add(objeto)
 			
-			    self.object_tmp = publication.publication()
+		    self.object_tmp = publication.publication()
 			
-			    self.object_tmp.idp = key_pub
+		    self.object_tmp.idp = key_pub
 			
-			    self.object_tmp.type = type_pub			   
+		    self.object_tmp.type = type_pub			   
 			
 		except AttributeError:
-		    a=''
-#		    print "attributeError:arbol:leer:line: ",line
+		    type_pub = ''
+		    key_pub =  ''
 	    
 	    elif 'author' in line:
 		try:
@@ -95,7 +104,7 @@ class arbol:
 			
 			
 		except AttributeError:
-			a=''
+		    collaborators_pub = ''
 	    
 	    elif 'title' in line and not 'booktitle ' in line:
 		try:
@@ -103,7 +112,7 @@ class arbol:
 		    title_pub = title_pub.strip()
 		    objeto.title = title_pub
 		except AttributeError:
-		    a=''
+		    title_pub = ''
 	    elif 'journal' in line:
 		try:
 		    journal_pub = re.search('{(.+?)}',line).group(1)
@@ -111,8 +120,7 @@ class arbol:
 		    self.list_journals.add(journal_pub)
 		    objeto.journal = journal_pub
 		except AttributeError:
-		    a=''
-		    #print "attributeError:arbol:leer:line: ",line
+		    journal_pub=''
 		    
 	    elif 'publisher' in line:
 		try:
@@ -121,7 +129,7 @@ class arbol:
 		    self.list_publisher.add(publisher_pub)
 		    objeto.publisher = publisher_pub
 		except AttributeError:
-		    a=''
+		    publisher_pub = ''
 		    
 	    elif 'year' in line:
 		try:
@@ -130,12 +138,20 @@ class arbol:
 		    self.list_years.add(year_pub)
 		    objeto.year = year_pub
 		except AttributeError:
-		    a=''
-#		     objeto.year = year_pub
+		    year_pub =''
 
 	    elif 'citedby' in line or 'reference' in line:
+		line=line.replace("{a}",'a')
+		line=line.replace("{e}",'e')
+		line=line.replace("{i}",'i')
+		line=line.replace("{o}",'o')
+		line=line.replace("{u}",'u')
+		line=line.replace("{",'')
+		line=line.replace("}",'')
+		line=line.replace("\\'",'')
+		line=line.replace("\\v",'')
+		line=line.replace("~",'')
 		if 'citedby' in line:
-		  try:
 		    citation_str = re.search("citedby(.+?)\)",line).group(1)
 		    citation_list = citation_str.split(',')
 		    for item in citation_list:
@@ -146,15 +162,11 @@ class arbol:
 			string = string.replace('\\','')
 			string = string.replace('(','')
 			string = string.replace(')','')
+			#string = ''.join(e for e in string if e.isalnum())
 			if string.__len__()>0:
-				string = string.decode('utf-8')
-				string=unicodedata.normalize('NFKD',string).encode('ascii','ignore')
 				self.list_citation.add(string)
 				objeto.citation.add(string)
-		  except AttributeError:
-		    a=''
 		if 'reference' in line:
-		  try:
 		    reference_str = re.search('reference(.+?)\)',line).group(1)
 		    reference_list = reference_str.split(',')
 		    for item in reference_list:
@@ -164,17 +176,16 @@ class arbol:
 			string = string.replace('{','')
 			string = string.replace('\\','')
 			string = string.replace('(','')
-			string = string.replace(')','')
+			#string = string.replace(')','')
+			string = ''.join(e for e in string if e.isalnum())
 
 			if string.__len__()>0:
-				string = string.decode('utf-8')
-				string=unicodedata.normalize('NFKD',string).encode('ascii','ignore')
 				self.list_reference.add(string)
 				objeto.reference.add(string)
 
-		  except AttributeError:
-		    a=''
-#	     self.list_objects.add(objeto)
+		
+	    elif line.strip().__len__()>0:
+		    self.list_objects.add(objeto)
 	input_file.close()
     
        
@@ -232,7 +243,7 @@ class arbol:
 	    if item != '':
 		self.G.add_node(item,leaf='0')
 		self.G.add_edge(item,"year")
-#	 print 'arbol: ',self.G.predecessors("year")
+		
 	for item in self.list_journals:
 	    if item != '':
 		self.G.add_node(item,leaf='0')

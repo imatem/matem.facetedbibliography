@@ -56,16 +56,13 @@ class interface(object):
 	self.list_ext_type = self.tree.extension("type")
 	self.list_objs = self.list_objs.union(self.list_ext_type)
 	
-#	list_aux=[]
-#	for item in self.tree.G.predecessors("year"):#extension("year")
-#		list_aux.append(item)
-#	 self.list_ext_year=list_aux 
 	self.list_ext_year = self.tree.extension("year")
-	
 	self.list_objs = self.list_objs.union(self.list_ext_year)
 	
 	self.list_ext_journal = self.tree.extension("journal")
 	self.list_objs = self.list_objs.union(self.list_ext_journal)
+	
+	
 	
 	self.list_val_author = self.tree.valido("author", self.list_ext_author)
 	self.list_val_collaborator = self.tree.valido("collaborator", self.list_ext_collaborator)
@@ -125,9 +122,10 @@ class interface(object):
 	list_c = Set([])
 	list_r = Set([])
 	for item in self.list_objs:
-		obj = self.tree.G.node[item]['data']
-		list_c = list_c.union(obj.citation)  #union de listas
-		list_r = list_r.union(obj.reference)
+		if self.tree.G.has_node(item):
+			obj = self.tree.G.node[item]['data']
+			list_c = list_c.union(obj.citation)  #union de listas
+			list_r = list_r.union(obj.reference)
 	    
 	    #de la lista de objetos obtengo las citas y referencias que son IDs
 	self.list_citation = list_c #self.tree.get_objects_list(list_c) #obtengo los objetos con los IDs pasados
@@ -254,8 +252,7 @@ class interface(object):
 	for item in c:
 		string='%%'.join(item)
 		d.append(string)
-#	self.print_list_objs()
-		
+	
 	return d
 
 
