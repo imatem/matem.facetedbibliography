@@ -18,7 +18,6 @@
 	    rel="stylesheet" type="text/css"/>
     <link rel="stylesheet" type="text/css" media="screen" href="++resource++jquery.datatables/media/css/jquery.dataTables.css">
     <link rel="stylesheet" type="text/css" media="screen" href="++resource++jquery.datatables/extras/TableTools/media/css/TableTools.css">
-    <link rel="stylesheet" type="text/css" media="screen" href="++resource++d3.parcoords.css">
 </metal:css>
 
 <metal:override fill-slot="top_slot"
@@ -33,9 +32,6 @@
    <script type="text/javascript" src="++resource++jquery.datatables.js"></script>
    <script type="text/javascript" src="++resource++jquery.datatables/extras/TableTools/media/js/ZeroClipboard.js"></script>
    <script type="text/javascript" src="++resource++jquery.datatables/extras/TableTools/media/js/TableTools.js"></script>
-
-   <script type="text/javascript" src="++resource++d3.js " charset="utf-8"></script>
-   <script type="text/javascript" src="++resource++d3.parcoords.js" charset="utf-8"></script>
 
     <tal:insert tal:replace="nothing" tal:define="dummy python:request.set('disable_border', True)" />
    
