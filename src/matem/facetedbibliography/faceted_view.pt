@@ -1142,7 +1142,7 @@ Indice <i>i10</i>:
 		</div>
 		</ul>
 	</div>	
-	<div div class='journals' tal:define="local journal view/show_journals">
+	<div class='journals' tal:define="local journal view/show_journals">
 	<div id="collapseJournal" class="panel-collapse collapse" >
 		<ul >
 		<div  tal:repeat="x python:journal" tal:omit-tag="">   
