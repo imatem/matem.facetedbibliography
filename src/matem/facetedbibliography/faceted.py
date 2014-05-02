@@ -8,6 +8,18 @@ from bibliograph.rendering.interfaces import IBibliographyRenderer
 from zope import component
 from Products.CMFCore.utils import getToolByName
 import plone.api
+import json
+from zope.interface import implements
+
+class ExampleTablesView(BrowserView):
+    def __init__(self,context,request):
+	''''''
+	self.context = context
+	self.request = request
+
+    def getCurrentUrl(self):
+	return self.context.absolute_url()
+
 class FacetedView(BrowserView):
 
     template = ViewPageTemplateFile('faceted_view.pt')
@@ -67,8 +79,10 @@ class FacetedView(BrowserView):
 	
 	self.list_input = Set([])
 	self.list_input_citation = Set([])
-	self.list_input_reference  = Set([])	
-
+	self.list_input_reference  = Set([])  
+    def send_info(self):
+	return	self.show_publications()
+	
     def _getRenderer(self,context):
 	# see Products/CMFBibliographyAT/browser/export.py
 	#getAllUtilitiesRegisteredFor ( interface, context=None )
@@ -465,6 +479,8 @@ class FacetedView(BrowserView):
     def indice_i10(self):
 	return self.interface_principal_aux.indice_i10() 
 
+    def list_ids(self):
+	 return self.interface_principal.list_objs
     def show_years(self):
 	j=False
 	list_ij =[]
@@ -554,7 +570,6 @@ class FacetedView(BrowserView):
 			idc=i.strip()
 			if idc.__len__()>0 and self.interface_citation_aux.tree.G.has_node(idc):
 				obj=  self.interface_citation_aux.tree.G.node[idc]['data']
-#				str_b= idc +';;'+ obj.title
 				obj.title=obj.title.replace('.','')
 				if obj.journal.__len__()>0:
 					str_b= idc +';;'+ "; ".join(sorted(obj.author))+ '. '+ obj.title +". "+obj.journal+". "+ obj.year
@@ -563,12 +578,10 @@ class FacetedView(BrowserView):
 					str_b= idc +';;'+ "; ".join(sorted(obj.author))+ '. '+ obj.title +". "+obj.publisher+". "+ obj.year
 				str_b= str_b.replace(',','')
 				list_2b.append(str_b)
-				
 		for i in list_c:
 			idc=i.strip()
 			if idc.__len__()>0 and self.interface_reference_aux.tree.G.has_node(idc):
 				obj= self.interface_reference_aux.tree.G.node[idc]['data']
-				#str_c= idc +';;'+ obj.title
 				obj.title=obj.title.replace('.','')
 				if obj.journal.__len__()>0:
 					str_c= idc +';;'+ "; ".join(sorted(obj.author))+ '. '+ obj.title +". "+obj.journal+". "+ obj.year
@@ -577,14 +590,48 @@ class FacetedView(BrowserView):
 					str_c= idc +';;'+ "; ".join(sorted(obj.author))+ '. '+ obj.title +". "+obj.publisher+". "+ obj.year
 				str_c= str_c.replace(',','')
 				list_2c.append(str_c)
-	
 		list_a[6]=',,'.join(list_2b)
 		list_a[7]=',,'.join(list_2c)
 		str_final='%%'.join(list_a)
 		list_final.append(str_final)
 	
 	return list_final
+    def show_publications(self):
+	list_pub=self.interface_principal.resultado()
+	list_final=[]
+	
+	for item in  list_pub:
+		list_elem=[]
+		list_item=item
+		citations = list_item[6]
+		references= list_item[7]
+		aux1=[]
+		for i in citations:
+			if self.interface_citation_aux.tree.G.has_node(i):
+				obj= self.interface_citation_aux.tree.G.node[i]['data']
+				text=''
+				if obj.journal.__len__()>0:
+					text= ', '.join((sorted(obj.author))) + '. '+ obj.title +". "+obj.journal+". "+ obj.year
+				else:
+					text= ', '.join((sorted(obj.author))) + '. '+ obj.title +". "+obj.publisher+". "+ obj.year
+				aux1.append([i,text])
+				
+		aux2=[]
+		for j in references:
+			if self.interface_reference_aux.tree.G.has_node(j):
+				obj= self.interface_reference_aux.tree.G.node[j]['data']
+				text=''
+				if obj.journal.__len__()>0:
+					text= ', '.join((sorted(obj.author))) + '. '+ obj.title +". "+obj.journal+". "+ obj.year
+				else:
+					text= ', '.join((sorted(obj.author))) + '. '+ obj.title +". "+obj.publisher+". "+ obj.year
+				aux2.append([j,text])
+			
+		list_final.append([list_item[0],list_item[1],list_item[2],list_item[3],list_item[4],list_item[5],aux1,aux2])
+	return	list_final
 
+
+		
     def show_num_pub(self):
 	list_pub= self.interface_principal.return_list_objs()
 	return	filter(None, list_pub).__len__()
@@ -598,20 +645,22 @@ class FacetedView(BrowserView):
     def get_url(self):
 	return self.context.absolute_url_path()
 	
-    def get_url_ref(self):
-	return self.context['referencias'].absolute_url_path()
+#    def get_url_ref(self):
+#	return self.context['referencias'].absolute_url_path()
 
-    def get_url_cit(self):
-	return self.context['citas'].absolute_url_path()
+#    def get_url_cit(self):
+#	return self.context['citas'].absolute_url_path()
 
-    def get_url_pub(self):
-	return self.context['publicaciones'].absolute_url_path()
+#    def get_url_pub(self):
+#	return self.context['publicaciones'].absolute_url_path()
 
 #
 ##########################################################################
     def show_list_cit(self):
 	return sorted(self.list_cit)
 
+    def list_ids_cit(self):
+	 return self.interface_citation.list_objs
     def show_years_cit(self):
 	j=False
 	k=0
@@ -699,7 +748,6 @@ class FacetedView(BrowserView):
 			idc=i.strip()
 			if idc.__len__()>0 and self.interface_principal_aux.tree.G.has_node(idc):
 				obj= self.interface_principal_aux.tree.G.node[idc]['data']
-#				 str_c= idc +';;'+ obj.title
 				obj.title=obj.title.replace('.','')
 				if obj.journal.__len__()>0:
 					str_c= idc +';;'+ "; ".join(sorted(obj.author))+ '. '+ obj.title +". "+obj.journal+". "+ obj.year
@@ -714,6 +762,28 @@ class FacetedView(BrowserView):
 		list_final.append(str_final)
 	return list_final
 
+    def show_publications_cit(self):
+	list_pub=self.interface_citation.resultado()
+	list_final=[]
+	
+	for item in  list_pub:
+		list_elem=[]
+		list_item=item
+		citations = list_item[6]
+		references= list_item[7]
+		aux2=[]
+		for j in references:
+			if self.interface_principal_aux.tree.G.has_node(j):
+				obj= self.interface_principal_aux.tree.G.node[j]['data']
+				text=''
+				if obj.journal.__len__()>0:
+					text= ', '.join((sorted(obj.author))) + '. '+ obj.title +". "+obj.journal+". "+ obj.year
+				else:
+					text= ', '.join((sorted(obj.author))) + '. '+ obj.title +". "+obj.publisher+". "+ obj.year
+				aux2.append([j,text])
+			
+		list_final.append([list_item[0],list_item[1],list_item[2],list_item[3],list_item[4],list_item[5],citations,aux2])
+	return	list_final
     def show_list_input_citation(self):
 	return sorted(self.list_input_citation)
 
@@ -726,6 +796,8 @@ class FacetedView(BrowserView):
     def show_list_ref(self):
 	return sorted(self.list_ref)
 
+    def list_ids_cit(self):
+	 return self.interface_reference.list_objs
     def show_years_ref(self):
 	j=False
 	k=0
@@ -822,11 +894,35 @@ class FacetedView(BrowserView):
 					str_b= idc +';;'+ "; ".join(sorted(obj.author))+ '. '+ obj.title +". "+obj.publisher+". "+ obj.year
 				str_b= str_b.replace(',','')
 				list_2b.append(str_b)
+#			else:
+#				print "not idc(ref-c(p))",idc
 		list_a[6]=',,'.join(list_2b)
 		str_final='%%'.join(list_a)
 		list_final.append(str_final)
 	return list_final
 
+    def show_publications_ref(self):
+	list_pub=self.interface_reference.resultado()
+	list_final=[]
+	
+	for item in  list_pub:
+		list_elem=[]
+		list_item=item
+		citations = list_item[6]
+		references= list_item[7]
+		aux1=[]
+		for i in citations:
+			if self.interface_principal_aux.tree.G.has_node(i):
+				obj= self.interface_principal_aux.tree.G.node[i]['data']
+				text=''
+				if obj.journal.__len__()>0:
+					text= ', '.join((sorted(obj.author))) + '. '+ obj.title +". "+obj.journal+". "+ obj.year
+				else:
+					text= ', '.join((sorted(obj.author))) + '. '+ obj.title +". "+obj.publisher+". "+ obj.year
+				aux1.append([i,text])
+				
+		list_final.append([list_item[0],list_item[1],list_item[2],list_item[3],list_item[4],list_item[5],aux1,references])
+	return	list_final
     def show_list_input_reference(self):
 	return sorted(self.list_input_reference)
 	

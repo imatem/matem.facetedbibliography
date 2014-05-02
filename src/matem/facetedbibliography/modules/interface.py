@@ -256,6 +256,23 @@ class interface(object):
 	return d
 
 
+    def resultado(self):
+	list_objects=[]
+	for item in self.list_objs:
+	  if self.tree.G.has_node(item): 
+	    array_object=[]
+	    obj = self.tree.G.node[item]['data']
+	    array_object.append(obj.idp)
+	    array_object.append(obj.title)
+	    array_object.append(obj.type)
+	    array_object.append(sorted(obj.author))
+	    array_object.append(obj.journal)
+	    array_object.append(obj.year)
+	    array_object.append(sorted(obj.citation))
+	    array_object.append(sorted(obj.reference))
+#	    print array_object
+	    list_objects.append(array_object)
+	return list_objects
     
 
     def indice_h(self):

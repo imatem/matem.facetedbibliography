@@ -2,10 +2,8 @@ import publication
 import networkx as nx
 
 import re
-import unicodedata
 from sets import Set
-#import matplotlib.pyplot as plt
-#import sys
+import unicodedata
 
 
 
@@ -50,15 +48,12 @@ class arbol:
 	researchers_file.close()
 	
     def leer(self, filenameBib):
-#	 input_file=open(filenameBib,"r+")
 	input_file = filenameBib 
 	input_file = input_file.open()
 
-##	list_entrada = filenameBib.split('\n')
-##	  for line in list_entrada:
+#	list_entrada = filenameBib.split('\n')
+#	 for line in list_entrada:
 	for line in input_file:
-	    text=repr(line.decode('unicode-escape'))
-	    text= text.encode("utf-8")
 	    objeto = self.object_tmp
 	    if '@'  in line:
 		try:
@@ -68,7 +63,9 @@ class arbol:
 		    type_pub = type_pub.strip()
 		    type_pub = type_pub.title()
 		    key_pub = key_pub.strip()
-
+		    key_pub = key_pub.replace(" ","")
+		    key_pub = key_pub.decode('utf-8')
+		    key_pub = unicodedata.normalize('NFKD',key_pub).encode('ascii','ignore')
 		    self.list_types.add(type_pub)
     
 		    self.list_objects.add(objeto)
@@ -133,7 +130,7 @@ class arbol:
 		    
 	    elif 'year' in line:
 		try:
-		    year_pub = re.search('{(.+?)}',line).group(1)
+		    year_pub = re.search('{(\d\d\d\d)}',line).group(1)
 		    year_pub = year_pub.strip()
 		    self.list_years.add(year_pub)
 		    objeto.year = year_pub
@@ -162,8 +159,11 @@ class arbol:
 			string = string.replace('\\','')
 			string = string.replace('(','')
 			string = string.replace(')','')
+			string = string.replace(' ','')
 			#string = ''.join(e for e in string if e.isalnum())
 			if string.__len__()>0:
+				string = string.decode('utf-8')
+				string=unicodedata.normalize('NFKD',string).encode('ascii','ignore')
 				self.list_citation.add(string)
 				objeto.citation.add(string)
 		if 'reference' in line:
@@ -176,10 +176,12 @@ class arbol:
 			string = string.replace('{','')
 			string = string.replace('\\','')
 			string = string.replace('(','')
+			string = string.replace(' ','')
 			#string = string.replace(')','')
 			string = ''.join(e for e in string if e.isalnum())
-
 			if string.__len__()>0:
+				string = string.decode('utf-8')
+				string=unicodedata.normalize('NFKD',string).encode('ascii','ignore')
 				self.list_reference.add(string)
 				objeto.reference.add(string)
 
@@ -271,23 +273,25 @@ class arbol:
     Metodo auxiliar recursivo
     Es auxiliar al metodo 'extension'
     '''
-    def deep_extension(self,focus,list_objects):
+    def deep_extension(self,focus,list_objects, ant):
 	
-	if self.G.__contains__(focus):
+	if self.G.__contains__(focus) and ant!=focus:
 	    
 	    if self.G.predecessors(focus)==[]:
-		
 		list_objects.add(focus)
 	    else:
 		for item in self.G.predecessors(focus):
-		    self.deep_extension(item,list_objects)
+		    ant=focus 
+		    self.deep_extension(item,list_objects,ant)
+		    
     ## A diferencia de deep_extension, la lista resultante es regresada, no en los argumentos
     # eso se hizo para la recursividad en deep_extension    
     def extension(self,focus):
 	    list_a = Set([])
 	    list_resultante = Set([])
+	    ant=''
 	    if self.G.has_node(focus):
-		self.deep_extension(focus, list_resultante)
+		self.deep_extension(focus, list_resultante,ant)
 		lista = (n for n,d in self.G.nodes_iter(data=True) if d['leaf']=='1' and n in list_resultante)
 		
 		for item in lista:
