@@ -240,11 +240,11 @@ class arbol:
 		self.G.add_node(item,leaf='0')
 		self.G.add_edge(item,"type")
     
-    
 	for item in self.list_years:
 	    if item != '':
 		self.G.add_node(item,leaf='0')
 		self.G.add_edge(item,"year")
+	
 		
 	for item in self.list_journals:
 	    if item != '':
@@ -303,7 +303,7 @@ class arbol:
 	list_concepts = set ([])
 	if self.G.has_node(concept):
 	    for item in self.G.predecessors(concept):
-		if self.extension(item).intersection(list_objs).__len__()>0 and self.G.node[item]['leaf']=='0':
+		if self.extension(item).intersection(list_objs).__len__()>0:
 		    list_concepts.add(item)
 	    return list_concepts
 		    
