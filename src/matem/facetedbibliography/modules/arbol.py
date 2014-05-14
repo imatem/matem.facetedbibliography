@@ -53,7 +53,7 @@ class arbol:
     def leer(self, filenameBib):
 	input_file = filenameBib 
 	input_file = input_file.open()
-#	si se utiliza el producto CMFBibliography descomentar las lineas siguientes y comentar las dos anteriores
+#	si se utiliza el producto CMFBibliography descomentar las lineas siguientes y comentar las dos anteriores, tambien comentar la ultimalinea: input_file.close()
 
 #	list_entrada = filenameBib.split('\n')
 #	for line in list_entrada:
