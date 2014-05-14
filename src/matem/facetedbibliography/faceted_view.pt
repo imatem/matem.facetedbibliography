@@ -387,9 +387,15 @@
 
 	    			var test = sessionStorage.getItem(id+value) == 'true'?true:false;
 				if(test==true){
-				arr4[i][j]="<input type='checkbox' name='publication:list' value='"+arr4[i][j] + value+"' class='pub' checked>";  
+				//para quitar los checkboxes de las publicaciones comentar la sigte linea
+				arr4[i][j]="<input type='checkbox' name='publication:list' value='"+arr4[i][j] + value+"' class='pub' checked>"; 
+				//y descomentar la sigte
+				//arr4[i][j]="" 
 				}else{
+				//para quitar los checkboxes de las publicaciones comentar la sigte linea
 				arr4[i][j]="<input type='checkbox' name='publication:list' value='"+arr4[i][j] + value+"' class='pub'>";  
+				//y descomentar la sigte
+				//arr4[i][j]="" 
 				}
 			}
 			if(j==1){

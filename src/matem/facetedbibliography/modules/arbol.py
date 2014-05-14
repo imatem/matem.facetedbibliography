@@ -6,8 +6,6 @@ from sets import Set
 import unicodedata
 
 
-
-
 class arbol:
 
     def __init__(self):
@@ -26,14 +24,19 @@ class arbol:
 	self.list_reference = Set([])
 	
 	self.list_objects = Set([])
-#	 self.list_valid_authors = Set([])
 	
 	self.object_tmp = publication.publication()
 
     def remove_accents(self,data):
 	return ''.join(x for x in unicodedata.normalize('NFKD', data) if x in string.ascii_letters).lower()
 
-	
+    def number_of_lines(self, file_): 
+	non_blank_count = 0
+	with file_.open() as infp:
+		for line in infp:
+			non_blank_count += 1
+	return non_blank_count
+
     def leer_autores(self, filenameAuthors):
 #	 researchers_file = open (filenameAuthors,"r+")
 	researchers_file = filenameAuthors
@@ -50,11 +53,29 @@ class arbol:
     def leer(self, filenameBib):
 	input_file = filenameBib 
 	input_file = input_file.open()
+#	si se utiliza el producto CMFBibliography descomentar las lineas siguientes y comentar las dos anteriores
 
 #	list_entrada = filenameBib.split('\n')
-#	 for line in list_entrada:
+#	for line in list_entrada:
+	label=''
+	tmp=''
 	for line in input_file:
 	    objeto = self.object_tmp
+	   
+	    line=line.replace("{\\'a}",'a')
+	    line=line.replace("{\\'A}",'A')
+	    line=line.replace("{\\'e}",'e')
+	    line=line.replace("{\\'E}",'E')
+	    line=line.replace("{\\'i}",'i')
+	    line=line.replace("{\\'I}",'I')
+	    line=line.replace("{\\'o}",'o')
+	    line=line.replace("{\\'O}",'O')
+	    line=line.replace("{\\'u}",'u')
+	    line=line.replace("{\\'U}",'U')
+	    line=line.replace("{\\~N}",'N')
+	    line=line.replace("{\\~n}",'n')
+	    line=line.decode("utf-8")
+	    line = unicodedata.normalize('NFKD',line).encode('ascii','ignore')
 	    if '@'  in line:
 		try:
 		    
@@ -84,7 +105,6 @@ class arbol:
 		try:
 		    collaborators_pub = re.search('{(.+$)',line).group(1)
 		    collaborators_pub = collaborators_pub[:-1]			  
-		    #collaborators_list = self.obtenerListaAutores(collaborators_pub)
 		    collaborators_list = collaborators_pub.split(" and ")
 		    for item in collaborators_list:
 			string = item.replace('}','')
@@ -103,13 +123,20 @@ class arbol:
 		except AttributeError:
 		    collaborators_pub = ''
 	    
-	    elif 'title' in line and not 'booktitle ' in line:
-		try:
-		    title_pub = re.search('{(.+?)}',line).group(1)
+	    elif 'title' in line: 
+		if not 'booktitle'in line:
+#		    title_pub = re.search('{(.+?)}',line).group(1)
+		    title_pub=line.replace('title','')
+		    title_pub=title_pub.replace('=','')
+		    title_pub=title_pub.replace("\\'{}",'')
+		    title_pub=title_pub.replace('{','')
+		    title_pub=title_pub.replace('}','')
+		    title_pub=title_pub.replace(',','')
+		    title_pub=title_pub.replace("\\",'')
+		    title_pub=title_pub.replace("'",'')
 		    title_pub = title_pub.strip()
+		    label='title'
 		    objeto.title = title_pub
-		except AttributeError:
-		    title_pub = ''
 	    elif 'journal' in line:
 		try:
 		    journal_pub = re.search('{(.+?)}',line).group(1)
@@ -160,7 +187,6 @@ class arbol:
 			string = string.replace('(','')
 			string = string.replace(')','')
 			string = string.replace(' ','')
-			#string = ''.join(e for e in string if e.isalnum())
 			if string.__len__()>0:
 				string = string.decode('utf-8')
 				string=unicodedata.normalize('NFKD',string).encode('ascii','ignore')
@@ -177,7 +203,6 @@ class arbol:
 			string = string.replace('\\','')
 			string = string.replace('(','')
 			string = string.replace(' ','')
-			#string = string.replace(')','')
 			string = ''.join(e for e in string if e.isalnum())
 			if string.__len__()>0:
 				string = string.decode('utf-8')
@@ -186,11 +211,34 @@ class arbol:
 				objeto.reference.add(string)
 
 		
+
+	    elif not (('=' and '{')  in line):
+	    	tmp=''
+		if not "=" in line:
+		  if not ("http://scholar.google.com") in line:
+			if not "**" in line:
+				if line.strip()=="}":
+					label=""
+					tmp=""
+				else:
+					tmp=line
+					
+	    				if tmp.strip().__len__()>0:
+						if label=="title":
+							tmp = objeto.title +" "+ tmp
+							tmp=tmp.replace('}','')
+							tmp=tmp.replace(',','')
+							objeto.title=tmp.replace('\n','')
+#							print objeto.idp, " title: ", objeto.title
+							tmp=''
+							label=''
+
 	    elif line.strip().__len__()>0:
-		    self.list_objects.add(objeto)
+    			self.list_objects.add(objeto)
+
+
 	input_file.close()
     
-       
     '''
     Construir el arbol mediante la lectura de un bibtex
     
@@ -233,18 +281,17 @@ class arbol:
 		if item!='':
 		    self.G.add_node(item,leaf='0')
 		    self.G.add_edge(item,"collaborator")
-	#print self.G.nodes(data=False)
 		
 	for item in self.list_types:	
 	    if item != '':
 		self.G.add_node(item,leaf='0')
 		self.G.add_edge(item,"type")
     
+    
 	for item in self.list_years:
 	    if item != '':
 		self.G.add_node(item,leaf='0')
 		self.G.add_edge(item,"year")
-	
 		
 	for item in self.list_journals:
 	    if item != '':
@@ -255,7 +302,7 @@ class arbol:
 	for item in self.list_objects:
 	    if item.idp!='':
 		
-		self.G.add_node(item.idp, data = item, leaf='1') #creo el objeto
+		self.G.add_node(item.idp, data = item, leaf='1') 
 				
 		for elem in item.author:
 		    if self.G.has_node(elem):
@@ -293,12 +340,10 @@ class arbol:
 	    if self.G.has_node(focus):
 		self.deep_extension(focus, list_resultante,ant)
 		lista = (n for n,d in self.G.nodes_iter(data=True) if d['leaf']=='1' and n in list_resultante)
-		
 		for item in lista:
 		    list_a.add(item)
 	    return list_a
 	   
-    
     def valido(self, concept, list_objs):
 	list_concepts = set ([])
 	if self.G.has_node(concept):
@@ -313,7 +358,6 @@ class arbol:
 	
 	for item in list_iter_pub:
 	    list_ids_pub.add(item)
-	#Los nodos del arbol que no estan en la lista: remove
 	for item in list_ids_pub:
 	    if item not in listIds:
 		self.G.remove_node(item)		
